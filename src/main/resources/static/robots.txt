@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 실제 배포 후 도메인 주소로 변경하세요!
+Sitemap: https://dividend-goal.org/sitemap.xml
