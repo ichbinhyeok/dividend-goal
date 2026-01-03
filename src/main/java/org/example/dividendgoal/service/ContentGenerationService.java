@@ -36,4 +36,32 @@ public class ContentGenerationService {
 
         return new GeneratedContent(introduction.trim(), whatIsTicker.trim(), realLifeMeaning.trim(), investingAngle.trim(), (disclaimer + " " + additionalContext).trim());
     }
+
+    public GeneratedContent buildIncomeContent(Stock stock, double capital, double monthlyIncome) {
+        String introduction = String.format("""
+                Curious what $%,.2f in %s (%s) could illustrate in monthly dividends? Using the trailing yield only, that capital level could map to roughly $%.2f per month before taxes and fees. This page keeps the framing educational, leaning on static numbers to help readers see how yield percentages translate into cash flow without introducing accounts or external data calls.
+                """, capital, stock.getName(), stock.getTicker(), monthlyIncome);
+
+        String whatIsTicker = String.format("""
+                Understanding %s matters when pairing capital with expectations. %s is traded under %s in the %s space and is widely followed for its payout cadence and stability history. Knowing the sector, reputation, and distribution style provides context for why the yield looks the way it does today.
+                """, stock.getTicker(), stock.getName(), stock.getTicker(), stock.getSector());
+
+        String realLifeMeaning = String.format("""
+                Translating the illustration into daily life: about $%.2f per month could offset recurring expenses such as subscriptions, utilities, or transportation. Thinking in terms of budgets—rather than abstract percentages—keeps the discussion grounded and practical for goal-setters.
+                """, monthlyIncome);
+
+        String investingAngle = String.format("""
+                A yield near %.2f%% shapes how long capital may need to stay invested to sustain this illustration. Because yields move and dividends can be adjusted, revisiting the math periodically is prudent. Comparing %s to other dividend-focused ETFs or long-tenured payers can help readers frame diversification ideas without prescribing action.
+                """, stock.getYield(), stock.getTicker());
+
+        String disclaimer = """
+                Disclaimer: This illustration is informational and not investment, tax, or legal advice. Yields change, share prices fluctuate, and distributions can be revised. Always validate the numbers with current data and consider talking to a fiduciary who understands your situation. Nothing here recommends buying or selling any security.
+                """;
+
+        String additionalContext = """
+                Additional context: The calculator remains stateless and server-rendered. No personal inputs are saved, and the data lives only in static JSON bundled with the application. If you adjust the capital or ticker, the page refreshes with new illustrative math to support learning, not recommendations.
+                """;
+
+        return new GeneratedContent(introduction.trim(), whatIsTicker.trim(), realLifeMeaning.trim(), investingAngle.trim(), (disclaimer + " " + additionalContext).trim());
+    }
 }

@@ -11,4 +11,11 @@ public class DividendCalculationService {
         double annualAmount = monthlyAmount * 12;
         return annualAmount / (dividendYieldPercentage / 100);
     }
+
+    public double calculateMonthlyIncome(double capital, double dividendYieldPercentage) {
+        if (dividendYieldPercentage <= 0 || capital <= 0) {
+            return 0;
+        }
+        return capital * (dividendYieldPercentage / 100) / 12;
+    }
 }

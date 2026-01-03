@@ -26,22 +26,36 @@
         <div class="col-lg-9 card-glow p-4 p-md-5">
             <div class="d-flex align-items-start justify-content-between flex-wrap gap-3">
                 <div>
-                    <p class="text-uppercase fw-semibold text-primary mb-1">How much capital is required in <span th:text="${stock.ticker}">TICKER</span> for $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span>/month?</p>
-                    <h1 class="fw-bold mb-2">Dividend target: $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> per month</h1>
-                    <p class="text-muted mb-0">Using trailing yield to illustrate a starting capital amount.</p>
+                    <p class="text-uppercase fw-semibold text-primary mb-1" th:if="${calculationMode == 'TARGET'}">How much capital is required in <span th:text="${stock.ticker}">TICKER</span> for $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span>/month?</p>
+                    <p class="text-uppercase fw-semibold text-primary mb-1" th:if="${calculationMode == 'INCOME'}">How much income could $<span th:text="${#numbers.formatDecimal(capitalInput, 0, 'COMMA', 0, 'POINT')}">0</span> in <span th:text="${stock.ticker}">TICKER</span> illustrate?</p>
+                    <h1 class="fw-bold mb-2" th:if="${calculationMode == 'TARGET'}">Dividend target: $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> per month</h1>
+                    <h1 class="fw-bold mb-2" th:if="${calculationMode == 'INCOME'}">Illustrated monthly income: $<span th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</span></h1>
+                    <p class="text-muted mb-0">Using trailing yield to keep the math simple and fully educational.</p>
                 </div>
                 <div class="text-end">
                     <div class="fw-semibold text-secondary">Ticker: <span th:text="${stock.ticker}">TICKER</span></div>
                     <div class="fw-semibold text-secondary">Yield: <span th:text="${stock.yield}">0</span>%</div>
+                    <div class="text-muted small" th:text="'Payout: ' + ${stock.frequency} + ' • Risk: ' + ${stock.risk}">Frequency</div>
+                    <div class="text-muted small" th:text="'Years of payouts: ' + ${stock.dividendYears}">Years</div>
                 </div>
             </div>
 
-            <div class="row mt-4 g-3">
+            <div class="row mt-4 g-3" th:if="${calculationMode == 'TARGET'}">
                 <div class="col-md-12">
                     <div class="p-4 bg-light border rounded-3">
                         <div class="text-uppercase text-muted fw-semibold small mb-2">Estimated Capital Needed</div>
                         <div class="result-number text-success">$<span th:text="${formattedRequiredInvestment}">0</span></div>
                         <div class="text-muted">Estimated to target <span th:text="${#numbers.formatDecimal(monthlyAmount * 12, 0, 'COMMA', 0, 'POINT')}">0</span> annually in dividends.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4 g-3" th:if="${calculationMode == 'INCOME'}">
+                <div class="col-md-12">
+                    <div class="p-4 bg-light border rounded-3">
+                        <div class="text-uppercase text-muted fw-semibold small mb-2">Estimated Monthly Income</div>
+                        <div class="result-number text-success">$<span th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</span></div>
+                        <div class="text-muted">Based on $<span th:text="${formattedRequiredInvestment}">0</span> illustrated capital and the current trailing yield.</div>
                     </div>
                 </div>
             </div>
@@ -54,24 +68,76 @@
 
             <div class="mt-4">
                 <h2 class="h4 fw-bold">Adjust your goal</h2>
-                <form class="row gy-3" method="post" action="/calculate">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Target monthly income (USD)</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text">$</span>
-                            <input class="form-control" type="number" name="amount" min="1" step="50" th:value="${monthlyAmount}" required>
-                        </div>
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <form class="row gy-3" method="post" action="/calculate">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Target monthly income (USD)</label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" name="amount" min="1" step="50" th:value="${monthlyAmount}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Dividend ticker</label>
+                                <select class="form-select form-select-lg" name="ticker" required>
+                                    <option th:each="item : ${stocks}" th:value="${item.ticker}" th:selected="${item.ticker == stock.ticker}" th:text="${item.ticker + ' - ' + item.name}">SCHD - Example</option>
+                                </select>
+                            </div>
+                            <div class="col-12 d-grid">
+                                <button class="btn btn-primary btn-lg py-3" type="submit">Recalculate required capital</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Dividend ticker</label>
-                        <select class="form-select form-select-lg" name="ticker" required>
-                            <option th:each="item : ${stocks}" th:value="${item.ticker}" th:selected="${item.ticker == stock.ticker}" th:text="${item.ticker + ' - ' + item.name}">SCHD - Example</option>
-                        </select>
+                    <div class="col-12">
+                        <form class="row gy-3" th:action="@{'/how-much-income/' + ${capitalInput} + '/' + ${stock.ticker}}" method="get" onsubmit="event.preventDefault(); const capital=document.getElementById('resultCapitalInput'); const ticker=document.getElementById('resultCapitalTicker'); if(!capital.value||!ticker.value){return;} window.location='/how-much-income/'+Math.round(capital.value) + '/' + ticker.value;">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Illustrate income from capital (USD)</label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" id="resultCapitalInput" type="number" min="1" step="500" th:value="${capitalInput}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Dividend ticker</label>
+                                <select class="form-select form-select-lg" id="resultCapitalTicker" required>
+                                    <option th:each="item : ${stocks}" th:value="${item.ticker}" th:selected="${item.ticker == stock.ticker}" th:text="${item.ticker + ' - ' + item.name}">SCHD - Example</option>
+                                </select>
+                            </div>
+                            <div class="col-12 d-grid">
+                                <button class="btn btn-outline-primary btn-lg py-3" type="submit">Estimate monthly income</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-12 d-grid">
-                        <button class="btn btn-primary btn-lg py-3" type="submit">Recalculate</button>
-                    </div>
-                </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h2 class="h4 fw-bold">10-year DRIP illustration</h2>
+                <p class="text-muted mb-3">Illustration only. No price appreciation assumed. Dividends are fully reinvested at a constant yield.</p>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Estimated total capital</th>
+                            <th>Estimated monthly income</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="projection : ${dripProjections}">
+                            <td th:text="${projection.year}">1</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(projection.estimatedCapital, 0, 'COMMA', 2, 'POINT')}">$0</td>
+                            <td th:text="${'$' + #numbers.formatDecimal(projection.estimatedMonthlyIncome, 0, 'COMMA', 2, 'POINT')}">$0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h2 class="h4 fw-bold">Lifestyle meaning</h2>
+                <p th:text="${lifestyleMeaning}">Lifestyle text</p>
             </div>
 
             <div class="mt-4">

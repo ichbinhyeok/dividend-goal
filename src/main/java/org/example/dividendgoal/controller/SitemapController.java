@@ -17,6 +17,7 @@ public class SitemapController {
 
     private final StockDataService stockDataService;
     private static final List<Integer> AMOUNTS = List.of(500, 1000, 1500, 2000, 3000, 5000, 7500, 10000);
+    private static final List<Integer> CAPITALS = List.of(10000, 25000, 50000, 100000, 250000, 500000);
 
     public SitemapController(StockDataService stockDataService) {
         this.stockDataService = stockDataService;
@@ -36,6 +37,13 @@ public class SitemapController {
         stockDataService.getAvailableTickers().forEach(ticker ->
                 AMOUNTS.forEach(amount -> {
                     String url = String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker);
+                    xml.append(buildUrl(url));
+                })
+        );
+
+        stockDataService.getAvailableTickers().forEach(ticker ->
+                CAPITALS.forEach(capital -> {
+                    String url = String.format("%s/how-much-income/%d/%s", baseUrl, capital, ticker);
                     xml.append(buildUrl(url));
                 })
         );

@@ -8,6 +8,9 @@ public class Stock {
     private double yield;
     private String description;
     private String sector;
+    private String frequency;
+    private String risk;
+    private int dividendYears;
 
     @JsonProperty("ticker")
     public String getTicker() {
@@ -52,5 +55,32 @@ public class Stock {
 
     public void setSector(String sector) {
         this.sector = sector;
+    }
+
+    @JsonProperty("frequency")
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    @JsonProperty("risk")
+    public String getRisk() {
+        return risk;
+    }
+
+    public void setRisk(String risk) {
+        this.risk = risk;
+    }
+
+    @JsonProperty("dividendYears")
+    public int getDividendYears() {
+        return dividendYears;
+    }
+
+    public void setDividendYears(int dividendYears) {
+        this.dividendYears = dividendYears;
     }
 }
