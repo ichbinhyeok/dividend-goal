@@ -156,25 +156,31 @@
                         <form class="row g-3 align-items-end" method="post" action="/calculate">
                             <div class="col-md-5">
                                 <label class="form-label small fw-bold text-muted">Target Monthly Goal</label>
-                                <div class="input-group"><span class="input-group-text">$</span><input class="form-control" type="number" name="amount" th:value="${#numbers.formatDecimal(monthlyAmount, 0, 'NONE', 0, 'POINT')}" required></div>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" type="number" name="amount" min="1" step="any" th:value="${#numbers.formatDecimal(monthlyAmount, 0, 'NONE', 0, 'POINT')}" required>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold text-muted">Ticker (Searchable)</label>
-                                <input class="form-control" list="stockOptions" name="ticker" th:value="${stock.ticker}" placeholder="Type ticker..." required autocomplete="off">
+                                <input class="form-control" list="stockOptions" name="ticker" th:value="${stock.ticker}" onclick="this.select()" placeholder="Type ticker..." required autocomplete="off">
                             </div>
                             <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Recalculate</button></div>
                         </form>
                     </div>
 
                     <div class="col-lg-12 pt-3 border-top">
-                        <form class="row g-3 align-items-end" th:action="@{'/how-much-income/' + ${capitalInput} + '/' + ${stock.ticker}}" method="get" onsubmit="event.preventDefault(); const c=document.getElementById('cInput').value; const t=document.getElementById('tInput').value; window.location='/how-much-income/'+Math.round(c)+'/'+t;">
+                        <form class="row g-3 align-items-end" th:action="@{'/how-much-income/' + ${capitalInput} + '/' + ${stock.ticker}}" method="get" onsubmit="event.preventDefault(); const c=document.getElementById('cInput').value; const t=document.getElementById('tInput').value.toUpperCase(); window.location='/how-much-income/'+Math.round(c)+'/'+t;">
                             <div class="col-md-5">
                                 <label class="form-label small fw-bold text-muted">Invested Capital</label>
-                                <div class="input-group"><span class="input-group-text">$</span><input class="form-control" id="cInput" type="number" th:value="${#numbers.formatDecimal(capitalInput, 0, 'NONE', 0, 'POINT')}" required></div>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input class="form-control" id="cInput" type="number" step="any" th:value="${#numbers.formatDecimal(capitalInput, 0, 'NONE', 0, 'POINT')}" required>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold text-muted">Ticker (Searchable)</label>
-                                <input class="form-control" list="stockOptions" id="tInput" th:value="${stock.ticker}" placeholder="Type ticker..." required autocomplete="off">
+                                <input class="form-control" list="stockOptions" id="tInput" th:value="${stock.ticker}" onclick="this.select()" placeholder="Type ticker..." required autocomplete="off">
                             </div>
                             <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">Check Income</button></div>
                         </form>
