@@ -11,76 +11,42 @@ public class Stock {
     private String frequency;
     private String risk;
     private int dividendYears;
+    private double dividendGrowth; // [추가됨]
 
     @JsonProperty("ticker")
-    public String getTicker() {
-        return ticker;
-    }
-
-    public void setTicker(String ticker) {
-        this.ticker = ticker;
-    }
+    public String getTicker() { return ticker; }
+    public void setTicker(String ticker) { this.ticker = ticker; }
 
     @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     @JsonProperty("yield")
-    public double getYield() {
-        return yield;
-    }
-
-    public void setYield(double yield) {
-        this.yield = yield;
-    }
+    public double getYield() { return yield; }
+    public void setYield(double yield) { this.yield = yield; }
 
     @JsonProperty("description")
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     @JsonProperty("sector")
-    public String getSector() {
-        return sector;
-    }
-
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
+    public String getSector() { return sector; }
+    public void setSector(String sector) { this.sector = sector; }
 
     @JsonProperty("frequency")
-    public String getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
-    }
+    public String getFrequency() { return frequency; }
+    public void setFrequency(String frequency) { this.frequency = frequency; }
 
     @JsonProperty("risk")
-    public String getRisk() {
-        return risk;
-    }
-
-    public void setRisk(String risk) {
-        this.risk = risk;
-    }
+    public String getRisk() { return risk; }
+    public void setRisk(String risk) { this.risk = risk; }
 
     @JsonProperty("dividendYears")
-    public int getDividendYears() {
-        return dividendYears;
-    }
+    public int getDividendYears() { return dividendYears; }
+    public void setDividendYears(int dividendYears) { this.dividendYears = dividendYears; }
 
-    public void setDividendYears(int dividendYears) {
-        this.dividendYears = dividendYears;
-    }
+    // ▼ [새로 추가된 Getter/Setter]
+    @JsonProperty("dividendGrowth")
+    public double getDividendGrowth() { return dividendGrowth; }
+    public void setDividendGrowth(double dividendGrowth) { this.dividendGrowth = dividendGrowth; }
 }

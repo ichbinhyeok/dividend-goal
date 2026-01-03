@@ -43,7 +43,7 @@
 
 <nav class="navbar navbar-expand-lg py-3">
     <div class="container">
-        <a class="navbar-brand fw-bold fs-4" href="/" style="color: var(--primary-color);">💰 Money First</a>
+        <a class="navbar-brand fw-bold fs-4" href="/" style="color: var(--primary-color);">💸 Money First</a>
     </div>
 </nav>
 
@@ -63,7 +63,11 @@
                     <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'TARGET'}">Target: $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> / Month</h1>
                     <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'INCOME'}">Projected Monthly Income</h1>
 
-                    <p class="text-muted mb-0">Ticker: <strong th:text="${stock.ticker}">TICKER</strong> <span class="mx-2">•</span> Yield: <strong th:text="${stock.yield} + '%'">0%</strong></p>
+                    <p class="text-muted mb-0">
+                        Ticker: <strong th:text="${stock.ticker}">TICKER</strong> <span class="mx-2">•</span>
+                        Yield: <strong th:text="${stock.yield} + '%'">0%</strong> <span class="mx-2">•</span>
+                        Growth (5yr): <strong th:text="${stock.dividendGrowth} + '%'">0%</strong>
+                    </p>
                 </div>
                 <div class="text-end d-none d-md-block">
                     <div class="text-muted small">Sector</div>
@@ -75,7 +79,7 @@
                 <div class="col-md-12">
                     <div class="result-box">
                         <div class="text-uppercase fw-bold small" style="color: #059669; opacity: 0.8;"
-                             th:text="${calculationMode == 'TARGET' ? 'Estimated Capital Needed' : 'Estimated Monthly Income'}">Result Label</div>
+                             th:text="${calculationMode == 'TARGET' ? 'Estimated Capital Needed (Today)' : 'Estimated Monthly Income'}">Result Label</div>
 
                         <div class="result-number">
                             <span th:if="${calculationMode == 'TARGET'}">$<span th:text="${formattedRequiredInvestment}">0</span></span>
@@ -83,13 +87,41 @@
                         </div>
 
                         <div class="text-muted small">
-                            <span th:if="${calculationMode == 'TARGET'}">to generate $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> monthly</span>
+                            <span th:if="${calculationMode == 'TARGET'}">to generate $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> monthly immediately</span>
                             <span th:if="${calculationMode == 'INCOME'}">generated from your capital</span>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="mt-4" th:if="${timeMachine != null}">
+                <h3 class="h5 fw-bold mb-3">⏳ The Waiting Game: Save Money by Holding</h3>
+                <p class="text-muted small mb-3">
+                    Currently, you need <strong class="text-dark">$<span th:text="${formattedRequiredInvestment}">0</span></strong>.
+                    But if <span th:text="${stock.ticker}">TICKER</span> grows its dividend by
+                    <span class="text-success fw-bold" th:text="${stock.dividendGrowth} + '%'">0%</span> annually,
+                    you can invest <strong>less</strong> today and hit your goal later.
+                </p>
+
+                <div class="row row-cols-2 row-cols-md-4 g-3 text-center">
+                    <div class="col" th:each="item : ${timeMachine}">
+                        <div class="p-3 bg-white rounded-4 border h-100 shadow-sm" style="border-color: #e2e8f0;">
+                            <div class="text-uppercase text-muted fw-bold" style="font-size: 0.75rem;">
+                                Wait <span th:text="${item.year}">1</span> Years
+                            </div>
+                            <div class="fw-bold fs-5 text-dark my-1">
+                                $<span th:text="${#numbers.formatDecimal(item.capital, 0, 'COMMA', 0, 'POINT')}">0</span>
+                            </div>
+                            <div class="badge bg-success bg-opacity-10 text-success fw-normal px-2 py-1" style="font-size: 0.8rem;">
+                                Save $<span th:text="${#numbers.formatDecimal(item.saved, 0, 'COMMA', 0, 'POINT')}">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-muted text-center mt-2" style="font-size: 0.75rem;">
+                    *Assumes constant dividend reinvestment is NOT included, only dividend growth.
+                </p>
+            </div>
             <div class="ad-slot my-4">Mid-Content AdSense</div>
 
             <div class="p-4 bg-light rounded-4 mt-4">
@@ -130,7 +162,7 @@
             </datalist>
 
             <div class="mt-5">
-                <h3 class="h5 fw-bold mb-3">📈 The Snowball Effect (10-Year DRIP)</h3>
+                <h3 class="h5 fw-bold mb-3">☃️ The Snowball Effect (10-Year DRIP)</h3>
                 <p class="text-muted small mb-3">Reinvesting all dividends with constant yield:</p>
                 <div class="table-responsive">
                     <table class="table table-custom table-hover">

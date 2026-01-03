@@ -1,6 +1,5 @@
 package org.example.dividendgoal.controller;
 
-
 import org.example.dividendgoal.model.GeneratedContent;
 import org.example.dividendgoal.model.Stock;
 import org.example.dividendgoal.service.ContentGenerationService;
@@ -16,6 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class StockController {
@@ -50,7 +53,30 @@ public class StockController {
         double requiredInvestment = dividendCalculationService.calculateRequiredInvestment(monthlyAmount, stock.getYield());
         GeneratedContent generatedContent = contentGenerationService.buildContent(stock, monthlyAmount, requiredInvestment);
         double monthlyIncomeForTable = dividendCalculationService.calculateMonthlyIncome(requiredInvestment, stock.getYield());
+
         addSharedAttributes(model, stock);
+
+        // ▼ [추가됨] 타임머신 데이터 생성 (Time Machine)
+        if (stock.getDividendGrowth() > 0) {
+            List<Map<String, Object>> timeMachine = new ArrayList<>();
+            int[] yearsToCheck = {1, 3, 5, 10};
+
+            for (int year : yearsToCheck) {
+                double futureCap = dividendCalculationService.calculateHypotheticalCapital(
+                        monthlyAmount, stock.getYield(), stock.getDividendGrowth(), year
+                );
+                double savedMoney = requiredInvestment - futureCap;
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("year", year);
+                data.put("capital", futureCap);
+                data.put("saved", savedMoney);
+                timeMachine.add(data);
+            }
+            model.addAttribute("timeMachine", timeMachine);
+        }
+        model.addAttribute("dividendGrowth", stock.getDividendGrowth());
+        // ▲ [여기까지 추가됨]
 
         model.addAttribute("calculationMode", "TARGET");
         model.addAttribute("monthlyAmount", monthlyAmount);
@@ -84,6 +110,9 @@ public class StockController {
         double annualIncome = monthlyIncome * 12;
         GeneratedContent generatedContent = contentGenerationService.buildIncomeContent(stock, capital, monthlyIncome);
         addSharedAttributes(model, stock);
+
+        // Income 모드에서는 타임머신 대신 현재 성장률만 전달
+        model.addAttribute("dividendGrowth", stock.getDividendGrowth());
 
         model.addAttribute("calculationMode", "INCOME");
         model.addAttribute("capitalInput", capital);
