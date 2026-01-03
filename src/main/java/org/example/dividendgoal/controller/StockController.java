@@ -5,7 +5,6 @@ import org.example.dividendgoal.model.Stock;
 import org.example.dividendgoal.service.ContentGenerationService;
 import org.example.dividendgoal.service.DividendCalculationService;
 import org.example.dividendgoal.service.DripSimulationService;
-import org.example.dividendgoal.service.LifestyleMeaningService;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 public class StockController {
@@ -27,19 +27,20 @@ public class StockController {
     private final DividendCalculationService dividendCalculationService;
     private final ContentGenerationService contentGenerationService;
     private final DripSimulationService dripSimulationService;
-    private final LifestyleMeaningService lifestyleMeaningService;
+
+    // 랜덤 객체 추가
+    private final Random random = new Random();
     private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("#,###.##");
 
+    // 생성자에서 LifestyleMeaningService 제거 (이제 안 씀)
     public StockController(StockDataService stockDataService,
                            DividendCalculationService dividendCalculationService,
                            ContentGenerationService contentGenerationService,
-                           DripSimulationService dripSimulationService,
-                           LifestyleMeaningService lifestyleMeaningService) {
+                           DripSimulationService dripSimulationService) {
         this.stockDataService = stockDataService;
         this.dividendCalculationService = dividendCalculationService;
         this.contentGenerationService = contentGenerationService;
         this.dripSimulationService = dripSimulationService;
-        this.lifestyleMeaningService = lifestyleMeaningService;
     }
 
     @GetMapping("/how-much-dividend/{amount}-per-month/{ticker}")
@@ -56,7 +57,7 @@ public class StockController {
 
         addSharedAttributes(model, stock);
 
-        // ▼ [추가됨] 타임머신 데이터 생성 (Time Machine)
+        // 타임머신 로직
         if (stock.getDividendGrowth() > 0) {
             List<Map<String, Object>> timeMachine = new ArrayList<>();
             int[] yearsToCheck = {1, 3, 5, 10};
@@ -76,7 +77,6 @@ public class StockController {
             model.addAttribute("timeMachine", timeMachine);
         }
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
-        // ▲ [여기까지 추가됨]
 
         model.addAttribute("calculationMode", "TARGET");
         model.addAttribute("monthlyAmount", monthlyAmount);
@@ -87,7 +87,9 @@ public class StockController {
         model.addAttribute("content", generatedContent);
         model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(requiredInvestment));
         model.addAttribute("dripProjections", dripSimulationService.simulate(requiredInvestment, stock.getYield()));
-        model.addAttribute("lifestyleMeaning", lifestyleMeaningService.describe(monthlyAmount));
+
+        // ▼▼▼ [수정] 서비스 대신 내부 메소드 호출 ▼▼▼
+        model.addAttribute("lifestyleMeaning", getLifestyleComment(monthlyAmount));
 
         String pageTitle = String.format("How much capital is required for %s to target $%.0f/month? | Money First", stock.getTicker(), monthlyAmount);
         String pageDescription = String.format("Calculate how much money is needed in %s (%s) to illustrate a $%.0f monthly dividend target. With a %.2f%% yield, the estimated required capital is $%,.0f.",
@@ -111,9 +113,7 @@ public class StockController {
         GeneratedContent generatedContent = contentGenerationService.buildIncomeContent(stock, capital, monthlyIncome);
         addSharedAttributes(model, stock);
 
-        // Income 모드에서는 타임머신 대신 현재 성장률만 전달
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
-
         model.addAttribute("calculationMode", "INCOME");
         model.addAttribute("capitalInput", capital);
         model.addAttribute("monthlyIncome", monthlyIncome);
@@ -121,7 +121,10 @@ public class StockController {
         model.addAttribute("monthlyAmount", monthlyIncome);
         model.addAttribute("content", generatedContent);
         model.addAttribute("dripProjections", dripSimulationService.simulate(capital, stock.getYield()));
-        model.addAttribute("lifestyleMeaning", lifestyleMeaningService.describe(monthlyIncome));
+
+        // ▼▼▼ [수정] 서비스 대신 내부 메소드 호출 ▼▼▼
+        model.addAttribute("lifestyleMeaning", getLifestyleComment(monthlyIncome));
+
         model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(capital));
 
         String pageTitle = String.format("How much monthly income from $%,.0f in %s? | Money First", capital, stock.getTicker());
@@ -149,5 +152,56 @@ public class StockController {
     private void addSharedAttributes(Model model, Stock stock) {
         model.addAttribute("stock", stock);
         model.addAttribute("stocks", stockDataService.getAllStocks());
+    }
+
+    // ▼▼▼ [신규] 미국 감성 랜덤 멘트 생성기 ▼▼▼
+    private String getLifestyleComment(double amount) {
+        List<String> options;
+
+        if (amount < 50) {
+            options = List.of(
+                    "☕ Coffee is on the house! Enjoy your free Starbucks every week.",
+                    "🎬 Netflix is free forever! Dividends cover your subscription.",
+                    "🍕 Pizza night! Treat yourself to a free meal every month.",
+                    "🎵 Your Spotify or Apple Music bill is now $0. Enjoy the tunes!"
+            );
+        } else if (amount < 300) {
+            options = List.of(
+                    "💡 Utilities paid! Keep the lights on without touching your paycheck.",
+                    "🌐 High-speed Internet is free. Surf the web on your dividends.",
+                    "⛽ Gas money sorted! Your commute just got a lot cheaper.",
+                    "💪 Gym membership covered! Get fit while your money works out."
+            );
+        } else if (amount < 1000) {
+            options = List.of(
+                    "🛒 Free Groceries! Fill your cart without checking price tags.",
+                    "🚗 Car payment? Gone. You're effectively driving for free.",
+                    "✈️ Weekend getaway! You can fly somewhere nice every quarter.",
+                    "🏥 Health Insurance premiums covered. Peace of mind secured."
+            );
+        } else if (amount < 3000) {
+            options = List.of(
+                    "🏠 Rent is FREE! Living cost-free is a superpower.",
+                    "🧱 Mortgage crusher! Your house is basically paying for itself.",
+                    "🎓 Student loans? Dividends are paying them off for you.",
+                    "🏝️ You could live like a king in Bali or Thailand with this cash flow."
+            );
+        } else if (amount < 5000) {
+            options = List.of(
+                    "🚀 Financial Freedom approaching! You can quit the rat race.",
+                    "👔 You are your own boss now. This replaces an average salary.",
+                    "⏳ You just bought 'Time'. The 9-to-5 grind is now optional.",
+                    "📉 Market crash? Who cares! The cash keeps flowing in."
+            );
+        } else {
+            options = List.of(
+                    "💎 Fat FIRE achieved! This is generational wealth territory.",
+                    "🏦 You are a walking bank. A pure passive income machine.",
+                    "🌍 Travel the world forever. You have won the capitalism game.",
+                    "👑 Top 1% earner. Your money is working harder than you ever did."
+            );
+        }
+
+        return options.get(random.nextInt(options.size()));
     }
 }
