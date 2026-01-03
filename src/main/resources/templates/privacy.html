@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle}">Privacy Policy</title>
+    <meta name="description" th:attr="content=${pageDescription}" content="Privacy details for the Money First dividend calculator.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 bg-white p-4 p-md-5 shadow-sm rounded-3">
+            <h1 class="fw-bold mb-3">Privacy Policy</h1>
+            <p>
+                Money First was intentionally built as a stateless, server-rendered calculator. We do not provide login or account creation, and we do not collect, store, or share personal data. When you enter a target monthly dividend amount and pick a ticker, the information is used only to render the result page on the server and is not saved after the response is delivered. There are no cookies for tracking personal behavior, no hidden analytics scripts, and no external data sources that would capture individual identifiers.
+            </p>
+            <p>
+                The application relies entirely on static JSON data packaged with the server. Dividend yields, ticker descriptions, and sector information are stored locally inside the codebase and shipped with the deployment. Because no external APIs or databases are used, the site cannot pull in or transmit personal information. Any updates to the dataset occur through code changes during releases, not through dynamic calls that could log your activity.
+            </p>
+            <p>
+                Ad placements may appear in dedicated placeholders to support the project, but those placements are configured without collecting user-submitted data. If third-party ad providers set cookies for ad delivery or frequency capping, those cookies are managed by the provider according to their own policies. Money First does not use the inputs you provide—such as your target monthly amount—to personalize ads or build profiles. The calculator is meant to provide context, not to track visitors.
+            </p>
+            <p>
+                Because the experience is educational and informational only, we encourage you not to share sensitive information through the form fields. Stick to general numeric inputs for the calculation. If you have questions about privacy or want to understand how the site is hosted, you can review the open source code in the repository. Should any future updates introduce new functionality, the stateless, no-login approach will remain a core principle to keep your visit low-friction and private.
+            </p>
+            <p>
+                By using the site, you agree that Money First provides illustrative calculations without retaining your data. If you disagree with these practices, please discontinue use. For personalized financial, tax, or legal guidance, consult a qualified professional. This policy is intended to be straightforward and transparent so you can use the calculator with confidence that your information remains yours.
+            </p>
+            <div class="mt-4 d-flex gap-3">
+                <a href="/" class="btn btn-primary">Back to Home</a>
+                <a href="/about" class="btn btn-outline-secondary">About</a>
+                <a href="/disclaimer" class="btn btn-outline-secondary">Disclaimer</a>
+            </div>
+            <footer class="mt-5 pt-4 border-top d-flex flex-wrap gap-3 text-muted small">
+                <a href="/about" class="link-secondary">About</a>
+                <a href="/privacy-policy" class="link-secondary">Privacy Policy</a>
+                <a href="/disclaimer" class="link-secondary">Disclaimer</a>
+                <a href="/sitemap.xml" class="link-secondary">Sitemap</a>
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
+</html>

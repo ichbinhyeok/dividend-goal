@@ -1,0 +1,37 @@
+[
+  {
+    "ticker": "SCHD",
+    "name": "Schwab U.S. Dividend Equity ETF",
+    "yield": 3.55,
+    "description": "SCHD tracks a portfolio of U.S. companies with a record of paying and growing dividends, balancing quality screens with dependable income.",
+    "sector": "Dividend Equity ETF"
+  },
+  {
+    "ticker": "O",
+    "name": "Realty Income Corporation",
+    "yield": 5.65,
+    "description": "Realty Income is known as The Monthly Dividend Company, owning a diversified portfolio of retail and industrial properties leased on long-term agreements.",
+    "sector": "Real Estate Investment Trust"
+  },
+  {
+    "ticker": "KO",
+    "name": "The Coca-Cola Company",
+    "yield": 3.10,
+    "description": "Coca-Cola is a blue-chip beverage leader with a global distribution network and a long history of paying and increasing dividends.",
+    "sector": "Consumer Staples"
+  },
+  {
+    "ticker": "VYM",
+    "name": "Vanguard High Dividend Yield ETF",
+    "yield": 3.20,
+    "description": "VYM provides broad exposure to high dividend yielding U.S. companies, offering diversification across industries with an income tilt.",
+    "sector": "Dividend Equity ETF"
+  },
+  {
+    "ticker": "JEPI",
+    "name": "JPMorgan Equity Premium Income ETF",
+    "yield": 7.50,
+    "description": "JEPI seeks to deliver monthly income by combining equity exposure with covered call strategies on large-cap U.S. stocks.",
+    "sector": "Options-Based Income ETF"
+  }
+]

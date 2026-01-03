@@ -1,12 +1,12 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.1'
+    id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'org.example'
+group = 'com.moneyfirst'
 version = '0.0.1-SNAPSHOT'
-description = 'dividend-goal'
+description = 'Money First - Global Dividend Calculator'
 
 java {
     toolchain {
@@ -19,9 +19,24 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+
+    /* ===== Core Web (Controller, @GetMapping, etc.) ===== */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    /* ===== Thymeleaf (SSR + SEO) ===== */
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    /* ===== JSON (stocks.json 로딩) ===== */
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    /* ===== Validation (선택이지만 안정성 ↑) ===== */
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    /* ===== Logging (기본 포함이지만 명시) ===== */
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    /* ===== Test ===== */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
