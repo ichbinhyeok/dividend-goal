@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +20,9 @@ public class StockDataService {
     private static final Logger logger = LoggerFactory.getLogger(StockDataService.class);
     private final ObjectMapper objectMapper;
     private List<Stock> cachedStocks = Collections.emptyList();
+
+    // [추가] 없는 티커를 메모리에 저장 (티커명, 요청 횟수)
+    private final Map<String, Integer> missingTickerLog = new ConcurrentHashMap<>();
 
     public StockDataService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -30,7 +32,14 @@ public class StockDataService {
     public void loadStocks() {
         ClassPathResource resource = new ClassPathResource("data/stocks.json");
         try (InputStream is = resource.getInputStream()) {
-            cachedStocks = objectMapper.readValue(is, new TypeReference<>() {});
+            List<Stock> stocks = objectMapper.readValue(is, new TypeReference<>() {});
+
+            // [수정] 티커 기준 알파벳 순으로 정렬하여 저장
+            this.cachedStocks = stocks.stream()
+                    .sorted(Comparator.comparing(Stock::getTicker, String.CASE_INSENSITIVE_ORDER))
+                    .collect(Collectors.toList());
+
+            logger.info("Loaded {} stocks in alphabetical order.", cachedStocks.size());
         } catch (IOException e) {
             logger.error("Failed to load stocks.json", e);
             cachedStocks = Collections.emptyList();
@@ -42,9 +51,7 @@ public class StockDataService {
     }
 
     public Optional<Stock> findByTicker(String ticker) {
-        if (ticker == null) {
-            return Optional.empty();
-        }
+        if (ticker == null) return Optional.empty();
         String sanitized = ticker.trim().toUpperCase();
         return cachedStocks.stream()
                 .filter(stock -> sanitized.equals(stock.getTicker().toUpperCase()))
@@ -55,5 +62,18 @@ public class StockDataService {
         return cachedStocks.stream()
                 .map(Stock::getTicker)
                 .collect(Collectors.toList());
+    }
+
+    // [추가] 없는 티커 로그 기록 메서드
+    public void logMissingTicker(String ticker) {
+        if (ticker == null || ticker.isBlank()) return;
+        String upperTicker = ticker.trim().toUpperCase();
+        missingTickerLog.merge(upperTicker, 1, Integer::sum);
+        logger.warn("MISSING_TICKER_LOGGED: {}", upperTicker);
+    }
+
+    // [추가] 수집된 로그 확인용 (필요 시 컨트롤러에서 호출)
+    public Map<String, Integer> getMissingTickerSummary() {
+        return new TreeMap<>(missingTickerLog);
     }
 }

@@ -34,18 +34,43 @@
             --accent-color: #10b981;
             --bg-color: #f1f5f9;
             --card-bg: #ffffff;
+            --error-color: #ef4444;
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #334155; line-height: 1.6; }
         .card-glow { background: var(--card-bg); border: none; border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); }
         h1, h2, h3 { color: var(--primary-color); letter-spacing: -0.02em; }
-        .result-box { background: #ecfdf5; border: 1px solid #d1fae5; border-radius: 16px; padding: 2rem; text-align: center; }
-        .result-number { font-size: 3rem; font-weight: 800; color: #059669; margin: 0.5rem 0; letter-spacing: -1px; }
-        .form-control, .form-select { border-radius: 12px; padding: 0.8rem 1rem; border: 1px solid #e2e8f0; font-size: 1.1rem; }
-        .form-control:focus, .form-select:focus { border-color: var(--accent-color); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
-        .btn-primary { background-color: var(--primary-color); border: none; border-radius: 12px; font-weight: 600; padding: 1rem; }
-        .btn-outline-primary { color: var(--primary-color); border-color: var(--primary-color); border-radius: 12px; padding: 1rem; font-weight: 600; }
+
+        /* [3번] 결과 박스 강조 및 계층 정리 */
+        .result-box {
+            background: linear-gradient(145deg, #f0fff9 0%, #ffffff 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.15);
+        }
+        .result-number { font-size: 3.5rem; font-weight: 800; color: #047857; margin: 0.5rem 0; letter-spacing: -1px; }
+
+        /* [2번] Waiting Game 시각화 (Progress Bar) */
+        .wait-card { border: 1px solid #e2e8f0; transition: all 0.3s ease; background: #ffffff; }
+        .wait-card:hover { transform: translateY(-5px); border-color: var(--accent-color); }
+        .progress-container { height: 8px; background-color: #f1f5f9; border-radius: 4px; margin-top: 12px; position: relative; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 4px; transition: width 1s ease-out; }
+        .save-badge { background-color: #ecfdf5; color: #059669; font-weight: 700; border: 1px solid #d1fae5; }
+
+        .form-control { border-radius: 12px; padding: 0.8rem 1rem; border: 1px solid #e2e8f0; font-size: 1.1rem; }
+        .input-group-custom { position: relative; }
+        .input-group-custom::after { content: '▼'; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: #94a3b8; pointer-events: none; }
+        .is-invalid-ticker { border-color: var(--error-color) !important; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important; }
+
+        .btn-primary { background-color: var(--primary-color); border: none; border-radius: 12px; font-weight: 600; padding: 1rem; transition: all 0.2s; }
+        .btn-primary:hover { background-color: #1e293b; transform: translateY(-1px); }
+        .btn-outline-primary { color: var(--primary-color); border-color: var(--primary-color); border-radius: 12px; padding: 1rem; font-weight: 600; transition: all 0.2s; }
+        .btn-outline-primary:hover { background-color: var(--primary-color); color: white; }
+
         .ad-slot { background: transparent; border: 2px dashed #cbd5e1; border-radius: 12px; color: #94a3b8; padding: 20px; text-align: center; margin: 2rem 0; }
         .table-custom th { background-color: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; border-top: none; }
+        .badge-risk { font-size: 0.75rem; padding: 0.35rem 0.6rem; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -53,7 +78,7 @@
 <nav class="navbar navbar-expand-lg py-3 bg-white border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4" href="/" style="color: var(--primary-color);">💸 Money First</a>
-        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -76,8 +101,13 @@
 
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 border-bottom pb-4">
                 <div>
-                    <span class="badge bg-dark mb-2" th:if="${calculationMode == 'TARGET'}">Capital Required</span>
-                    <span class="badge bg-success mb-2" th:if="${calculationMode == 'INCOME'}">Income Projection</span>
+                    <div class="d-flex gap-2 mb-2">
+                        <span class="badge bg-dark" th:if="${calculationMode == 'TARGET'}">Capital Required</span>
+                        <span class="badge bg-success" th:if="${calculationMode == 'INCOME'}">Income Projection</span>
+                        <span class="badge badge-risk bg-warning text-dark" th:if="${stock.risk == 'MEDIUM'}">⚠️ Medium Risk</span>
+                        <span class="badge badge-risk bg-danger" th:if="${stock.risk == 'HIGH'}">🚨 High Risk</span>
+                        <span class="badge badge-risk bg-info text-dark" th:if="${stock.risk == 'LOW'}">🛡️ Low Risk</span>
+                    </div>
 
                     <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'TARGET'}">Target: $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> / Month</h1>
                     <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'INCOME'}">Projected Monthly Income</h1>
@@ -97,7 +127,7 @@
             <div class="row g-4 justify-content-center">
                 <div class="col-md-12">
                     <div class="result-box">
-                        <div class="text-uppercase fw-bold small" style="color: #059669; opacity: 0.8;"
+                        <div class="text-uppercase fw-bold small mb-2" style="color: #059669; letter-spacing: 0.1em;"
                              th:text="${calculationMode == 'TARGET' ? 'Estimated Capital Needed (Today)' : 'Estimated Monthly Income'}">Result Label</div>
 
                         <div class="result-number">
@@ -105,9 +135,16 @@
                             <span th:if="${calculationMode == 'INCOME'}">$<span th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</span></span>
                         </div>
 
-                        <div class="text-muted small">
+                        <div class="text-muted small mb-3">
                             <span th:if="${calculationMode == 'TARGET'}">to generate $<span th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> monthly immediately</span>
                             <span th:if="${calculationMode == 'INCOME'}">generated from your capital</span>
+                        </div>
+
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 bg-white bg-opacity-70 rounded-pill border shadow-sm">
+                            <p class="mb-0 small text-muted">
+                                💰 <span class="fw-bold text-dark">Net:</span> approx.
+                                <span class="text-success fw-bold">$<span th:text="${#numbers.formatDecimal(monthlyAmount * 0.846, 0, 'COMMA', 0, 'POINT')}">0</span></span> /mo after tax.
+                            </p>
                         </div>
                     </div>
 
@@ -126,25 +163,22 @@
                     <span class="text-success fw-bold" th:text="${stock.dividendGrowth} + '%'">0%</span> annually,
                     you can invest <strong>less</strong> today and hit your goal later.
                 </p>
-
                 <div class="row row-cols-2 row-cols-md-4 g-3 text-center">
                     <div class="col" th:each="item : ${timeMachine}">
-                        <div class="p-3 bg-white rounded-4 border h-100 shadow-sm" style="border-color: #e2e8f0;">
-                            <div class="text-uppercase text-muted fw-bold" style="font-size: 0.75rem;">
-                                Wait <span th:text="${item.year}">1</span> Years
+                        <div class="wait-card p-3 bg-white rounded-4 border h-100 shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="text-uppercase text-muted fw-bold" style="font-size: 0.7rem;">Wait <span th:text="${item.year}">1</span> Y</span>
+                                <span class="badge save-badge px-2 py-1" style="font-size: 0.7rem;">Save $[[${#numbers.formatDecimal(item.saved, 0, 'COMMA', 0, 'POINT')}]]</span>
                             </div>
-                            <div class="fw-bold fs-5 text-dark my-1">
-                                $<span th:text="${#numbers.formatDecimal(item.capital, 0, 'COMMA', 0, 'POINT')}">0</span>
-                            </div>
-                            <div class="badge bg-success bg-opacity-10 text-success fw-normal px-2 py-1" style="font-size: 0.8rem;">
-                                Save $<span th:text="${#numbers.formatDecimal(item.saved, 0, 'COMMA', 0, 'POINT')}">0</span>
+                            <div class="fw-bold fs-5 text-dark my-1">$<span th:text="${#numbers.formatDecimal(item.capital, 0, 'COMMA', 0, 'POINT')}">0</span></div>
+
+                            <div class="progress-container">
+                                <div class="progress-fill" th:style="'width: ' + (${item.capital} / ${requiredInvestment} * 100) + '%'"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <p class="text-muted text-center mt-2" style="font-size: 0.75rem;">
-                    *Assumes constant dividend reinvestment is NOT included, only dividend growth.
-                </p>
+                <p class="text-muted text-center mt-2" style="font-size: 0.75rem;">*Assumes constant dividend reinvestment is NOT included, only dividend growth.</p>
             </div>
 
             <div class="ad-slot my-4">Mid-Content AdSense</div>
@@ -153,44 +187,36 @@
                 <h3 class="h5 fw-bold mb-3">Adjust Calculation</h3>
                 <div class="row gy-4">
                     <div class="col-lg-12">
-                        <form class="row g-3 align-items-end" method="post" action="/calculate">
+                        <form id="calcForm1" class="row g-3 align-items-end" method="post" action="/calculate">
                             <div class="col-md-5">
                                 <label class="form-label small fw-bold text-muted">Target Monthly Goal</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input class="form-control" type="number" name="amount" min="1" step="any" th:value="${#numbers.formatDecimal(monthlyAmount, 0, 'NONE', 0, 'POINT')}" required>
-                                </div>
+                                <div class="input-group"><span class="input-group-text">$</span><input class="form-control" type="number" name="amount" min="1" step="any" th:value="${#numbers.formatDecimal(monthlyAmount, 0, 'NONE', 0, 'POINT')}" required></div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold text-muted">Ticker (Searchable)</label>
-                                <input class="form-control" list="stockOptions" name="ticker" th:value="${stock.ticker}" onclick="this.select()" placeholder="Type ticker..." required autocomplete="off">
+                                <div class="input-group-custom"><input class="form-control ticker-search" list="stockOptions" name="ticker" th:value="${stock.ticker}" placeholder="Type ticker..." required autocomplete="off"></div>
                             </div>
-                            <div class="col-md-3"><button class="btn btn-primary w-100" type="submit">Recalculate</button></div>
+                            <div class="col-md-3"><button class="btn btn-primary w-100 submit-btn" type="submit">Recalculate</button></div>
                         </form>
                     </div>
-
                     <div class="col-lg-12 pt-3 border-top">
-                        <form class="row g-3 align-items-end" th:action="@{'/how-much-income/' + ${capitalInput} + '/' + ${stock.ticker}}" method="get" onsubmit="event.preventDefault(); const c=document.getElementById('cInput').value; const t=document.getElementById('tInput').value.toUpperCase(); window.location='/how-much-income/'+Math.round(c)+'/'+t;">
+                        <form id="calcForm2" class="row g-3 align-items-end">
                             <div class="col-md-5">
                                 <label class="form-label small fw-bold text-muted">Invested Capital</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input class="form-control" id="cInput" type="number" step="any" th:value="${#numbers.formatDecimal(capitalInput, 0, 'NONE', 0, 'POINT')}" required>
-                                </div>
+                                <div class="input-group"><span class="input-group-text">$</span><input class="form-control" id="cInput" type="number" step="any" th:value="${#numbers.formatDecimal(capitalInput, 0, 'NONE', 0, 'POINT')}" required></div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold text-muted">Ticker (Searchable)</label>
-                                <input class="form-control" list="stockOptions" id="tInput" th:value="${stock.ticker}" onclick="this.select()" placeholder="Type ticker..." required autocomplete="off">
+                                <div class="input-group-custom"><input class="form-control ticker-search" id="tInput" list="stockOptions" th:value="${stock.ticker}" placeholder="Type ticker..." required autocomplete="off"></div>
                             </div>
-                            <div class="col-md-3"><button class="btn btn-outline-primary w-100" type="submit">Check Income</button></div>
+                            <div class="col-md-3"><button class="btn btn-outline-primary w-100 submit-btn" type="submit">Check Income</button></div>
                         </form>
                     </div>
                 </div>
+                <div id="tickerError" class="text-danger small mt-3 fw-medium text-center" style="display: none;">⚠️ Ticker not found. Please select from the list.</div>
             </div>
 
-            <datalist id="stockOptions">
-                <option th:each="item : ${stocks}" th:value="${item.ticker}" th:text="${item.name}"></option>
-            </datalist>
+            <datalist id="stockOptions"><option th:each="item : ${stocks}" th:value="${item.ticker}" th:text="${item.name}"></option></datalist>
 
             <div class="mt-5">
                 <h3 class="h5 fw-bold mb-3">☃️ The Snowball Effect (10-Year DRIP)</h3>
@@ -198,13 +224,7 @@
                 <div class="table-responsive">
                     <table class="table table-custom table-hover">
                         <thead><tr><th>Year</th><th>Total Value</th><th>Monthly Income</th></tr></thead>
-                        <tbody>
-                        <tr th:each="proj : ${dripProjections}">
-                            <td>Year <span th:text="${proj.year}">1</span></td>
-                            <td class="fw-bold">$<span th:text="${#numbers.formatDecimal(proj.estimatedCapital, 0, 'COMMA', 0, 'POINT')}">0</span></td>
-                            <td class="text-accent">+$<span th:text="${#numbers.formatDecimal(proj.estimatedMonthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</span>/mo</td>
-                        </tr>
-                        </tbody>
+                        <tbody><tr th:each="proj : ${dripProjections}"><td>Year <span th:text="${proj.year}">1</span></td><td class="fw-bold">$<span th:text="${#numbers.formatDecimal(proj.estimatedCapital, 0, 'COMMA', 0, 'POINT')}">0</span></td><td class="text-accent">+$<span th:text="${#numbers.formatDecimal(proj.estimatedMonthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</span>/mo</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -231,17 +251,109 @@
                     <a href="/about" class="text-decoration-none text-muted">About</a>
                     <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
                     <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
-                    <a href="/sitemap.xml" class="text-decoration-none text-muted">Sitemap</a>
                 </div>
-                <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">
-                    &copy; 2026 Money First. All rights reserved.
-                </div>
+                <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">&copy; 2026 Money First. All rights reserved.</div>
             </footer>
         </div>
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
+    const allStocks = /*[[${stocks}]]*/ [];
+    const tickerOptions = document.getElementById('stockOptions');
+    const tickerError = document.getElementById('tickerError');
+
+    window.onpageshow = function(event) {
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.disabled = false;
+            if(btn.classList.contains('btn-primary')) btn.innerHTML = 'Recalculate';
+            else btn.innerHTML = 'Check Income';
+        });
+    };
+
+    function updateOptions(query = "") {
+        const upperQuery = query.toUpperCase();
+        tickerOptions.innerHTML = '';
+        let filtered;
+        if (upperQuery === "") {
+            filtered = allStocks.slice(0, 30);
+        } else {
+            const startsWith = [];
+            const contains = [];
+            allStocks.forEach(stock => {
+                const t = stock.ticker.toUpperCase();
+                const n = stock.name.toUpperCase();
+                if (t.startsWith(upperQuery)) startsWith.push(stock);
+                else if (t.includes(upperQuery) || n.includes(upperQuery)) contains.push(stock);
+            });
+            filtered = [...startsWith, ...contains].slice(0, 15);
+        }
+        filtered.forEach(stock => {
+            const opt = document.createElement('option');
+            opt.value = stock.ticker;
+            opt.textContent = stock.name;
+            tickerOptions.appendChild(opt);
+        });
+    }
+
+    document.querySelectorAll('.ticker-search').forEach(input => {
+        input.addEventListener('input', function() {
+            tickerError.style.display = 'none';
+            this.classList.remove('is-invalid-ticker');
+            updateOptions(this.value);
+        });
+        input.addEventListener('mousedown', function() {
+            if (this.value !== "") {
+                this.dataset.oldValue = this.value;
+                this.value = "";
+                updateOptions("");
+            }
+        });
+        input.addEventListener('blur', function() {
+            setTimeout(() => {
+                if (this.value === "" && this.dataset.oldValue) {
+                    this.value = this.dataset.oldValue;
+                }
+            }, 200);
+        });
+    });
+
+    const validTickers = allStocks.map(s => s.ticker.toUpperCase());
+    document.getElementById('calcForm1').addEventListener('submit', function(e) {
+        const input = this.querySelector('input[name="ticker"]');
+        const val = input.value.trim().toUpperCase();
+        const btn = this.querySelector('.submit-btn');
+        if (!validTickers.includes(val)) {
+            e.preventDefault();
+            tickerError.style.display = 'block';
+            input.classList.add('is-invalid-ticker');
+            input.focus();
+        } else {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+        }
+    });
+
+    const calcForm2 = document.getElementById('calcForm2');
+    if(calcForm2) {
+        calcForm2.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const c = document.getElementById('cInput').value;
+            const input = document.getElementById('tInput');
+            const t = input.value.trim().toUpperCase();
+            const btn = this.querySelector('.submit-btn');
+            if (!validTickers.includes(t)) {
+                tickerError.style.display = 'block';
+                input.classList.add('is-invalid-ticker');
+                input.focus();
+            } else {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+                window.location = '/how-much-income/' + Math.round(c) + '/' + t;
+            }
+        });
+    }
+
     function shareTwitter() {
         const text = "I need $" + "[[${formattedRequiredInvestment}]]" + " to earn monthly dividends! 💸 Check yours:";
         const url = window.location.href;
@@ -252,7 +364,6 @@
         alert("Link copied to clipboard! 📋");
     }
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
