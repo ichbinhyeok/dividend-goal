@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script>
+        if (window.location.hostname === "localhost" || document.cookie.includes("ignore_ga=true")) {
+            window['ga-disable-G-V3151LZWH6'] = true;
+            console.log("GA4 Tracking Disabled (Developer Mode)");
+        }
+    </script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3533137832089555" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3151LZWH6"></script>
     <script>
@@ -13,6 +20,9 @@
     <meta charset="UTF-8">
     <link rel="icon" href="https://fav.farm/💰" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" th:if="${currentUrl}" th:href="${currentUrl}" />
+
     <title th:text="${pageTitle}">Dividend Result</title>
     <meta name="description" th:attr="content=${pageDescription}">
 
@@ -40,7 +50,6 @@
         .card-glow { background: var(--card-bg); border: none; border-radius: 20px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); }
         h1, h2, h3 { color: var(--primary-color); letter-spacing: -0.02em; }
 
-        /* [3번] 결과 박스 강조 및 계층 정리 */
         .result-box {
             background: linear-gradient(145deg, #f0fff9 0%, #ffffff 100%);
             border: 2px solid var(--accent-color);
@@ -51,7 +60,6 @@
         }
         .result-number { font-size: 3.5rem; font-weight: 800; color: #047857; margin: 0.5rem 0; letter-spacing: -1px; }
 
-        /* [2번] Waiting Game 시각화 (Progress Bar) */
         .wait-card { border: 1px solid #e2e8f0; transition: all 0.3s ease; background: #ffffff; }
         .wait-card:hover { transform: translateY(-5px); border-color: var(--accent-color); }
         .progress-container { height: 8px; background-color: #f1f5f9; border-radius: 4px; margin-top: 12px; position: relative; }
@@ -71,6 +79,10 @@
         .ad-slot { background: transparent; border: 2px dashed #cbd5e1; border-radius: 12px; color: #94a3b8; padding: 20px; text-align: center; margin: 2rem 0; }
         .table-custom th { background-color: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; border-top: none; }
         .badge-risk { font-size: 0.75rem; padding: 0.35rem 0.6rem; border-radius: 8px; }
+
+        /* [SEO 3] 내부 링크 카드 스타일 */
+        .internal-link-card { background: #fffbeb; border: 2px solid #fcd34d; transition: transform 0.2s; text-decoration: none; display: block; color: inherit;}
+        .internal-link-card:hover { transform: translateY(-3px); background: #fff9db; }
     </style>
 </head>
 <body>
@@ -98,6 +110,16 @@
 
     <div class="row justify-content-center">
         <div class="col-lg-10 card-glow p-4 p-md-5">
+
+            <div th:if="${item}" class="alert alert-success text-center mb-4 rounded-4 shadow-sm border-0 py-4">
+                <span class="badge bg-success mb-2 text-uppercase">Lifestyle Goal</span>
+                <h2 class="h4 fw-bold text-dark mb-1">
+                    Get <span th:text="${item.name}" class="text-decoration-underline">Netflix</span> for FREE?
+                </h2>
+                <p class="mb-0 text-muted">
+                    Your <strong>$<span th:text="${item.cost}">0</span></strong> monthly bill can be paid by dividends forever.
+                </p>
+            </div>
 
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 border-bottom pb-4">
                 <div>
@@ -153,6 +175,17 @@
                         <button onclick="copyLink()" class="btn btn-light btn-sm rounded-pill px-3 border">🔗 Copy Link</button>
                     </div>
                 </div>
+            </div>
+
+            <div th:if="${recommendedItem} and ${item == null}" class="mt-4">
+                <a th:href="@{/lifestyle/cost-of-{slug}-vs-{ticker}-dividend(slug=${recommendedItem.slug}, ticker=${stock.ticker})}"
+                   class="internal-link-card p-4 rounded-4 text-center shadow-sm">
+                    <h3 class="h6 fw-bold text-uppercase text-warning text-opacity-75 mb-2">Did you know?</h3>
+                    <p class="fs-5 mb-0 text-dark">
+                        This <span th:text="${stock.ticker}" class="fw-bold">AAPL</span> dividend could also pay for your
+                        <strong><span th:text="${recommendedItem.name}">Netflix</span></strong> bill! <span class="fw-bold text-decoration-underline">See Plan &rarr;</span>
+                    </p>
+                </a>
             </div>
 
             <div class="mt-4" th:if="${timeMachine != null}">

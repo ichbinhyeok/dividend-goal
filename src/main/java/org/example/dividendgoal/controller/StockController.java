@@ -1,17 +1,17 @@
 package org.example.dividendgoal.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.dividendgoal.model.GeneratedContent;
+import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
-import org.example.dividendgoal.service.ContentGenerationService;
-import org.example.dividendgoal.service.DividendCalculationService;
-import org.example.dividendgoal.service.DripSimulationService;
-import org.example.dividendgoal.service.StockDataService;
+import org.example.dividendgoal.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -27,25 +27,27 @@ public class StockController {
     private final DividendCalculationService dividendCalculationService;
     private final ContentGenerationService contentGenerationService;
     private final DripSimulationService dripSimulationService;
+    private final LifestyleService lifestyleService; // [NEW] 주입
 
-    // 랜덤 객체 추가
     private final Random random = new Random();
     private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("#,###.##");
 
-    // 생성자에서 LifestyleMeaningService 제거 (이제 안 씀)
     public StockController(StockDataService stockDataService,
                            DividendCalculationService dividendCalculationService,
                            ContentGenerationService contentGenerationService,
-                           DripSimulationService dripSimulationService) {
+                           DripSimulationService dripSimulationService,
+                           LifestyleService lifestyleService) {
         this.stockDataService = stockDataService;
         this.dividendCalculationService = dividendCalculationService;
         this.contentGenerationService = contentGenerationService;
         this.dripSimulationService = dripSimulationService;
+        this.lifestyleService = lifestyleService;
     }
 
     @GetMapping("/how-much-dividend/{amount}-per-month/{ticker}")
     public String showDividendPlan(@PathVariable("amount") String amountSegment,
                                    @PathVariable("ticker") String ticker,
+                                   HttpServletRequest request, // [SEO] Canonical용
                                    Model model) {
         double monthlyAmount = parseAmount(amountSegment);
         Stock stock = stockDataService.findByTicker(ticker)
@@ -57,7 +59,7 @@ public class StockController {
 
         addSharedAttributes(model, stock);
 
-        // 타임머신 로직
+        // --- 타임머신 로직 ---
         if (stock.getDividendGrowth() > 0) {
             List<Map<String, Object>> timeMachine = new ArrayList<>();
             int[] yearsToCheck = {1, 3, 5, 10};
@@ -76,24 +78,32 @@ public class StockController {
             }
             model.addAttribute("timeMachine", timeMachine);
         }
-        model.addAttribute("dividendGrowth", stock.getDividendGrowth());
 
+        // --- [NEW] 내부 링크 (Internal Linking) ---
+        // 하단 박스에 "이 주식으로 넷플릭스도 공짜?" 제안용 랜덤 아이템
+        LifestyleItem recommendedItem = lifestyleService.getRandomItem();
+        model.addAttribute("recommendedItem", recommendedItem);
+
+        // --- [SEO] Canonical URL ---
+        String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
+
+        model.addAttribute("dividendGrowth", stock.getDividendGrowth());
         model.addAttribute("calculationMode", "TARGET");
         model.addAttribute("monthlyAmount", monthlyAmount);
         model.addAttribute("annualAmount", monthlyAmount * 12);
         model.addAttribute("requiredInvestment", requiredInvestment);
-        model.addAttribute("capitalInput", requiredInvestment);
+        model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(requiredInvestment));
         model.addAttribute("monthlyIncome", monthlyIncomeForTable);
         model.addAttribute("content", generatedContent);
-        model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(requiredInvestment));
         model.addAttribute("dripProjections", dripSimulationService.simulate(requiredInvestment, stock.getYield()));
 
-        // ▼▼▼ [수정] 서비스 대신 내부 메소드 호출 ▼▼▼
+        // 멘트 생성기 호출
         model.addAttribute("lifestyleMeaning", getLifestyleComment(monthlyAmount));
 
-        String pageTitle = String.format("How much capital is required for %s to target $%.0f/month? | Money First", stock.getTicker(), monthlyAmount);
-        String pageDescription = String.format("Calculate how much money is needed in %s (%s) to illustrate a $%.0f monthly dividend target. With a %.2f%% yield, the estimated required capital is $%,.0f.",
-                stock.getName(), stock.getTicker(), monthlyAmount, stock.getYield(), requiredInvestment);
+        String pageTitle = String.format("How much %s to get $%.0f/month? | Money First", stock.getTicker(), monthlyAmount);
+        String pageDescription = String.format("Calculation: You need $%s in %s (%s) to target $%.0f monthly dividends with a %.2f%% yield.",
+                DOLLAR_FORMAT.format(requiredInvestment), stock.getName(), stock.getTicker(), monthlyAmount, stock.getYield());
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("pageDescription", pageDescription);
@@ -103,6 +113,7 @@ public class StockController {
     @GetMapping("/how-much-income/{capital}/{ticker}")
     public String showIncomeIllustration(@PathVariable("capital") String capitalSegment,
                                          @PathVariable("ticker") String ticker,
+                                         HttpServletRequest request, // [SEO] Canonical용
                                          Model model) {
         double capital = parseAmount(capitalSegment);
         Stock stock = stockDataService.findByTicker(ticker)
@@ -111,7 +122,16 @@ public class StockController {
         double monthlyIncome = dividendCalculationService.calculateMonthlyIncome(capital, stock.getYield());
         double annualIncome = monthlyIncome * 12;
         GeneratedContent generatedContent = contentGenerationService.buildIncomeContent(stock, capital, monthlyIncome);
+
         addSharedAttributes(model, stock);
+
+        // --- [NEW] 내부 링크 (Internal Linking) ---
+        LifestyleItem recommendedItem = lifestyleService.getRandomItem();
+        model.addAttribute("recommendedItem", recommendedItem);
+
+        // --- [SEO] Canonical URL ---
+        String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
+        model.addAttribute("currentUrl", currentUrl);
 
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
         model.addAttribute("calculationMode", "INCOME");
@@ -121,14 +141,13 @@ public class StockController {
         model.addAttribute("monthlyAmount", monthlyIncome);
         model.addAttribute("content", generatedContent);
         model.addAttribute("dripProjections", dripSimulationService.simulate(capital, stock.getYield()));
-
-        // ▼▼▼ [수정] 서비스 대신 내부 메소드 호출 ▼▼▼
-        model.addAttribute("lifestyleMeaning", getLifestyleComment(monthlyIncome));
-
         model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(capital));
 
+        // 멘트 생성기 호출
+        model.addAttribute("lifestyleMeaning", getLifestyleComment(monthlyIncome));
+
         String pageTitle = String.format("How much monthly income from $%,.0f in %s? | Money First", capital, stock.getTicker());
-        String pageDescription = String.format("Illustrate estimated monthly dividends from $%,.0f in %s (%s) using a %.2f%% trailing yield. Educational, stateless, and server-rendered for clarity.",
+        String pageDescription = String.format("Illustrate estimated monthly dividends from $%,.0f in %s (%s) using a %.2f%% trailing yield.",
                 capital, stock.getName(), stock.getTicker(), stock.getYield());
 
         model.addAttribute("pageTitle", pageTitle);
@@ -154,7 +173,7 @@ public class StockController {
         model.addAttribute("stocks", stockDataService.getAllStocks());
     }
 
-    // ▼▼▼ [신규] 미국 감성 랜덤 멘트 생성기 ▼▼▼
+    // [신규] 미국 감성 랜덤 멘트 생성기
     private String getLifestyleComment(double amount) {
         List<String> options;
 

@@ -35,6 +35,10 @@ dependencies {
     /* ===== Logging (기본 포함이지만 명시) ===== */
     implementation 'org.springframework.boot:spring-boot-starter-logging'
 
+    /* ===== [NEW] Google Indexing API (자동 색인 요청용) ===== */
+    implementation 'com.google.apis:google-api-services-indexing:v3-rev20240101-2.0.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.23.0'
+
     /* ===== Test ===== */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

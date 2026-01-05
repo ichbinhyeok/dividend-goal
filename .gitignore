@@ -41,3 +41,6 @@ out/
 .DS_Store
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
+
+src/main/resources/service-account.json
+**/service-account.json

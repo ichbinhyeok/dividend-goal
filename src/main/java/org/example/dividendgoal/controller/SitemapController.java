@@ -1,5 +1,6 @@
 package org.example.dividendgoal.controller;
 
+import org.example.dividendgoal.service.LifestyleService;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -18,89 +17,80 @@ import java.util.List;
 public class SitemapController {
 
     private final StockDataService stockDataService;
+    private final LifestyleService lifestyleService;
 
-    public SitemapController(StockDataService stockDataService) {
+    public SitemapController(StockDataService stockDataService, LifestyleService lifestyleService) {
         this.stockDataService = stockDataService;
+        this.lifestyleService = lifestyleService;
     }
 
+    // 1. 사이트맵 인덱스 (Sitemap Index)
     @GetMapping("/sitemap.xml")
-    public ResponseEntity<String> sitemap() {
+    public ResponseEntity<String> sitemapIndex() {
+        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String xml = String.format("""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+                    <sitemap>
+                        <loc>%s/sitemap-main.xml</loc>
+                        <lastmod>%s</lastmod>
+                    </sitemap>
+                    <sitemap>
+                        <loc>%s/sitemap-lifestyle.xml</loc>
+                        <lastmod>%s</lastmod>
+                    </sitemap>
+                </sitemapindex>
+                """, baseUrl, LocalDate.now(), baseUrl, LocalDate.now());
+        return ResponseEntity.ok(xml.toString());
+    }
+
+    // 2. 메인 사이트맵 (기본 페이지 + 일부 계산 예시)
+    @GetMapping("/sitemap-main.xml")
+    public ResponseEntity<String> sitemapMain() {
         String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
         StringBuilder xml = new StringBuilder();
+        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        // 헤더 생성
-        xml.append("""
-                <?xml version="1.0" encoding="UTF-8"?>
-                <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-                """);
-
-        // 1. 고정 페이지 (메인, 소개, 약관 등) - 우선순위 높음
         xml.append(buildUrl(baseUrl + "/", "1.0"));
-        xml.append(buildUrl(baseUrl + "/articles", "0.9")); // 블로그 메인
+        xml.append(buildUrl(baseUrl + "/articles", "0.9"));
         xml.append(buildUrl(baseUrl + "/about", "0.5"));
-        xml.append(buildUrl(baseUrl + "/privacy-policy", "0.3"));
-        xml.append(buildUrl(baseUrl + "/disclaimer", "0.3"));
 
-        // 1-1. 블로그 글 (Articles) - 수동 추가 필요 (나중에 DB 연동 시 자동화)
-        List<String> articles = Arrays.asList(
-                "what-is-dividend-yield",
-                "why-dividend-growth-matters",
-                "schd-vs-jepi-comparison",
-                "how-to-use-dividend-calculator",
-                "dividend-income-vs-interest"
-        );
-        for (String slug : articles) {
-            xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8"));
-        }
-
-        // 2. 월 배당 목표 계산기 URL (핵심 키워드만 생성)
-        List<Integer> amounts = generateAmountsLite();
+        // 기존 숫자 기반 URL (대표적인 것만)
+        List<Integer> amounts = List.of(500, 1000, 3000);
         stockDataService.getAvailableTickers().forEach(ticker ->
-                amounts.forEach(amount -> {
-                    String url = String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker);
-                    xml.append(buildUrl(url, "0.6"));
-                })
-        );
-
-        // 3. 투자금 역산 계산기 URL (핵심 키워드만 생성)
-        List<Integer> capitals = generateCapitalsLite();
-        stockDataService.getAvailableTickers().forEach(ticker ->
-                capitals.forEach(capital -> {
-                    String url = String.format("%s/how-much-income/%d/%s", baseUrl, capital, ticker);
-                    xml.append(buildUrl(url, "0.6"));
-                })
+                amounts.forEach(amount ->
+                        xml.append(buildUrl(String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker), "0.8"))
+                )
         );
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
     }
 
+    // 3. 라이프스타일 위성 사이트맵 (3,300개 낚싯바늘)
+    @GetMapping("/sitemap-lifestyle.xml")
+    public ResponseEntity<String> sitemapLifestyle() {
+        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        StringBuilder xml = new StringBuilder();
+        xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+
+        List<String> popularTickers = List.of("AAPL", "SCHD", "O", "JEPI", "TSLA", "NVDA", "MSFT", "KO");
+
+        lifestyleService.getAllItems().forEach(item -> {
+            stockDataService.getAvailableTickers().forEach(ticker -> {
+                String priority = popularTickers.contains(ticker) ? "0.9" : "0.6";
+                String url = String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, item.getSlug(), ticker);
+                xml.append(buildUrl(url, priority));
+            });
+        });
+
+        xml.append("</urlset>");
+        return ResponseEntity.ok(xml.toString());
+    }
+
     private String buildUrl(String location, String priority) {
-        return String.format("""
-                <url>
-                    <loc>%s</loc>
-                    <lastmod>%s</lastmod>
-                    <priority>%s</priority>
-                </url>
-                """, location, LocalDate.now(), priority);
-    }
-
-    // [수정] 금액 대역폭 대폭 축소 (핵심 검색어 위주)
-    private List<Integer> generateAmountsLite() {
-        // 사람들이 검색할만한 "딱 떨어지는" 숫자만 남김
-        return Arrays.asList(
-                100, 300, 500, 1000,    // 생활비 보조
-                1500, 2000, 3000, 5000, // 월급 대체
-                10000                   // 경제적 자유
-        );
-    }
-
-    // [수정] 자본금 대역폭 대폭 축소
-    private List<Integer> generateCapitalsLite() {
-        return Arrays.asList(
-                10000, 50000,           // 시드머니 모으기
-                100000, 300000, 500000, // 1억 ~ 5억
-                1000000                 // 10억 (백만불)
-        );
+        return String.format("<url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>", location, LocalDate.now(), priority);
     }
 }
