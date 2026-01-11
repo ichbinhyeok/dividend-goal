@@ -22,27 +22,33 @@ public class IndexingScheduler {
     private int currentOffset = 0;
     private static final int BATCH_SIZE = 50;
 
-    public IndexingScheduler(GoogleIndexingService indexingService, StockDataService stockDataService, LifestyleService lifestyleService) {
+    public IndexingScheduler(GoogleIndexingService indexingService, StockDataService stockDataService,
+            LifestyleService lifestyleService) {
         this.indexingService = indexingService;
         this.stockDataService = stockDataService;
         this.lifestyleService = lifestyleService;
     }
 
-    // 매일 새벽 4시 실행
-    @Scheduled(cron = "0 0 4 * * *")
+    // 매일 새벽 4시 실행 (비활성화: 허브 페이지 전환 전까지 중단)
+    // @Scheduled(cron = "0 0 4 * * *")
     public void submitBatchToGoogle() {
-        logger.info("Starting daily indexing batch...");
-        List<String> allUrls = generateAllUrls();
+        logger.warn("Indexing disabled: Strategic restructuring in progress.");
+        // logger.info("Starting daily indexing batch...");
+        // List<String> allUrls = generateAllUrls();
 
-        if (currentOffset >= allUrls.size()) currentOffset = 0;
-        int end = Math.min(currentOffset + BATCH_SIZE, allUrls.size());
-
-        if (currentOffset < end) {
-            List<String> batch = allUrls.subList(currentOffset, end);
-            indexingService.publishBatch(batch); // 실제 요청
-            logger.info("Submitted {} URLs (Offset: {} -> {})", batch.size(), currentOffset, end);
-            currentOffset = end;
-        }
+        /*
+         * if (currentOffset >= allUrls.size())
+         * currentOffset = 0;
+         * int end = Math.min(currentOffset + BATCH_SIZE, allUrls.size());
+         * 
+         * if (currentOffset < end) {
+         * List<String> batch = allUrls.subList(currentOffset, end);
+         * indexingService.publishBatch(batch); // 실제 요청
+         * logger.info("Submitted {} URLs (Offset: {} -> {})", batch.size(),
+         * currentOffset, end);
+         * currentOffset = end;
+         * }
+         */
     }
 
     private List<String> generateAllUrls() {

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://fav.farm/💰" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle}">Lifestyle Goal Hub</title>
+    <meta name="description" th:attr="content=${pageDescription}">
+    <link rel="canonical" th:href="${canonicalUrl}" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" th:content="${pageTitle}">
+    <meta property="og:description" th:content="${pageDescription}">
+    <meta property="og:type" content="article">
+
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #10b981;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: #334155;
+        }
+
+        .hero-section {
+            background: white;
+            padding: 4rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: white;
+            transition: transform 0.2s;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-3px);
+        }
+
+        .badge-strategy {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .table th {
+            background: #f1f5f9;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #64748b;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            font-weight: 500;
+        }
+
+        .cta-btn {
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        .risk-box {
+            background: #fff1f2;
+            border-left: 4px solid #f43f5e;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: #881337;
+        }
+
+        .author-box {
+            background: #f0f9ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+    </style>
+
+    <!-- [SEO] Schema Markup (Article + FAQ) -->
+    <script type="application/ld+json" th:inline="javascript">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": [[${pageTitle}]],
+      "description": [[${pageDescription}]],
+      "author": { "@type": "Organization", "name": "Money First Analyst Team" },
+      "publisher": { "@type": "Organization", "name": "Money First" }
+    }
+    </script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">💸 Money First</a>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container">
+            <span class="badge bg-success bg-opacity-10 text-success mb-3 px-3 py-2 rounded-pill fw-bold">Lifestyle
+                Goal: <span th:text="${item.name}">Netflix</span></span>
+            <h1 class="display-5 fw-bold text-dark mb-4">Don't pay $<span th:text="${item.cost}">15</span>/mo for <span
+                    th:text="${item.name}">Netflix</span>.</h1>
+            <p class="lead text-muted mb-4" style="max-width: 700px; margin: 0 auto;">
+                Stop paying out of pocket. Here are the <strong>Top Dividend Stocks</strong> that can cover your bill
+                forever using passive income.
+            </p>
+        </div>
+    </div>
+
+    <div class="container py-5">
+
+        <!-- Comparison Table -->
+        <h2 class="h4 fw-bold mb-4">🏆 Top Dividend Solutions (Ranked)</h2>
+        <div class="table-wrapper bg-white shadow-sm mb-5">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Strategy</th>
+                        <th>Required Capital</th>
+                        <th>Yield</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="row : ${comparisonTable}">
+                        <td>
+                            <div class="fw-bold fs-5" th:text="${row.ticker}">JEPI</div>
+                            <div class="small text-muted" th:text="${row.name}">JPMorgan...</div>
+                        </td>
+                        <td>
+                            <span
+                                th:class="'badge badge-strategy ' + (${row.strategy == 'High Income'} ? 'bg-primary' : 'bg-success')"
+                                th:text="${row.strategy}">Strategy</span>
+                        </td>
+                        <td class="text-dark fw-bold">
+                            $<span th:text="${row.formattedCapital}">5,000</span>
+                        </td>
+                        <td class="text-muted">
+                            <span th:text="${row.yield}">10</span>%
+                        </td>
+                        <td>
+                            <a th:href="@{'/how-much-dividend/' + ${item.cost} + '-per-month/' + ${row.ticker}}"
+                                class="btn btn-sm btn-outline-dark rounded-pill px-3">Analyze &rarr;</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- [Biz] Retention Feature: Freedom Date Calculator (MOVED UP) -->
+        <div class="mt-5 p-4 p-md-5 bg-dark text-white rounded-4 shadow-lg position-relative overflow-hidden">
+            <!-- Background decoration -->
+            <div
+                style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(0,0,0,0) 70%); border-radius: 50%;">
+            </div>
+
+            <div class="row align-items-center position-relative" style="z-index: 1;">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <span class="badge bg-warning text-dark fw-bold mb-3 px-3 py-2">NEW FEATURE</span>
+                    <h3 class="fw-bold display-6 mb-2 text-white">When can I quit?</h3>
+                    <p class="text-white-50 lead mb-4">
+                        See exactly <strong>when</strong> your dividends will cover your <span
+                            th:text="${item.name}">Netflix</span> bill completely.
+                    </p>
+
+                    <div class="bg-white bg-opacity-10 p-4 rounded-4 border border-white border-opacity-10">
+                        <label class="form-label text-warning fw-bold small text-uppercase">Monthly Investment</label>
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <span class="fs-4 fw-bold text-white">$<span id="contributionVal">100</span></span>
+                        </div>
+                        <input type="range" class="form-range custom-range" id="contributionRange" min="50" max="2000"
+                            step="50" value="100">
+                        <div class="d-flex justify-content-between text-white-50 small">
+                            <span>$50</span>
+                            <span>$2,000/mo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <div id="resultCard" class="bg-white text-dark p-4 rounded-4 shadow-sm mx-auto"
+                        style="max-width: 350px;">
+                        <div class="text-muted small fw-bold text-uppercase mb-1">Your Freedom Date</div>
+                        <h2 class="display-4 fw-bold text-success mb-1" id="freedomDateText">...</h2>
+                        <p class="mb-0 text-muted" id="timeLeftText">Adjust slider to calculate</p>
+                    </div>
+                    <p class="text-white-50 small mt-3 fst-italic">
+                        *Based on investing in <span th:text="${comparisonTable[0].ticker}">JEPI</span> (Yield: <span
+                            id="baseYield" th:text="${comparisonTable[0].yield}">10</span>%) with DRIP.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script for Freedom Calculator -->
+        <script>
+            const rangeInput = document.getElementById('contributionRange');
+            const numberDisplay = document.getElementById('contributionVal');
+            const freedomDateText = document.getElementById('freedomDateText');
+            const timeLeftText = document.getElementById('timeLeftText');
+
+            // 데이터 준비 (타임리프 변수)
+            const targetCost = [[${ item.cost }]];
+            const stockYield = [[${ comparisonTable[0].yield }]]; // 첫번째 추천 종목 기준
+
+            function calculate() {
+                const contribution = parseFloat(rangeInput.value);
+                numberDisplay.textContent = contribution;
+
+                // AJAX Request
+                fetch('/api/calculator/freedom-date', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        targetIncome: targetCost,
+                        yield: stockYield,
+                        monthlyContribution: contribution
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // UI Update with Animation effect
+                        freedomDateText.style.opacity = 0;
+                        setTimeout(() => {
+                            freedomDateText.textContent = data.formattedDate;
+
+                            if (data.years === 0 && data.months === 0) {
+                                timeLeftText.textContent = "You are already free!";
+                            } else {
+                                timeLeftText.textContent = `${data.years} Years, ${data.months} Months left`;
+                            }
+                            freedomDateText.style.opacity = 1;
+                        }, 200);
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Debounce calculation
+            let timeout;
+            rangeInput.addEventListener('input', function () {
+                numberDisplay.textContent = this.value;
+                clearTimeout(timeout);
+                timeout = setTimeout(calculate, 100);
+            });
+
+            // Initialize
+            document.addEventListener('DOMContentLoaded', calculate);
+        </script>
+
+        <!-- [YMYL] Risk Disclosure (Prominent) -->
+        <div class="risk-box">
+            <strong>⚠️ Risk Disclosure:</strong> Dividend yields are not guaranteed and can change. The "Required
+            Capital" is an estimation based on current yields. Investing involves risk, including loss of principal.
+        </div>
+
+        <!-- [E-E-A-T] Dynamic 'Why' Content -->
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <h3 class="h5 fw-bold mb-3">Why this strategy works</h3>
+                <p>
+                    To cover a fixed cost like <strong><span th:text="${item.name}">Netflix</span></strong>, you need
+                    consistency.
+                    The stocks listed above (like <span th:text="${comparisonTable[0].ticker}">JEPI</span>) were
+                    selected because they balance
+                    <strong>yield efficiency</strong> and <strong>payout reliability</strong>.
+                </p>
+                <p>
+                    Instead of saving $<span th:text="${comparisonTable[0].formattedCapital}">5000</span> in cash (which
+                    loses value to inflation),
+                    investing it in income-generating assets creates a "Perpetual Payment Machine" for your bills.
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light p-4 rounded-4">
+                    <h4 class="h6 fw-bold">Data Source</h4>
+                    <p class="small text-muted mb-2" th:text="${dataSource}">Source</p>
+                    <a th:href="${methodologyLink}" class="small text-decoration-none fw-bold">Read our Methodology
+                        &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- [E-E-A-T] Author Bio -->
+        <div class="author-box">
+            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                style="width: 50px; height: 50px;">MF</div>
+            <div>
+                <div class="fw-bold text-dark">Analysis by Money First Team</div>
+                <div class="small text-muted" style="font-size: 0.85rem;">
+                    Our team analyzes market data to help you build cash-flow focused portfolios.
+                    Focusing on Dividend Growth, SCHD, and JEPI strategies.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="mt-5 border-top py-4 text-center text-muted small">
+        <div class="container">
+            &copy; 2026 Money First. All rights reserved. <br>
+            <a href="/disclaimer">Disclaimer</a> | <a href="/privacy">Privacy</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>
