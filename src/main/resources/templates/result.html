@@ -25,6 +25,9 @@
 
     <link rel="canonical" th:if="${currentUrl}" th:href="${currentUrl}" />
 
+    <!-- [SEO] 인기 조합이 아니면 noindex 처리 (크롤 버짓 최적화) -->
+    <meta th:if="${shouldIndex != null and !shouldIndex}" name="robots" content="noindex, follow">
+
     <title th:text="${pageTitle}">Dividend Result</title>
     <meta name="description" th:attr="content=${pageDescription}">
 

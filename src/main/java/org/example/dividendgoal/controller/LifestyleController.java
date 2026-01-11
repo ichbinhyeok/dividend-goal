@@ -12,12 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
+
 @Controller
 public class LifestyleController {
 
         private final StockDataService stockDataService;
         private final LifestyleService lifestyleService;
         private final DividendCalculationService calculationService;
+
+        // [SEO] 인기 티커 (sitemap 포함 + index 허용)
+        private static final List<String> POPULAR_TICKERS = List.of(
+                        "AAPL", "SCHD", "O", "JEPI", "TSLA", "NVDA", "MSFT", "KO", "PEP", "JNJ", "PG", "VZ");
 
         public LifestyleController(StockDataService stockDataService, LifestyleService lifestyleService,
                         DividendCalculationService calculationService) {
@@ -45,7 +51,11 @@ public class LifestyleController {
                 double requiredInvestment = calculationService.calculateRequiredInvestment(monthlyCost,
                                 stock.getYield());
 
-                // 3. 모델 바인딩 (StockController와 최대한 호환되게)
+                // 3. [SEO] 인기 조합 여부 판단 (인기 아이템 + 인기 티커만 index 허용)
+                boolean shouldIndex = item.isPopular() && POPULAR_TICKERS.contains(ticker.toUpperCase());
+                model.addAttribute("shouldIndex", shouldIndex);
+
+                // 4. 모델 바인딩 (StockController와 최대한 호환되게)
                 model.addAttribute("stock", stock);
                 model.addAttribute("item", item);
                 model.addAttribute("monthlyAmount", monthlyCost);
@@ -53,18 +63,18 @@ public class LifestyleController {
                 model.addAttribute("formattedRequiredInvestment", String.format("%,.0f", requiredInvestment)); // 포맷팅 추가
                 model.addAttribute("calculationMode", "TARGET");
 
-                // 4. [SEO] Canonical URL (중복 콘텐츠 방지용 절대 경로)
+                // 5. [SEO] Canonical URL (중복 콘텐츠 방지용 절대 경로)
                 String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
                 model.addAttribute("currentUrl", currentUrl);
 
-                // 5. [SEO] 동적 메타데이터 (고유성 강화)
+                // 6. [SEO] 동적 메타데이터 (고유성 강화)
                 String pageTitle = String.format("Is %s Dividend Enough for %s? | Money First Analysis",
                                 stock.getTicker(), item.getName());
                 String pageDescription = String.format(
                                 "Analysis: Can %s (%s) dividends cover your %s bill? Calculated required capital: $%.0f. See the full income report.",
                                 stock.getName(), stock.getTicker(), item.getName(), requiredInvestment);
 
-                // 6. [FIX] 누락된 content 객체 주입 (500 Error 방지)
+                // 7. [FIX] 누락된 content 객체 주입 (500 Error 방지)
                 java.util.Map<String, String> content = new java.util.HashMap<>();
                 content.put("introduction", String.format(
                                 "Stop paying out of pocket for %s. Let your assets pay for it.", item.getName()));
@@ -80,7 +90,7 @@ public class LifestyleController {
                 model.addAttribute("pageTitle", pageTitle);
                 model.addAttribute("pageDescription", pageDescription);
 
-                // 6. 뷰 이름 반환 (기존 result.html 재사용)
+                // 8. 뷰 이름 반환 (기존 result.html 재사용)
                 return "result";
         }
 }

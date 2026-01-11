@@ -2,9 +2,72 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3533137832089555"
+        crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3151LZWH6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-V3151LZWH6');
+    </script>
+
     <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Methodology</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://fav.farm/💰" />
+
+    <!-- SEO Meta Tags -->
+    <title th:text="${pageTitle}">How We Calculate Dividend Income Requirements | Money First Methodology</title>
+    <meta name="description" th:attr="content=${pageDescription}">
+    <link rel="canonical" th:if="${currentUrl}" th:href="${currentUrl}" />
+
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Money First">
+    <meta property="og:title" th:content="${pageTitle}">
+    <meta property="og:description" th:content="${pageDescription}">
+    <meta property="og:url" th:if="${currentUrl}" th:content="${currentUrl}">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="${pageTitle}">
+    <meta name="twitter:description" th:content="${pageDescription}">
+
+    <!-- JSON-LD Structured Data (HowTo Schema) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Calculate Dividend Income for Financial Freedom",
+      "description": "Step-by-step methodology for calculating required investment capital to achieve target monthly dividend income",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Determine Monthly Income Goal",
+          "text": "Define your target monthly passive income amount (e.g., $1,000 per month)"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Select Dividend Stock",
+          "text": "Choose a dividend-paying stock or ETF with a known annual yield percentage"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Calculate Required Capital",
+          "text": "Use the formula: Required Capital = (Monthly Goal × 12) / (Yield / 100)"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Assess Risk",
+          "text": "Evaluate dividend history, payout ratio, and stock volatility (beta) to determine risk level"
+        }
+      ],
+      "totalTime": "PT5M"
+    }
+    </script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 

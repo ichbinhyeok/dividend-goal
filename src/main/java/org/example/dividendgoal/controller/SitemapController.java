@@ -58,17 +58,14 @@ public class SitemapController {
 
         // 기존 숫자 기반 URL (대표적인 것만)
         List<Integer> amounts = List.of(500, 1000, 3000);
-        stockDataService.getAvailableTickers().forEach(ticker ->
-                amounts.forEach(amount ->
-                        xml.append(buildUrl(String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker), "0.8"))
-                )
-        );
+        stockDataService.getAvailableTickers().forEach(ticker -> amounts.forEach(amount -> xml.append(
+                buildUrl(String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker), "0.8"))));
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
     }
 
-    // 3. 라이프스타일 위성 사이트맵 (3,300개 낚싯바늘)
+    // 3. 라이프스타일 위성 사이트맵 (인기 조합만 포함: ~120-140개 URL)
     @GetMapping("/sitemap-lifestyle.xml")
     public ResponseEntity<String> sitemapLifestyle() {
         String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
@@ -76,13 +73,15 @@ public class SitemapController {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        List<String> popularTickers = List.of("AAPL", "SCHD", "O", "JEPI", "TSLA", "NVDA", "MSFT", "KO");
+        // [SEO] 인기 티커 정의 (12개)
+        List<String> popularTickers = List.of("AAPL", "SCHD", "O", "JEPI", "TSLA", "NVDA", "MSFT", "KO", "PEP", "JNJ",
+                "PG", "VZ");
 
-        lifestyleService.getAllItems().forEach(item -> {
-            stockDataService.getAvailableTickers().forEach(ticker -> {
-                String priority = popularTickers.contains(ticker) ? "0.9" : "0.6";
+        // [SEO] 인기 아이템 x 인기 티커 조합만 sitemap에 포함
+        lifestyleService.getPopularItems().forEach(item -> {
+            popularTickers.forEach(ticker -> {
                 String url = String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, item.getSlug(), ticker);
-                xml.append(buildUrl(url, priority));
+                xml.append(buildUrl(url, "0.9")); // 모두 높은 우선순위
             });
         });
 
@@ -91,6 +90,7 @@ public class SitemapController {
     }
 
     private String buildUrl(String location, String priority) {
-        return String.format("<url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>", location, LocalDate.now(), priority);
+        return String.format("<url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>", location,
+                LocalDate.now(), priority);
     }
 }
