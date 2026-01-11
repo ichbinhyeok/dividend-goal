@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3533137832089555"
+        crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3151LZWH6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-V3151LZWH6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://fav.farm/💰" />
+    <title th:text="${pageTitle}">Why Small Expenses Add Up</title>
+    <meta name="description" th:attr="content=${pageDescription}">
+    <link rel="canonical" th:href="${canonicalUrl}">
+
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" th:attr="content=${pageTitle}" />
+    <meta property="og:description" th:attr="content=${pageDescription}" />
+    <!-- Use a generic social preview image if specific one is not available -->
+    <meta property="og:image" content="https://www.dividend-goal.com/images/dashboard-preview.png" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" th:attr="content=${canonicalUrl}" />
+
+    <!-- JSON-LD Schema for SEO -->
+    <script type="application/ld+json" th:inline="javascript">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": [[${pageTitle}]],
+      "description": [[${pageDescription}]],
+      "author": {
+        "@type": "Person",
+        "name": "Shinhyeok Park"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dividend Goal"
+      }
+    }
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            color: #334155;
+            background-color: #f8fafc;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #0f172a;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .content-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background-color: #0f172a;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .table-custom {
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-custom th {
+            background: #e2e8f0;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table-custom td {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 content-box">
+                <a href="/articles" class="text-muted fw-bold small mb-4 d-inline-block">← Back to Guides</a>
+
+                <h1>Why This Expense Feels Small But Adds Up</h1>
+                <p class="lead text-dark fw-semibold mb-4">You spend $5 here, $10 there. It feels insignificant. But
+                    when you look at the "Opportunity Cost" of investing that money into dividend stocks, the numbers
+                    are shocking.</p>
+
+                <h2>The Real Cost of "Just $10"</h2>
+                <p>It’s easy to dismiss a daily coffee or a monthly subscription as "chump change." But wealth isn't
+                    built by hitting a lottery; it's built by aggregating small amounts of capital over time.</p>
+                <p>If you invest <strong>$300/month</strong> (that’s just $10/day) into a dividend ETF yielding 3.5%
+                    with 7% growth, do you know what happens in 30 years?</p>
+                <p>You don't just have the $108,000 you saved. You could have over <strong>$400,000</strong>. That is
+                    the power of compounding that you are giving away for small daily conveniences.</p>
+
+                <h2>Strategy A vs Strategy B</h2>
+                <p>Once you decide to save that money, where should it go? Here are two common paths for dividend
+                    investors:</p>
+
+                <h3>Strategy A: The "Sleep Well" Approach (Stable)</h3>
+                <p>Focuses on ETFs like <strong>SCHD</strong> or blue-chip Dividend Kings (e.g., KO, JNJ). You start
+                    with a lower yield (2-3%), but your income grows faster than inflation. This is for long-term wealth
+                    building.</p>
+
+                <h3>Strategy B: The "Income Now" Approach (High Yield)</h3>
+                <p>Focuses on Covered Call ETFs like <strong>JEPI</strong> or BDCs (e.g., MAIN, ARCC). You get high
+                    immediate income (7-10%), but less capital appreciation. This is great if you need cash flow
+                    <em>today</em> to pay bills.
+                </p>
+
+                <h2>How Much Capital Do You Need?</h2>
+                <p>Let's compare how much you need invested to generate <strong>$1,000/month</strong> in passive income:
+                </p>
+
+                <div class="table-responsive my-4">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>Yield</th>
+                                <th>Capital Required</th>
+                                <th>Risk Profile</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Savings / Bonds</strong></td>
+                                <td>3.5%</td>
+                                <td>$342,857</td>
+                                <td>Low Risk, Low Growth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stable Dividend (SCHD)</strong></td>
+                                <td>3.5%</td>
+                                <td>$342,857</td>
+                                <td>Medium Risk, High Growth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>High Yield (JEPI/BDCs)</strong></td>
+                                <td>8.0%</td>
+                                <td>$150,000</td>
+                                <td>Medium Risk, Capped Growth</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Risks You Should Understand</h2>
+                <ul>
+                    <li><strong>Inflation Risk:</strong> If your dividends don't grow, your purchasing power drops.
+                        High-yield assets often have low growth.</li>
+                    <li><strong>Dividend Cuts:</strong> Companies can cut dividends. ETFs diversify this risk, but
+                        individual stocks can be dangerous.</li>
+                    <li><strong>Psychological Risk:</strong> Can you handle seeing your portfolio drop 20%? If not, you
+                        might sell at the bottom.</li>
+                </ul>
+
+                <h2>Who Is This Strategy For?</h2>
+                <p>If you want to replace your salary eventually, <strong>Dividend Growth</strong> (Strategy A) is
+                    usually the winner. If you are already retired and need cash, <strong>High Yield</strong> (Strategy
+                    B) might make more sense.</p>
+
+                <h2>Stop Guessing, Start Calculating</h2>
+                <p>Don't just read about it. Plug in your own numbers. See exactly how much you need to save to quit
+                    your job or pay for that recurring expense.</p>
+
+                <div class="my-5 p-5 bg-light rounded-4 text-center border border-2 border-light">
+                    <h3 class="h4 mt-0 mb-3">Estimate Your Dividend Income</h3>
+                    <p class="mb-4 text-muted">See how fast $10/day can turn into freedom.</p>
+                    <!-- Enhanced CTA with parameter for better UX/SEO -->
+                    <a href="/?expense=subscription" class="btn btn-primary btn-lg">
+                        Calculate Now
+                    </a>
+                </div>
+
+                <p class="small text-muted border-top pt-4 mt-5 fst-italic">
+                    DISCLAIMER: This article is for informational purposes only and does not constitute financial
+                    advice. Past performance does not guarantee future results.
+                </p>
+
+                <!-- Internal Linking Strategy: Related Articles -->
+                <div class="mt-5">
+                    <h4 class="fw-bold mb-3">Read Next</h4>
+                    <div class="list-group">
+                        <a href="/articles/best-monthly-dividend-stocks"
+                            class="list-group-item list-group-item-action p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Best Monthly Dividend Stocks</strong>
+                                <br><small class="text-muted">Get paid every month with O and MAIN.</small>
+                            </div>
+                            <span class="text-primary">→</span>
+                        </a>
+                        <a href="/articles/how-to-use-dividend-calculator"
+                            class="list-group-item list-group-item-action p-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>How to Use the Calculator</strong>
+                                <br><small class="text-muted">A step-by-step guide to planning your goal.</small>
+                            </div>
+                            <span class="text-primary">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

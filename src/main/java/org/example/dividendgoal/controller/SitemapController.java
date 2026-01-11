@@ -56,6 +56,17 @@ public class SitemapController {
         xml.append(buildUrl(baseUrl + "/articles", "0.9"));
         xml.append(buildUrl(baseUrl + "/about", "0.5"));
 
+        // [SEO] Static Articles (Ensure these are indexed)
+        List<String> articles = List.of(
+                "what-is-dividend-yield",
+                "why-dividend-growth-matters",
+                "schd-vs-jepi-comparison",
+                "how-to-use-dividend-calculator",
+                "dividend-income-vs-interest",
+                "why-small-expenses-matter",
+                "best-monthly-dividend-stocks");
+        articles.forEach(slug -> xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8")));
+
         // 기존 숫자 기반 URL (대표적인 것만)
         List<Integer> amounts = List.of(500, 1000, 3000);
         stockDataService.getAvailableTickers().forEach(ticker -> amounts.forEach(amount -> xml.append(
