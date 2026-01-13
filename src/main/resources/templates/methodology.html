@@ -78,13 +78,46 @@
             <h2 class="h5 fw-bold">1. Data Sources</h2>
             <p>We aggregate market data from Seeking Alpha, Yahoo Finance, and official SEC filings (10-K). Data is
                 reviewed and updated periodically to reflect current market conditions.</p>
+            <div class="mb-5">
+                <h2 class="h4 fw-bold mb-3">Data Sources</h2>
+                <p>We aggregate market data from reputable financial providers to ensure our analysis is current. Our
+                    primary data points (Yield, Price, Payout Ratio) are sourced from:</p>
+                <ul>
+                    <li><a href="https://finance.yahoo.com" target="_blank" rel="nofollow noreferrer">Yahoo Finance
+                            API</a> (Real-time pricing)</li>
+                    <li><a href="https://seekingalpha.com" target="_blank" rel="nofollow noreferrer">Seeking Alpha</a>
+                        (Dividend Consistency Records)</li>
+                    <li><a href="https://www.nasdaq.com" target="_blank" rel="nofollow noreferrer">Nasdaq</a>
+                        (Historical Dividend Data)</li>
+                </ul>
+                <p class="text-muted small"><em>Data is refreshed daily. However, yields fluctuate with stock price
+                        changes in real-time.</em></p>
+            </div>
 
-            <h2 class="h5 fw-bold mt-4">2. Required Capital Calculation</h2>
-            <p>Formula: <code>(Monthly Cost * 12) / (Yield / 100)</code></p>
-            <p>We do not account for tax drag in the initial "Required Capital" figure to keep comparisons standardized
-                across different tax brackets.</p>
+            <div class="mb-5 p-4 bg-light border rounded-3">
+                <h2 class="h5 fw-bold mb-2">Data Currency & Integrity</h2>
+                <p class="mb-1">Dataset Version: <strong><span
+                            th:text="${T(org.example.dividendgoal.AppConstants).DATASET_VERSION}">2026-01</span></strong>
+                </p>
+                <p class="mb-0 small text-muted">
+                    We prioritize accuracy over coverage. If a stock's official yield or payout data is unavailable from
+                    our primary sources,
+                    we do NOT generate estimated values. In such cases, the calculator will display "Data Unavailable".
+                </p>
+            </div>
 
-            <h2 class="h5 fw-bold mt-4">3. Risk Assessment</h2>
+            <div class="mb-5">
+                <h2 class="h4 fw-bold mb-3">Calculation Formula</h2>
+                <p>To estimate the <strong>Required Capital</strong> for a target monthly income, we use the following
+                    standard formula:</p>
+                <div class="p-3 bg-light border rounded text-center font-monospace mb-3">
+                    Required Capital = (Target Monthly Income × 12) / (Dividend Yield / 100)
+                </div>
+                <p>For example, to earn <strong>$1,000/month</strong> from a stock yielding <strong>4.0%</strong>:</p>
+                <p><code>($1,000 × 12) / 0.04 = $12,000 / 0.04 = $300,000</code></p>
+            </div>
+
+            <h2 class="h5 fw-bold mt-4">Risk Assessment</h2>
             <p>Risk levels (Low, Medium, High) are determined by:</p>
             <ul>
                 <li>Dividend History (Years of growth)</li>

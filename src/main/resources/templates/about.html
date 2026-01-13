@@ -28,87 +28,87 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-9 bg-white p-4 p-md-5 shadow-sm rounded-3">
-                <h1 class="fw-bold mb-4">About Money First</h1>
+                <h1 class="fw-bold mb-4">Hi, I’m Gabi.</h1>
+                <p class="lead">
+                    I built <strong>Money First</strong> because I was tired of financial tools that cared more about
+                    showing me ads and getting my email address than answering my actual questions.
+                </p>
+                <p>
+                    Like many of you, I wanted to understand the simple math behind my financial goals: <em>"How much
+                        capital do I need to generate $500 a month?"</em> But every site I visited was cluttered,
+                    complicated, or required a signup just to run a simple calculation. Use this tool to get straight
+                    answers without the noise.
+                </p>
 
-                <div class="mb-5 p-4 bg-light rounded-4 border">
-                    <h2 class="h4 fw-bold mb-3">👋 Hi, I'm Gabi</h2>
-                    <p>
-                        I created Money First because I remember exactly how lost I felt when I first started learning
-                        about dividend investing in 2024.
-                    </p>
-                    <p>
-                        I had a simple question: <strong>“How much do I need to invest to earn $1,000 a month from
-                            dividends?”</strong>
-                    </p>
-                    <p>
-                        But every site I visited was either too complicated, required a login, or buried the answer
-                        under pages of technical jargon. I didn't want a full portfolio management suite; I just wanted
-                        to understand the math for my personal goals.
-                    </p>
-                    <p class="mb-0">
-                        So, I built this calculator. My goal is to make dividend math accessible to everyone—no
-                        sign-ups, no paywalls, just clear answers.
+                <hr class="my-5">
+
+                <h2 class="h4 fw-bold mb-3">What This Site Focuses On</h2>
+                <p>
+                    Money First is dedicated to <strong>dividend math translation</strong>. It does not provide
+                    investment advice, stock picks, or market predictions.
+                </p>
+                <p>
+                    My goal is to take public, static yield data and translate it into a tangible "lifestyle cost"
+                    context. Instead of just seeing a percentage, you see what that percentage means for your monthly
+                    bills. This helps bridge the gap between abstract financial metrics and real-world goals.
+                </p>
+
+                <h2 class="h4 fw-bold mt-5 mb-3">Data Transparency & Privacy</h2>
+                <p>
+                    Trust is earned by NOT tracking you. Here is exactly how this site works:
+                </p>
+                <ul>
+                    <li><strong>No User Tracking:</strong> I do not use tools to record your session or map your
+                        behavior.</li>
+                    <li><strong>No Personal Data:</strong> This calculator has no database for user inputs. Nothing you
+                        type is saved or sent to a third party.</li>
+                    <li><strong>Server-Side Math:</strong> All calculations happen instantly on the server using a
+                        static dataset. This means the site is fast, lightweight, and completely stateless.</li>
+                </ul>
+
+                <h2 class="h4 fw-bold mt-5 mb-3">Who This Tool Is For</h2>
+                <p>
+                    This tool is designed for <strong>U.S.-based users</strong> who are in the educational phase of
+                    their financial journey.
+                </p>
+                <ul>
+                    <li>It <strong>IS</strong> for you if you want to understand the mechanics of dividend yields and
+                        goal setting.</li>
+                    <li>It <strong>IS NOT</strong> for you if you are looking for real-time trading data or professional
+                        investment recommendations.</li>
+                </ul>
+                <p>
+                    Please consult with a certified financial planner or fiduciary before making any investment
+                    decisions. Financial planning is personal, and this tool only provides general mathematical models.
+                </p>
+
+                <!-- Disclaimer Block -->
+                <div class="alert alert-warning mt-5" role="alert">
+                    <h4 class="alert-heading h6 fw-bold">Important Disclaimer</h4>
+                    <p class="mb-0 small">
+                        The content on Money First is for informational and educational purposes only and should not be
+                        construed as professional financial advice.
+                        Past performance of any security is not indicative of future results. Dividend yields are static
+                        snapshots and can change at any time.
+                        I am a developer and educator, not a licensed financial advisor.
                     </p>
                 </div>
-
-                <h2 class="h4 fw-bold mt-5 mb-3">How It Works</h2>
-                <p>
-                    <strong>Money First</strong> is a server-rendered dividend income calculator created for people who
-                    prefer plain English explanations and quick math. The site is built with Spring Boot, Thymeleaf, and
-                    Bootstrap so every page is delivered as fully rendered HTML that works well for search engines and
-                    loads fast on most devices. There are no logins, account creation steps, or personal profiles
-                    because the goal is to keep the experience stateless and simple. Visitors can enter a monthly cash
-                    flow target, pick a ticker from a static list, and immediately see the estimated capital required to
-                    support that goal based on trailing yield.
-                </p>
-                <p>
-                    The idea started with that common question: “How much money would it take to receive a reliable
-                    monthly dividend?” Instead of offering advice or steering anyone toward specific products, Money
-                    First provides context by pairing static yield data with transparent calculations. Every result page
-                    includes a detailed H1 headline, explanatory sections about the selected ticker, and a realistic
-                    description of what the target cash flow might cover in everyday life. Because the content is
-                    generated from templates, each page meets recommended word counts to avoid thin content while
-                    staying consistent in tone.
-                </p>
-                <p>
-                    Transparency drives the entire experience. The calculator does not connect to external APIs, collect
-                    browsing history, or store personal inputs. All data lives in a static JSON file packaged with the
-                    application, and every calculation occurs server-side at the time of the request. This approach
-                    keeps the site predictable for users and straightforward for hosting. If new tickers or updated
-                    yields are desired, they can be added to the static dataset during a future release without changing
-                    the privacy stance of the site.
-                </p>
-                <p>
-                    Money First is designed for U.S.-based users who want to better understand dividend math without
-                    committing to brokerage accounts or sharing sensitive information. The language on every page avoids
-                    advice and focuses on illustrating how yields translate into potential income targets. Readers are
-                    encouraged to speak with a fiduciary advisor for personalized guidance, because investing decisions
-                    depend on individual risk tolerance, taxes, and financial goals. This site remains purely
-                    informational and educational, offering a calm, content-first starting point for exploring dividend
-                    concepts.
-                </p>
-                <p>
-                    If you explore the calculator, you will see clear disclaimers reminding you that dividends can
-                    change and that past yields do not guarantee future performance. Those reminders are intentional:
-                    Money First is about helping people understand the math, not about persuading anyone to buy or sell
-                    securities. By keeping the technology stack lightweight and the messaging careful, the project aims
-                    to be AdSense-friendly while respecting user privacy and emphasizing responsible finance
-                    communication.
-                </p>
 
                 <div class="mt-5 pt-4 border-top">
                     <h2 class="h5 fw-bold mb-3">Get in Touch</h2>
                     <p class="text-muted">
-                        Have questions or suggestions? We'd love to hear from you. <br>
-                        Email us at: <a href="mailto:spainhyeok@gmail.com"
+                        Have questions about the math, or found a bug? I’d love to hear from you.<br>
+                        Email me directly at: <a href="mailto:spainhyeok@gmail.com"
                             class="fw-bold text-dark">spainhyeok@gmail.com</a>
                     </p>
                 </div>
+
                 <div class="mt-4 d-flex gap-3">
                     <a href="/" class="btn btn-primary">Back to Home</a>
                     <a href="/privacy-policy" class="btn btn-outline-secondary">Privacy Policy</a>
                     <a href="/disclaimer" class="btn btn-outline-secondary">Disclaimer</a>
                 </div>
+
                 <footer class="mt-5 pt-4 border-top d-flex flex-wrap gap-3 text-muted small">
                     <a href="/about" class="link-secondary">About</a>
                     <a href="/privacy-policy" class="link-secondary">Privacy Policy</a>

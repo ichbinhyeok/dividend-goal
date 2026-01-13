@@ -32,11 +32,11 @@ public class StockDataService {
     public void loadStocks() {
         ClassPathResource resource = new ClassPathResource("data/stocks.json");
         try (InputStream is = resource.getInputStream()) {
-            List<Stock> stocks = objectMapper.readValue(is, new TypeReference<>() {});
+            List<Stock> stocks = objectMapper.readValue(is, new TypeReference<>() {
+            });
 
             // [수정] 티커 기준 알파벳 순으로 정렬하여 저장
             this.cachedStocks = stocks.stream()
-                    .sorted(Comparator.comparing(Stock::getTicker, String.CASE_INSENSITIVE_ORDER))
                     .collect(Collectors.toList());
 
             logger.info("Loaded {} stocks in alphabetical order.", cachedStocks.size());
@@ -46,12 +46,15 @@ public class StockDataService {
         }
     }
 
+    // [YMYL-Compliant] No Mock Enrichment. Missing data stays missing.
+
     public List<Stock> getAllStocks() {
         return cachedStocks;
     }
 
     public Optional<Stock> findByTicker(String ticker) {
-        if (ticker == null) return Optional.empty();
+        if (ticker == null)
+            return Optional.empty();
         String sanitized = ticker.trim().toUpperCase();
         return cachedStocks.stream()
                 .filter(stock -> sanitized.equals(stock.getTicker().toUpperCase()))
@@ -66,7 +69,8 @@ public class StockDataService {
 
     // [추가] 없는 티커 로그 기록 메서드
     public void logMissingTicker(String ticker) {
-        if (ticker == null || ticker.isBlank()) return;
+        if (ticker == null || ticker.isBlank())
+            return;
         String upperTicker = ticker.trim().toUpperCase();
         missingTickerLog.merge(upperTicker, 1, Integer::sum);
         logger.warn("MISSING_TICKER_LOGGED: {}", upperTicker);

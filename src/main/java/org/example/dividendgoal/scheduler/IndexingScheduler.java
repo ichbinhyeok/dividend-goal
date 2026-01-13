@@ -53,7 +53,7 @@ public class IndexingScheduler {
 
     private List<String> generateAllUrls() {
         List<String> urls = new ArrayList<>();
-        String baseUrl = "https://www.dividend-goal.com"; // 실제 도메인으로 변경 필수
+        String baseUrl = AppConstants.BASE_URL; // 실제 도메인으로 변경 필수
         lifestyleService.getAllItems().forEach(item -> {
             stockDataService.getAvailableTickers().forEach(ticker -> {
                 urls.add(String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, item.getSlug(), ticker));

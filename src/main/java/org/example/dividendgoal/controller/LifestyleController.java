@@ -1,6 +1,7 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
 import org.example.dividendgoal.service.DividendCalculationService;
@@ -34,8 +35,8 @@ public class LifestyleController {
 
         @GetMapping("/lifestyle/cost-of-{itemSlug}-vs-{ticker}-dividend")
         public String showLifestylePlan(
-                        @PathVariable String itemSlug,
-                        @PathVariable String ticker,
+                        @PathVariable("itemSlug") String itemSlug,
+                        @PathVariable("ticker") String ticker,
                         HttpServletRequest request,
                         Model model) {
 
@@ -64,7 +65,7 @@ public class LifestyleController {
                 model.addAttribute("calculationMode", "TARGET");
 
                 // 5. [SEO] Canonical URL (중복 콘텐츠 방지용 절대 경로)
-                String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
+                String currentUrl = AppConstants.BASE_URL + request.getRequestURI();
                 model.addAttribute("currentUrl", currentUrl);
 
                 // 6. [SEO] 동적 메타데이터 (고유성 강화)

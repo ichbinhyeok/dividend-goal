@@ -270,6 +270,27 @@
             }
         }
     </style>
+    </style>
+    <!-- [SEO] FAQPage Schema for Rich Snippets -->
+    <script type="application/ld+json" th:utext="'{
+      &quot;@context&quot;: &quot;https://schema.org&quot;,
+      &quot;@type&quot;: &quot;FAQPage&quot;,
+      &quot;mainEntity&quot;: [{
+        &quot;@type&quot;: &quot;Question&quot;,
+        &quot;name&quot;: &quot;How much capital do I need to earn $' + ${monthlyAmount} + ' per month in dividends from ' + ${stock.ticker} + '?&quot;,
+        &quot;acceptedAnswer&quot;: {
+          &quot;@type&quot;: &quot;Answer&quot;,
+          &quot;text&quot;: &quot;To generate a monthly dividend income of $' + ${monthlyAmount} + ' from ' + ${stock.name} + ' (' + ${stock.ticker} + '), you would need an estimated investment of $' + ${formattedRequiredInvestment} + ', based on its current dividend yield of ' + ${stock.yield} + '%.&quot;
+        }
+      }, {
+        &quot;@type&quot;: &quot;Question&quot;,
+        &quot;name&quot;: &quot;Is ' + ${stock.name} + ' (' + ${stock.ticker} + ') a safe dividend stock?&quot;,
+        &quot;acceptedAnswer&quot;: {
+          &quot;@type&quot;: &quot;Answer&quot;,
+          &quot;text&quot;: &quot;Analysis based on historical data: ' + ${content.investingAngle.replaceAll('&lt;.*?&gt;', '')} + ' Check the full payout ratio and growth history on our page.&quot;
+        }
+      }]
+    }'"></script>
 </head>
 
 <body>
@@ -342,7 +363,8 @@
 
                 <div class="row g-4 justify-content-center">
                     <div class="col-md-12">
-                        <div class="result-box">
+                        <!-- [YMYL] Main Result Box (Only if Data Available) -->
+                        <div th:if="${isDataAvailable}" class="result-box">
                             <div class="text-uppercase fw-bold small mb-2"
                                 style="color: #059669; letter-spacing: 0.1em;"
                                 th:text="${calculationMode == 'TARGET' ? 'Estimated Capital Needed (Today)' : 'Estimated Monthly Income'}">
@@ -373,7 +395,19 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-center gap-2 mt-3">
+                        <!-- [YMYL] Data Unavailable Disclaimer -->
+                        <div th:unless="${isDataAvailable}" class="p-5 text-center bg-light border rounded-4">
+                            <h3 class="h4 fw-bold text-muted mb-3">Data Unavailable</h3>
+                            <p class="text-muted mb-4">
+                                We currently do not have verified dividend yield data for <strong><span
+                                        th:text="${stock.ticker}">TICKER</span></strong>.
+                                <br>To ensure accuracy, we have disabled calculations for this stock.
+                            </p>
+                            <a href="/" class="btn btn-outline-primary">Try Another Ticker</a>
+                        </div>
+
+
+                        <div th:if="${isDataAvailable}" class="d-flex justify-content-center gap-2 mt-3">
                             <button onclick="shareTwitter()" class="btn btn-dark btn-sm rounded-pill px-3">🐦 Share on
                                 X</button>
                             <button onclick="copyLink()" class="btn btn-light btn-sm rounded-pill px-3 border">🔗 Copy
@@ -383,7 +417,7 @@
                 </div>
 
                 <!-- [Biz] Retention Feature: Freedom Date Calculator (MOVED UP for better engagement) -->
-                <div th:if="${calculationMode == 'TARGET'}"
+                <div th:if="${calculationMode == 'TARGET' and isDataAvailable}"
                     class="mt-5 p-4 p-md-5 bg-dark text-white rounded-4 shadow-lg position-relative overflow-hidden">
                     <!-- Background decoration -->
                     <div
@@ -618,19 +652,68 @@
 
 
                 <div class="mt-5 text-secondary">
-                    <h3 class="h5 fw-bold text-dark mb-3">Analysis Breakdown</h3>
-                    <div class="mb-3">
-                        <h4 class="h6 fw-bold text-dark">Introduction</h4>
-                        <p th:text="${content.introduction}" class="small">Intro</p>
+                    <h3 class="h5 fw-bold text-dark mb-4">Dividend Analysis Report</h3>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white border rounded-4 shadow-sm h-100">
+                                <h4 class="h6 fw-bold text-uppercase text-muted mb-3">Sector Comparison</h4>
+                                <div class="mb-2">
+                                    <span class="badge bg-light text-dark border me-2">Sector: <span
+                                            th:text="${stock.sector}">Tech</span></span>
+                                    <span class="badge bg-light text-dark border">Median Yield: <span
+                                            th:text="${stock.sectorMedianYield}">0</span>%</span>
+                                </div>
+                                <p th:utext="${content.whatIsTicker}" class="text-dark small">Comparison text...</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 bg-white border rounded-4 shadow-sm h-100">
+                                <h4 class="h6 fw-bold text-uppercase text-muted mb-3">Dividend Safety Scorecard</h4>
+                                <div class="mb-2">
+                                    <span class="badge bg-light text-dark border me-2">Payout Ratio: <span
+                                            th:text="${stock.payoutRatio}">0</span>%</span>
+                                    <span class="badge bg-light text-dark border">Growth Streak: <span
+                                            th:text="${stock.consecutiveGrowthYears}">0</span> Years</span>
+                                </div>
+                                <p th:utext="${content.investingAngle}" class="text-dark small">Safety text...</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <h4 class="h6 fw-bold text-dark">About <span th:text="${stock.ticker}"></span></h4>
-                        <p th:text="${content.whatIsTicker}" class="small">Info</p>
+
+                    <div class="mb-4" th:if="${stock.dividendHistory != null and !stock.dividendHistory.isEmpty()}">
+                        <h4 class="h6 fw-bold text-dark mb-3">Dividend Payment History (Last 5 Years)</h4>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Dividend Per Share (Est.)</th>
+                                        <th>Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="rec, stat : ${stock.dividendHistory}">
+                                        <td th:text="${rec.year}">2024</td>
+                                        <td>$<span th:text="${rec.dividendPerShare}">1.00</span></td>
+                                        <td>
+                                            <span th:if="${stat.index < stock.dividendHistory.size() - 1}">
+                                                <span
+                                                    th:if="${rec.dividendPerShare >= stock.dividendHistory[stat.index + 1].dividendPerShare}"
+                                                    class="text-success">↗ Growing</span>
+                                                <span
+                                                    th:unless="${rec.dividendPerShare >= stock.dividendHistory[stat.index + 1].dividendPerShare}"
+                                                    class="text-danger">↘ Cut</span>
+                                            </span>
+                                            <span th:unless="${stat.index < stock.dividendHistory.size() - 1}"
+                                                class="text-muted">-</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <h4 class="h6 fw-bold text-dark">Investment Context</h4>
-                        <p th:text="${content.investingAngle}" class="small">Context</p>
-                    </div>
+
                     <div class="mt-4 pt-3 border-top">
                         <p th:text="${content.disclaimer}" class="small text-muted fst-italic">Disclaimer</p>
                     </div>

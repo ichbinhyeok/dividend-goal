@@ -1,5 +1,6 @@
 package org.example.dividendgoal.controller;
 
+import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.service.LifestyleService;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ public class SitemapController {
     // 1. 사이트맵 인덱스 (Sitemap Index)
     @GetMapping("/sitemap.xml")
     public ResponseEntity<String> sitemapIndex() {
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String baseUrl = AppConstants.BASE_URL;
         String xml = String.format("""
                 <?xml version="1.0" encoding="UTF-8"?>
                 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -47,7 +48,7 @@ public class SitemapController {
     // 2. 메인 사이트맵 (기본 페이지 + 일부 계산 예시)
     @GetMapping("/sitemap-main.xml")
     public ResponseEntity<String> sitemapMain() {
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String baseUrl = AppConstants.BASE_URL;
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
@@ -67,8 +68,8 @@ public class SitemapController {
                 "best-monthly-dividend-stocks");
         articles.forEach(slug -> xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8")));
 
-        // 기존 숫자 기반 URL (대표적인 것만)
-        List<Integer> amounts = List.of(500, 1000, 3000);
+        // [SEO] Only index 'Golden Amounts' to prevent thin/duplicate content
+        List<Integer> amounts = List.of(500, 1000, 2000, 5000);
         stockDataService.getAvailableTickers().forEach(ticker -> amounts.forEach(amount -> xml.append(
                 buildUrl(String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker), "0.8"))));
 
@@ -79,7 +80,7 @@ public class SitemapController {
     // 3. 라이프스타일 위성 사이트맵 (인기 조합만 포함: ~120-140개 URL)
     @GetMapping("/sitemap-lifestyle.xml")
     public ResponseEntity<String> sitemapLifestyle() {
-        String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        String baseUrl = AppConstants.BASE_URL;
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");

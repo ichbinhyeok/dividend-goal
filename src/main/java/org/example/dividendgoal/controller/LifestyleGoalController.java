@@ -1,6 +1,7 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
 import org.example.dividendgoal.service.BestStockService;
@@ -33,7 +34,7 @@ public class LifestyleGoalController {
 
     // New Hub Page: /lifestyle/pay-for-netflix (No ticker in URL)
     @GetMapping("/lifestyle/pay-for-{itemSlug}")
-    public String showGoalHub(@PathVariable String itemSlug, HttpServletRequest request, Model model) {
+    public String showGoalHub(@PathVariable("itemSlug") String itemSlug, HttpServletRequest request, Model model) {
 
         // 1. Get Goal Item
         LifestyleItem item = lifestyleService.findBySlug(itemSlug)
@@ -42,6 +43,11 @@ public class LifestyleGoalController {
         // 2. Get Recommendations (The "Expert" Choice)
         List<Stock> safeStocks = bestStockService.getTopSafetyStocks(3);
         List<Stock> incomeStocks = bestStockService.getTopIncomeStocks(3);
+
+        // [DEFENSIVE] If we can't get any stocks, show error page
+        if (safeStocks.isEmpty() && incomeStocks.isEmpty()) {
+            throw new IllegalStateException("Unable to retrieve stock recommendations");
+        }
 
         // 3. Prepare Comparison Data (Pre-calculate everything)
         List<Map<String, Object>> comparisonTable = safeStocks.stream().map(stock -> {
@@ -79,7 +85,7 @@ public class LifestyleGoalController {
                 "Don't pay for " + item.getName()
                         + "! Compare Top 5 Dividend Stocks (JEPI, SCHD, etc.) that can cover your $" + item.getCost()
                         + " monthly bill forever.");
-        model.addAttribute("canonicalUrl", ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString());
+        model.addAttribute("canonicalUrl", AppConstants.BASE_URL + request.getRequestURI());
 
         // Trust Signals
         model.addAttribute("dataSource", "Data derived from Seeking Alpha & Yahoo Finance API.");

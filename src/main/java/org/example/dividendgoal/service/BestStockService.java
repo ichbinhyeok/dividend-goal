@@ -50,9 +50,14 @@ public class BestStockService {
      * Returns a mixed portfolio suggestions.
      */
     public List<Stock> getBalancedPortfolio() {
-        // Simple logic: Take 1 Safety + 1 Income + 1 Balanced (SCHD usually)
-        return List.of(
-                getTopSafetyStocks(1).get(0),
-                getTopIncomeStocks(1).get(0));
+        List<Stock> safetyStocks = getTopSafetyStocks(1);
+        List<Stock> incomeStocks = getTopIncomeStocks(1);
+
+        // Defensive: Return empty list if either is empty
+        if (safetyStocks.isEmpty() || incomeStocks.isEmpty()) {
+            return List.of();
+        }
+
+        return List.of(safetyStocks.get(0), incomeStocks.get(0));
     }
 }

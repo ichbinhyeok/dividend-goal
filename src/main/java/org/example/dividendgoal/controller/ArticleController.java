@@ -1,5 +1,7 @@
 package org.example.dividendgoal.controller;
 
+import org.example.dividendgoal.AppConstants;
+import org.example.dividendgoal.service.StockDataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
+
+    private final StockDataService stockDataService;
+
+    public ArticleController(StockDataService stockDataService) {
+        this.stockDataService = stockDataService;
+    }
 
     @GetMapping("")
     public String index(Model model) {
@@ -62,7 +70,7 @@ public class ArticleController {
         model.addAttribute("pageTitle", "Why Small Expenses Add Up: The High Cost of 'Just $10'");
         model.addAttribute("pageDescription",
                 "Discover how small daily expenses drain your future wealth and how to reclaim that capital for dividend income.");
-        model.addAttribute("canonicalUrl", "https://www.dividend-goal.com/articles/why-small-expenses-matter");
+        model.addAttribute("canonicalUrl", AppConstants.BASE_URL + "/articles/why-small-expenses-matter");
         return "articles/why-small-expenses-matter";
     }
 
@@ -71,7 +79,8 @@ public class ArticleController {
         model.addAttribute("pageTitle", "Best Monthly Dividend Stocks 2026: Get Paid Every Month");
         model.addAttribute("pageDescription",
                 "Top list of monthly dividend stocks like Realty Income (O) and Main Street Capital (MAIN). Yields, risks, and how to build a monthly paycheck.");
-        model.addAttribute("canonicalUrl", "https://www.dividend-goal.com/articles/best-monthly-dividend-stocks");
+        model.addAttribute("canonicalUrl", AppConstants.BASE_URL + "/articles/best-monthly-dividend-stocks");
+        model.addAttribute("stocks", stockDataService.getAllStocks());
         return "articles/best-monthly-dividend-stocks";
     }
 }
