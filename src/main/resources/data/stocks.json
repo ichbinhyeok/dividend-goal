@@ -1,113 +1,1692 @@
 [
-  { "ticker": "AAPL", "name": "Apple Inc.", "yield": 0.6, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 11, "sectorMedianYield": 1.2, "consecutiveGrowthYears": 11, "payoutRatio": 15.0, "dividendCutHistory": false, "dividendHistory": [ { "year": 2024, "dividendPerShare": 1.00}, { "year": 2023, "dividendPerShare": 0.96}, { "year": 2022, "dividendPerShare": 0.92}, { "year": 2021, "dividendPerShare": 0.88}, { "year": 2020, "dividendPerShare": 0.82} ] },
-  { "ticker": "ABBV", "name": "AbbVie Inc.", "yield": 3.9, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "MEDIUM", "dividendYears": 11 },
-  { "ticker": "ABR", "name": "Arbor Realty Trust", "yield": 12.5, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Mortgage REIT", "risk": "HIGH", "dividendYears": 10 },
-  { "ticker": "ABT", "name": "Abbott Laboratories", "yield": 1.8, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "LOW", "dividendYears": 51 },
-  { "ticker": "ACN", "name": "Accenture plc", "yield": 1.5, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 18 },
-  { "ticker": "ADM", "name": "Archer-Daniels-Midland", "yield": 2.3, "dividendGrowth": 6.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 48 },
-  { "ticker": "ADP", "name": "Automatic Data Processing", "yield": 2.2, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 48 },
-  { "ticker": "AEP", "name": "American Electric Power", "yield": 3.5, "dividendGrowth": 6.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 13 },
-  { "ticker": "AGNC", "name": "AGNC Investment Corp.", "yield": 13.0, "dividendGrowth": 0.0, "frequency": "MONTHLY", "sector": "Mortgage REIT", "risk": "HIGH", "dividendYears": 15 },
-  { "ticker": "AMP", "name": "Ameriprise Financial", "yield": 1.4, "dividendGrowth": 11.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "LOW", "dividendYears": 19 },
-  { "ticker": "AOS", "name": "A.O. Smith Corp", "yield": 1.7, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 31 },
-  { "ticker": "APD", "name": "Air Products and Chemicals", "yield": 2.5, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Materials", "risk": "LOW", "dividendYears": 41 },
-  { "ticker": "AVGO", "name": "Broadcom Inc.", "yield": 1.7, "dividendGrowth": 15.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "MEDIUM", "dividendYears": 13 },
-  { "ticker": "BBY", "name": "Best Buy Co. Inc.", "yield": 4.8, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "MEDIUM", "dividendYears": 20 },
-  { "ticker": "BEN", "name": "Franklin Resources", "yield": 5.2, "dividendGrowth": 4.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "MEDIUM", "dividendYears": 43 },
-  { "ticker": "BLK", "name": "BlackRock, Inc.", "yield": 2.5, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "LOW", "dividendYears": 19 },
-  { "ticker": "BNS", "name": "Bank of Nova Scotia", "yield": 6.5, "dividendGrowth": 4.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "MEDIUM", "dividendYears": 43 },
-  { "ticker": "BST", "name": "BlackRock Science & Tech Trust", "yield": 8.2, "dividendGrowth": 4.0, "frequency": "MONTHLY", "sector": "CEF (Technology)", "risk": "HIGH", "dividendYears": 9 },
-  { "ticker": "CAT", "name": "Caterpillar Inc.", "yield": 1.8, "dividendGrowth": 8.5, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 30 },
-  { "ticker": "CL", "name": "Colgate-Palmolive", "yield": 2.3, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 61 },
-  { "ticker": "CLX", "name": "Clorox Company", "yield": 3.4, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 46 },
-  { "ticker": "CMCSA", "name": "Comcast Corp.", "yield": 3.0, "dividendGrowth": 7.5, "frequency": "QUARTERLY", "sector": "Communication Services", "risk": "LOW", "dividendYears": 16 },
-  { "ticker": "COST", "name": "Costco Wholesale", "yield": 0.7, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 19 },
-  { "ticker": "CSCO", "name": "Cisco Systems", "yield": 3.1, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 12 },
-  { "ticker": "CTRA", "name": "Coterra Energy", "yield": 3.0, "dividendGrowth": 15.0, "frequency": "QUARTERLY", "sector": "Energy", "risk": "MEDIUM", "dividendYears": 6 },
-  { "ticker": "CVS", "name": "CVS Health Corp", "yield": 3.7, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "MEDIUM", "dividendYears": 2 },
-  { "ticker": "CVX", "name": "Chevron Corporation", "yield": 3.8, "dividendGrowth": 6.0, "frequency": "QUARTERLY", "sector": "Energy", "risk": "MEDIUM", "dividendYears": 36 },
-  { "ticker": "D", "name": "Dominion Energy", "yield": 5.6, "dividendGrowth": 0.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "MEDIUM", "dividendYears": 1 },
-  { "ticker": "DGRO", "name": "iShares Core Dividend Growth ETF", "yield": 2.4, "dividendGrowth": 9.6, "frequency": "QUARTERLY", "sector": "Dividend Growth ETF", "risk": "LOW", "dividendYears": 10 },
-  { "ticker": "DIVO", "name": "Amplify CWP Enhanced Dividend Income", "yield": 4.6, "dividendGrowth": 5.5, "frequency": "MONTHLY", "sector": "Covered Call ETF", "risk": "MEDIUM", "dividendYears": 5 },
-  { "ticker": "DUK", "name": "Duke Energy", "yield": 4.1, "dividendGrowth": 2.5, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 96 },
-  { "ticker": "DVY", "name": "iShares Select Dividend ETF", "yield": 3.9, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Dividend Equity ETF", "risk": "MEDIUM", "dividendYears": 19 },
-  { "ticker": "ED", "name": "Consolidated Edison", "yield": 3.6, "dividendGrowth": 2.5, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 49 },
-  { "ticker": "EMR", "name": "Emerson Electric", "yield": 2.4, "dividendGrowth": 1.5, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 66 },
-  { "ticker": "EPR", "name": "EPR Properties", "yield": 7.5, "dividendGrowth": 1.5, "frequency": "MONTHLY", "sector": "Specialty REIT", "risk": "HIGH", "dividendYears": 10 },
-  { "ticker": "F", "name": "Ford Motor Company", "yield": 4.9, "dividendGrowth": 2.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "HIGH", "dividendYears": 2 },
-  { "ticker": "FAST", "name": "Fastenal Company", "yield": 2.2, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 25 },
-  { "ticker": "GD", "name": "General Dynamics", "yield": 1.9, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 32 },
-  { "ticker": "GIS", "name": "General Mills", "yield": 3.1, "dividendGrowth": 4.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 124 },
-  { "ticker": "GPC", "name": "Genuine Parts Company", "yield": 2.6, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "LOW", "dividendYears": 67 },
-  { "ticker": "GS", "name": "Goldman Sachs", "yield": 2.8, "dividendGrowth": 20.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "MEDIUM", "dividendYears": 11 },
-  { "ticker": "HD", "name": "Home Depot", "yield": 2.6, "dividendGrowth": 15.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "MEDIUM", "dividendYears": 13 },
-  { "ticker": "HDV", "name": "iShares Core High Dividend ETF", "yield": 4.0, "dividendGrowth": 3.5, "frequency": "QUARTERLY", "sector": "Dividend Equity ETF", "risk": "LOW", "dividendYears": 12 },
-  { "ticker": "HON", "name": "Honeywell International", "yield": 2.0, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 14 },
-  { "ticker": "HSY", "name": "The Hershey Company", "yield": 2.6, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 14 },
-  { "ticker": "IBM", "name": "International Business Machines", "yield": 4.0, "dividendGrowth": 1.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "MEDIUM", "dividendYears": 28 },
-  { "ticker": "INTC", "name": "Intel", "yield": 1.5, "dividendGrowth": 0.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "MEDIUM", "dividendYears": 29 },
-  { "ticker": "ITW", "name": "Illinois Tool Works", "yield": 2.3, "dividendGrowth": 7.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 50 },
-  { "ticker": "JEPI", "name": "JPMorgan Equity Premium Income ETF", "yield": 7.5, "dividendGrowth": 1.5, "frequency": "MONTHLY", "sector": "Options-Based Income ETF", "risk": "MEDIUM", "dividendYears": 3 },
-  { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF", "yield": 7.8, "dividendGrowth": 1.5, "frequency": "MONTHLY", "sector": "Options-Based Income ETF", "risk": "MEDIUM", "dividendYears": 2 },
-  { "ticker": "JNJ", "name": "Johnson & Johnson", "yield": 2.9, "dividendGrowth": 5.5, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "LOW", "dividendYears": 61 },
-  { "ticker": "KMB", "name": "Kimberly-Clark", "yield": 3.4, "dividendGrowth": 3.5, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 51 },
-  { "ticker": "KO", "name": "The Coca-Cola Company", "yield": 3.0, "dividendGrowth": 3.5, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 61 },
-  { "ticker": "LEG", "name": "Leggett & Platt", "yield": 7.2, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "HIGH", "dividendYears": 52 },
-  { "ticker": "LMT", "name": "Lockheed Martin", "yield": 2.8, "dividendGrowth": 7.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 21 },
-  { "ticker": "LOW", "name": "Lowe's Companies Inc.", "yield": 2.0, "dividendGrowth": 18.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "LOW", "dividendYears": 61 },
-  { "ticker": "LTC", "name": "LTC Properties", "yield": 6.2, "dividendGrowth": 1.0, "frequency": "MONTHLY", "sector": "Healthcare REIT", "risk": "MEDIUM", "dividendYears": 31 },
-  { "ticker": "MAIN", "name": "Main Street Capital", "yield": 6.8, "dividendGrowth": 2.8, "frequency": "MONTHLY", "sector": "Business Development Company", "risk": "MEDIUM", "dividendYears": 12 },
-  { "ticker": "MCD", "name": "McDonald's", "yield": 2.1, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Consumer Discretionary", "risk": "LOW", "dividendYears": 47 },
-  { "ticker": "MDT", "name": "Medtronic", "yield": 3.3, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "LOW", "dividendYears": 46 },
-  { "ticker": "MMM", "name": "3M Company", "yield": 5.8, "dividendGrowth": 1.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "MEDIUM", "dividendYears": 65 },
-  { "ticker": "MO", "name": "Altria Group", "yield": 8.3, "dividendGrowth": 4.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "MEDIUM", "dividendYears": 54 },
-  { "ticker": "MS", "name": "Morgan Stanley", "yield": 3.5, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "MEDIUM", "dividendYears": 10 },
-  { "ticker": "MSFT", "name": "Microsoft", "yield": 0.8, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 20 },
-  { "ticker": "NEE", "name": "NextEra Energy", "yield": 2.8, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 28 },
-  { "ticker": "NOBL", "name": "ProShares S&P 500 Dividend Aristocrats ETF", "yield": 2.1, "dividendGrowth": 7.2, "frequency": "QUARTERLY", "sector": "Dividend Aristocrats ETF", "risk": "LOW", "dividendYears": 10 },
-  { "ticker": "O", "name": "Realty Income Corporation", "yield": 5.4, "dividendGrowth": 3.2, "frequency": "MONTHLY", "sector": "Real Estate Investment Trust", "risk": "LOW", "dividendYears": 29 },
-  { "ticker": "ORCL", "name": "Oracle", "yield": 1.5, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "MEDIUM", "dividendYears": 13 },
-  { "ticker": "PBA", "name": "Pembina Pipeline", "yield": 5.6, "dividendGrowth": 4.0, "frequency": "MONTHLY", "sector": "Midstream Energy", "risk": "MEDIUM", "dividendYears": 24 },
-  { "ticker": "PEP", "name": "PepsiCo", "yield": 2.7, "dividendGrowth": 7.5, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 51 },
-  { "ticker": "PFE", "name": "Pfizer Inc.", "yield": 6.1, "dividendGrowth": 2.5, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "MEDIUM", "dividendYears": 14 },
-  { "ticker": "PFFD", "name": "Global X U.S. Preferred ETF", "yield": 6.4, "dividendGrowth": 0.0, "frequency": "MONTHLY", "sector": "Preferred Stock ETF", "risk": "MEDIUM", "dividendYears": 6 },
-  { "ticker": "PG", "name": "Procter & Gamble", "yield": 2.5, "dividendGrowth": 5.5, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 67 },
-  { "ticker": "PM", "name": "Philip Morris International", "yield": 5.1, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "MEDIUM", "dividendYears": 15 },
-  { "ticker": "PNW", "name": "Pinnacle West Capital", "yield": 4.4, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 10 },
-  { "ticker": "PPL", "name": "PPL Corporation", "yield": 3.7, "dividendGrowth": 2.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 22 },
-  { "ticker": "QCOM", "name": "Qualcomm", "yield": 2.4, "dividendGrowth": 8.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "MEDIUM", "dividendYears": 19 },
-  { "ticker": "QYLD", "name": "Global X NASDAQ 100 Covered Call", "yield": 11.5, "dividendGrowth": 0.5, "frequency": "MONTHLY", "sector": "Covered Call ETF", "risk": "HIGH", "dividendYears": 9 },
-  { "ticker": "REM", "name": "iShares Mortgage Real Estate ETF", "yield": 9.0, "dividendGrowth": 0.0, "frequency": "QUARTERLY", "sector": "Mortgage REIT ETF", "risk": "HIGH", "dividendYears": 16 },
-  { "ticker": "RTX", "name": "RTX Corporation", "yield": 2.4, "dividendGrowth": 5.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "MEDIUM", "dividendYears": 29 },
-  { "ticker": "RYLD", "name": "Global X Russell 2000 Covered Call", "yield": 11.8, "dividendGrowth": 0.5, "frequency": "MONTHLY", "sector": "Covered Call ETF", "risk": "HIGH", "dividendYears": 6 },
-  { "ticker": "SCHD", "name": "Schwab U.S. Dividend Equity ETF", "yield": 3.4, "dividendGrowth": 11.0, "frequency": "QUARTERLY", "sector": "Dividend Equity ETF", "risk": "LOW", "dividendYears": 12, "sectorMedianYield": 2.5, "consecutiveGrowthYears": 12, "payoutRatio": 100.0, "dividendCutHistory": false, "dividendHistory": [ { "year": 2024, "dividendPerShare": 2.85}, { "year": 2023, "dividendPerShare": 2.66}, { "year": 2022, "dividendPerShare": 2.56}, { "year": 2021, "dividendPerShare": 2.25}, { "year": 2020, "dividendPerShare": 2.03} ] },
-  { "ticker": "SDY", "name": "SPDR S&P Dividend ETF", "yield": 2.8, "dividendGrowth": 6.0, "frequency": "QUARTERLY", "sector": "Dividend Aristocrats ETF", "risk": "LOW", "dividendYears": 17 },
-  { "ticker": "SO", "name": "Southern Company", "yield": 4.0, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 21 },
-  { "ticker": "SPG", "name": "Simon Property Group", "yield": 6.0, "dividendGrowth": 4.0, "frequency": "QUARTERLY", "sector": "Retail REIT", "risk": "MEDIUM", "dividendYears": 23 },
-  { "ticker": "SPHD", "name": "Invesco S&P 500 High Dividend Low Volatility", "yield": 4.8, "dividendGrowth": 2.5, "frequency": "MONTHLY", "sector": "Dividend Equity ETF", "risk": "MEDIUM", "dividendYears": 11 },
-  { "ticker": "SPLV", "name": "Invesco S&P 500 Low Volatility ETF", "yield": 2.6, "dividendGrowth": 5.0, "frequency": "MONTHLY", "sector": "Low Volatility ETF", "risk": "LOW", "dividendYears": 12 },
-  { "ticker": "STAG", "name": "STAG Industrial", "yield": 4.0, "dividendGrowth": 1.0, "frequency": "MONTHLY", "sector": "Industrial REIT", "risk": "MEDIUM", "dividendYears": 12 },
-  { "ticker": "SYK", "name": "Stryker Corporation", "yield": 0.9, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "LOW", "dividendYears": 31 },
-  { "ticker": "T", "name": "AT&T Inc.", "yield": 6.6, "dividendGrowth": 1.0, "frequency": "QUARTERLY", "sector": "Telecommunications", "risk": "MEDIUM", "dividendYears": 39 },
-  { "ticker": "TROW", "name": "T. Rowe Price Group", "yield": 4.2, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "MEDIUM", "dividendYears": 37 },
-  { "ticker": "TXN", "name": "Texas Instruments", "yield": 2.7, "dividendGrowth": 12.0, "frequency": "QUARTERLY", "sector": "Technology", "risk": "LOW", "dividendYears": 19 },
-  { "ticker": "UNH", "name": "UnitedHealth Group", "yield": 1.4, "dividendGrowth": 15.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "LOW", "dividendYears": 14 },
-  { "ticker": "UNP", "name": "Union Pacific", "yield": 2.3, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 17 },
-  { "ticker": "UPS", "name": "United Parcel Service", "yield": 3.7, "dividendGrowth": 10.0, "frequency": "QUARTERLY", "sector": "Industrials", "risk": "LOW", "dividendYears": 23 },
-  { "ticker": "USMV", "name": "iShares MSCI USA Min Vol Factor ETF", "yield": 1.7, "dividendGrowth": 6.0, "frequency": "QUARTERLY", "sector": "Low Volatility ETF", "risk": "LOW", "dividendYears": 11 },
-  { "ticker": "V", "name": "Visa Inc.", "yield": 0.7, "dividendGrowth": 15.0, "frequency": "QUARTERLY", "sector": "Financials", "risk": "LOW", "dividendYears": 15 },
-  { "ticker": "VIG", "name": "Vanguard Dividend Appreciation ETF", "yield": 1.9, "dividendGrowth": 9.8, "frequency": "QUARTERLY", "sector": "Dividend Growth ETF", "risk": "LOW", "dividendYears": 17 },
-  { "ticker": "VNQ", "name": "Vanguard Real Estate ETF", "yield": 4.2, "dividendGrowth": 2.5, "frequency": "QUARTERLY", "sector": "Real Estate ETF", "risk": "MEDIUM", "dividendYears": 19 },
-  { "ticker": "VPU", "name": "Vanguard Utilities ETF", "yield": 3.2, "dividendGrowth": 3.5, "frequency": "QUARTERLY", "sector": "Utilities ETF", "risk": "LOW", "dividendYears": 19 },
-  { "ticker": "VTI", "name": "Vanguard Total Stock Market ETF", "yield": 1.4, "dividendGrowth": 7.0, "frequency": "QUARTERLY", "sector": "Broad Market ETF", "risk": "LOW", "dividendYears": 23 },
-  { "ticker": "VYM", "name": "Vanguard High Dividend Yield ETF", "yield": 3.2, "dividendGrowth": 6.5, "frequency": "QUARTERLY", "sector": "Dividend Equity ETF", "risk": "LOW", "dividendYears": 17 },
-  { "ticker": "VZ", "name": "Verizon Communications", "yield": 6.5, "dividendGrowth": 2.0, "frequency": "QUARTERLY", "sector": "Telecommunications", "risk": "MEDIUM", "dividendYears": 18 },
-  { "ticker": "WBA", "name": "Walgreens Boots Alliance", "yield": 8.5, "dividendGrowth": 1.0, "frequency": "QUARTERLY", "sector": "Healthcare", "risk": "HIGH", "dividendYears": 47 },
-  { "ticker": "WEC", "name": "WEC Energy Group", "yield": 3.4, "dividendGrowth": 7.0, "frequency": "QUARTERLY", "sector": "Utilities", "risk": "LOW", "dividendYears": 20 },
-  { "ticker": "WELL", "name": "Welltower", "yield": 3.0, "dividendGrowth": 3.0, "frequency": "QUARTERLY", "sector": "Healthcare REIT", "risk": "MEDIUM", "dividendYears": 28 },
-  { "ticker": "WMT", "name": "Walmart", "yield": 1.5, "dividendGrowth": 1.8, "frequency": "QUARTERLY", "sector": "Consumer Staples", "risk": "LOW", "dividendYears": 50 },
-  { "ticker": "XLE", "name": "Energy Select Sector SPDR Fund", "yield": 3.6, "dividendGrowth": 4.5, "frequency": "QUARTERLY", "sector": "Energy ETF", "risk": "MEDIUM", "dividendYears": 24 },
-  { "ticker": "XLU", "name": "Utilities Select Sector SPDR Fund", "yield": 3.3, "dividendGrowth": 3.2, "frequency": "QUARTERLY", "sector": "Utilities ETF", "risk": "LOW", "dividendYears": 24 },
-  { "ticker": "XOM", "name": "Exxon Mobil", "yield": 3.2, "dividendGrowth": 3.5, "frequency": "QUARTERLY", "sector": "Energy", "risk": "MEDIUM", "dividendYears": 41 },
-  { "ticker": "XYLD", "name": "Global X S&P 500 Covered Call", "yield": 10.1, "dividendGrowth": 0.5, "frequency": "MONTHLY", "sector": "Covered Call ETF", "risk": "HIGH", "dividendYears": 10 }
+  {
+    "ticker": "AAPL",
+    "name": "Apple Inc.",
+    "yield": 0.6,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 11,
+    "sectorMedianYield": 1.2,
+    "consecutiveGrowthYears": 11,
+    "payoutRatio": 15.0,
+    "dividendCutHistory": false,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 1.04
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 1.00
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 0.96
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 0.92
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 0.88
+      }
+    ]
+  },
+  {
+    "ticker": "ABBV",
+    "name": "AbbVie Inc.",
+    "yield": 3.9,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "MEDIUM",
+    "dividendYears": 11,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 6.56
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 6.20
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 5.92
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 5.64
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 5.20
+      }
+    ]
+  },
+  {
+    "ticker": "ABR",
+    "name": "Arbor Realty Trust",
+    "yield": 12.5,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Mortgage REIT",
+    "risk": "HIGH",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "ABT",
+    "name": "Abbott Laboratories",
+    "yield": 1.8,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "LOW",
+    "dividendYears": 51,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.36
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 2.20
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 2.04
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.88
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.80
+      }
+    ]
+  },
+  {
+    "ticker": "ACN",
+    "name": "Accenture plc",
+    "yield": 1.5,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 18
+  },
+  {
+    "ticker": "ADM",
+    "name": "Archer-Daniels-Midland",
+    "yield": 2.3,
+    "dividendGrowth": 6.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 48
+  },
+  {
+    "ticker": "ADP",
+    "name": "Automatic Data Processing",
+    "yield": 2.2,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 48
+  },
+  {
+    "ticker": "AEP",
+    "name": "American Electric Power",
+    "yield": 3.5,
+    "dividendGrowth": 6.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 13
+  },
+  {
+    "ticker": "AGNC",
+    "name": "AGNC Investment Corp.",
+    "yield": 13.0,
+    "dividendGrowth": 0.0,
+    "frequency": "MONTHLY",
+    "sector": "Mortgage REIT",
+    "risk": "HIGH",
+    "dividendYears": 15
+  },
+  {
+    "ticker": "AMP",
+    "name": "Ameriprise Financial",
+    "yield": 1.4,
+    "dividendGrowth": 11.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "LOW",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "AOS",
+    "name": "A.O. Smith Corp",
+    "yield": 1.7,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 31
+  },
+  {
+    "ticker": "APD",
+    "name": "Air Products and Chemicals",
+    "yield": 2.5,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Materials",
+    "risk": "LOW",
+    "dividendYears": 41
+  },
+  {
+    "ticker": "AVGO",
+    "name": "Broadcom Inc.",
+    "yield": 1.7,
+    "dividendGrowth": 15.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "MEDIUM",
+    "dividendYears": 13,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.42
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 2.17
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.91
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.69
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.49
+      }
+    ]
+  },
+  {
+    "ticker": "BBY",
+    "name": "Best Buy Co. Inc.",
+    "yield": 4.8,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "MEDIUM",
+    "dividendYears": 20
+  },
+  {
+    "ticker": "BEN",
+    "name": "Franklin Resources",
+    "yield": 5.2,
+    "dividendGrowth": 4.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "MEDIUM",
+    "dividendYears": 43
+  },
+  {
+    "ticker": "BLK",
+    "name": "BlackRock, Inc.",
+    "yield": 2.5,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "LOW",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "BNS",
+    "name": "Bank of Nova Scotia",
+    "yield": 6.5,
+    "dividendGrowth": 4.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "MEDIUM",
+    "dividendYears": 43
+  },
+  {
+    "ticker": "BST",
+    "name": "BlackRock Science & Tech Trust",
+    "yield": 8.2,
+    "dividendGrowth": 4.0,
+    "frequency": "MONTHLY",
+    "sector": "CEF (Technology)",
+    "risk": "HIGH",
+    "dividendYears": 9
+  },
+  {
+    "ticker": "CAT",
+    "name": "Caterpillar Inc.",
+    "yield": 1.8,
+    "dividendGrowth": 8.5,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 30,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 5.84
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 5.42
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 5.00
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 4.62
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 4.28
+      }
+    ]
+  },
+  {
+    "ticker": "CL",
+    "name": "Colgate-Palmolive",
+    "yield": 2.3,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 61
+  },
+  {
+    "ticker": "CLX",
+    "name": "Clorox Company",
+    "yield": 3.4,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 46
+  },
+  {
+    "ticker": "CMCSA",
+    "name": "Comcast Corp.",
+    "yield": 3.0,
+    "dividendGrowth": 7.5,
+    "frequency": "QUARTERLY",
+    "sector": "Communication Services",
+    "risk": "LOW",
+    "dividendYears": 16
+  },
+  {
+    "ticker": "COST",
+    "name": "Costco Wholesale",
+    "yield": 0.7,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "CSCO",
+    "name": "Cisco Systems",
+    "yield": 3.1,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 12,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 1.64
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 1.60
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.56
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.52
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.48
+      }
+    ]
+  },
+  {
+    "ticker": "CTRA",
+    "name": "Coterra Energy",
+    "yield": 3.0,
+    "dividendGrowth": 15.0,
+    "frequency": "QUARTERLY",
+    "sector": "Energy",
+    "risk": "MEDIUM",
+    "dividendYears": 6
+  },
+  {
+    "ticker": "CVS",
+    "name": "CVS Health Corp",
+    "yield": 3.7,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "MEDIUM",
+    "dividendYears": 2,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.66
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 2.66
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 2.42
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 2.20
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.00
+      }
+    ]
+  },
+  {
+    "ticker": "CVX",
+    "name": "Chevron Corporation",
+    "yield": 3.8,
+    "dividendGrowth": 6.0,
+    "frequency": "QUARTERLY",
+    "sector": "Energy",
+    "risk": "MEDIUM",
+    "dividendYears": 36,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 6.84
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 6.52
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 6.04
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 5.68
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 5.31
+      }
+    ]
+  },
+  {
+    "ticker": "D",
+    "name": "Dominion Energy",
+    "yield": 5.6,
+    "dividendGrowth": 0.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "MEDIUM",
+    "dividendYears": 1
+  },
+  {
+    "ticker": "DGRO",
+    "name": "iShares Core Dividend Growth ETF",
+    "yield": 2.4,
+    "dividendGrowth": 9.6,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Growth ETF",
+    "risk": "LOW",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "DIVO",
+    "name": "Amplify CWP Enhanced Dividend Income",
+    "yield": 4.6,
+    "dividendGrowth": 5.5,
+    "frequency": "MONTHLY",
+    "sector": "Covered Call ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 5
+  },
+  {
+    "ticker": "DUK",
+    "name": "Duke Energy",
+    "yield": 4.1,
+    "dividendGrowth": 2.5,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 96
+  },
+  {
+    "ticker": "DVY",
+    "name": "iShares Select Dividend ETF",
+    "yield": 3.9,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Equity ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "ED",
+    "name": "Consolidated Edison",
+    "yield": 3.6,
+    "dividendGrowth": 2.5,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 49
+  },
+  {
+    "ticker": "EMR",
+    "name": "Emerson Electric",
+    "yield": 2.4,
+    "dividendGrowth": 1.5,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 66
+  },
+  {
+    "ticker": "EPR",
+    "name": "EPR Properties",
+    "yield": 7.5,
+    "dividendGrowth": 1.5,
+    "frequency": "MONTHLY",
+    "sector": "Specialty REIT",
+    "risk": "HIGH",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "F",
+    "name": "Ford Motor Company",
+    "yield": 4.9,
+    "dividendGrowth": 2.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "HIGH",
+    "dividendYears": 2
+  },
+  {
+    "ticker": "FAST",
+    "name": "Fastenal Company",
+    "yield": 2.2,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 25
+  },
+  {
+    "ticker": "GD",
+    "name": "General Dynamics",
+    "yield": 1.9,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 32
+  },
+  {
+    "ticker": "GIS",
+    "name": "General Mills",
+    "yield": 3.1,
+    "dividendGrowth": 4.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 124
+  },
+  {
+    "ticker": "GPC",
+    "name": "Genuine Parts Company",
+    "yield": 2.6,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "LOW",
+    "dividendYears": 67
+  },
+  {
+    "ticker": "GS",
+    "name": "Goldman Sachs",
+    "yield": 2.8,
+    "dividendGrowth": 20.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "MEDIUM",
+    "dividendYears": 11
+  },
+  {
+    "ticker": "HD",
+    "name": "Home Depot",
+    "yield": 2.6,
+    "dividendGrowth": 15.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "MEDIUM",
+    "dividendYears": 13,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 9.20
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 9.00
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 8.36
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 7.60
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 6.60
+      }
+    ]
+  },
+  {
+    "ticker": "HDV",
+    "name": "iShares Core High Dividend ETF",
+    "yield": 4.0,
+    "dividendGrowth": 3.5,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Equity ETF",
+    "risk": "LOW",
+    "dividendYears": 12
+  },
+  {
+    "ticker": "HON",
+    "name": "Honeywell International",
+    "yield": 2.0,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 14
+  },
+  {
+    "ticker": "HSY",
+    "name": "The Hershey Company",
+    "yield": 2.6,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 14
+  },
+  {
+    "ticker": "IBM",
+    "name": "International Business Machines",
+    "yield": 4.0,
+    "dividendGrowth": 1.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "MEDIUM",
+    "dividendYears": 28,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 6.71
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 6.67
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 6.63
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 6.60
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 6.55
+      }
+    ]
+  },
+  {
+    "ticker": "INTC",
+    "name": "Intel",
+    "yield": 1.5,
+    "dividendGrowth": 0.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "MEDIUM",
+    "dividendYears": 29
+  },
+  {
+    "ticker": "ITW",
+    "name": "Illinois Tool Works",
+    "yield": 2.3,
+    "dividendGrowth": 7.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 50
+  },
+  {
+    "ticker": "JEPI",
+    "name": "JPMorgan Equity Premium Income ETF",
+    "yield": 7.5,
+    "dividendGrowth": 1.5,
+    "frequency": "MONTHLY",
+    "sector": "Options-Based Income ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 3
+  },
+  {
+    "ticker": "JEPQ",
+    "name": "JPMorgan Nasdaq Equity Premium Income ETF",
+    "yield": 7.8,
+    "dividendGrowth": 1.5,
+    "frequency": "MONTHLY",
+    "sector": "Options-Based Income ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 2
+  },
+  {
+    "ticker": "JNJ",
+    "name": "Johnson & Johnson",
+    "yield": 2.9,
+    "dividendGrowth": 5.5,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "LOW",
+    "dividendYears": 61,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 5.14
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 4.91
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 4.70
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 4.45
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 4.19
+      }
+    ]
+  },
+  {
+    "ticker": "KMB",
+    "name": "Kimberly-Clark",
+    "yield": 3.4,
+    "dividendGrowth": 3.5,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 51
+  },
+  {
+    "ticker": "KO",
+    "name": "The Coca-Cola Company",
+    "yield": 3.0,
+    "dividendGrowth": 3.5,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 61,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.04
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 1.94
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.84
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.76
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.68
+      }
+    ]
+  },
+  {
+    "ticker": "LEG",
+    "name": "Leggett & Platt",
+    "yield": 7.2,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "HIGH",
+    "dividendYears": 52
+  },
+  {
+    "ticker": "LMT",
+    "name": "Lockheed Martin",
+    "yield": 2.8,
+    "dividendGrowth": 7.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 21
+  },
+  {
+    "ticker": "LOW",
+    "name": "Lowe's Companies Inc.",
+    "yield": 2.0,
+    "dividendGrowth": 18.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "LOW",
+    "dividendYears": 61,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 4.70
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 4.50
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 4.30
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 3.70
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.80
+      }
+    ]
+  },
+  {
+    "ticker": "LTC",
+    "name": "LTC Properties",
+    "yield": 6.2,
+    "dividendGrowth": 1.0,
+    "frequency": "MONTHLY",
+    "sector": "Healthcare REIT",
+    "risk": "MEDIUM",
+    "dividendYears": 31
+  },
+  {
+    "ticker": "MAIN",
+    "name": "Main Street Capital",
+    "yield": 6.8,
+    "dividendGrowth": 2.8,
+    "frequency": "MONTHLY",
+    "sector": "Business Development Company",
+    "risk": "MEDIUM",
+    "dividendYears": 12
+  },
+  {
+    "ticker": "MCD",
+    "name": "McDonald's",
+    "yield": 2.1,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Discretionary",
+    "risk": "LOW",
+    "dividendYears": 47,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 7.17
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 6.78
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 6.23
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 5.66
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 5.16
+      }
+    ]
+  },
+  {
+    "ticker": "MDT",
+    "name": "Medtronic",
+    "yield": 3.3,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "LOW",
+    "dividendYears": 46
+  },
+  {
+    "ticker": "MMM",
+    "name": "3M Company",
+    "yield": 5.8,
+    "dividendGrowth": 1.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "MEDIUM",
+    "dividendYears": 65
+  },
+  {
+    "ticker": "MO",
+    "name": "Altria Group",
+    "yield": 8.3,
+    "dividendGrowth": 4.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "MEDIUM",
+    "dividendYears": 54,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 4.16
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 4.12
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 3.80
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 3.64
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 3.48
+      }
+    ]
+  },
+  {
+    "ticker": "MS",
+    "name": "Morgan Stanley",
+    "yield": 3.5,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "MEDIUM",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "MSFT",
+    "name": "Microsoft",
+    "yield": 0.8,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 20,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 3.40
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 3.08
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 2.79
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 2.54
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.30
+      }
+    ]
+  },
+  {
+    "ticker": "NEE",
+    "name": "NextEra Energy",
+    "yield": 2.8,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 28
+  },
+  {
+    "ticker": "NOBL",
+    "name": "ProShares S&P 500 Dividend Aristocrats ETF",
+    "yield": 2.1,
+    "dividendGrowth": 7.2,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Aristocrats ETF",
+    "risk": "LOW",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "O",
+    "name": "Realty Income Corporation",
+    "yield": 5.4,
+    "dividendGrowth": 3.2,
+    "frequency": "MONTHLY",
+    "sector": "Real Estate Investment Trust",
+    "risk": "LOW",
+    "dividendYears": 29,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 3.22
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 3.13
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 3.05
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 2.97
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.83
+      }
+    ]
+  },
+  {
+    "ticker": "ORCL",
+    "name": "Oracle",
+    "yield": 1.5,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "MEDIUM",
+    "dividendYears": 13
+  },
+  {
+    "ticker": "PBA",
+    "name": "Pembina Pipeline",
+    "yield": 5.6,
+    "dividendGrowth": 4.0,
+    "frequency": "MONTHLY",
+    "sector": "Midstream Energy",
+    "risk": "MEDIUM",
+    "dividendYears": 24
+  },
+  {
+    "ticker": "PEP",
+    "name": "PepsiCo",
+    "yield": 2.7,
+    "dividendGrowth": 7.5,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 51,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 5.69
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 5.53
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 5.06
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 4.53
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 4.20
+      }
+    ]
+  },
+  {
+    "ticker": "PFE",
+    "name": "Pfizer Inc.",
+    "yield": 6.1,
+    "dividendGrowth": 2.5,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "MEDIUM",
+    "dividendYears": 14,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 1.72
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 1.68
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.64
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.60
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.56
+      }
+    ]
+  },
+  {
+    "ticker": "PFFD",
+    "name": "Global X U.S. Preferred ETF",
+    "yield": 6.4,
+    "dividendGrowth": 0.0,
+    "frequency": "MONTHLY",
+    "sector": "Preferred Stock ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 6
+  },
+  {
+    "ticker": "PG",
+    "name": "Procter & Gamble",
+    "yield": 2.5,
+    "dividendGrowth": 5.5,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 67,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 4.18
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 3.96
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 3.76
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 3.61
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 3.40
+      }
+    ]
+  },
+  {
+    "ticker": "PM",
+    "name": "Philip Morris International",
+    "yield": 5.1,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "MEDIUM",
+    "dividendYears": 15
+  },
+  {
+    "ticker": "PNW",
+    "name": "Pinnacle West Capital",
+    "yield": 4.4,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 10
+  },
+  {
+    "ticker": "PPL",
+    "name": "PPL Corporation",
+    "yield": 3.7,
+    "dividendGrowth": 2.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 22
+  },
+  {
+    "ticker": "QCOM",
+    "name": "Qualcomm",
+    "yield": 2.4,
+    "dividendGrowth": 8.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "MEDIUM",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "QYLD",
+    "name": "Global X NASDAQ 100 Covered Call",
+    "yield": 11.5,
+    "dividendGrowth": 0.5,
+    "frequency": "MONTHLY",
+    "sector": "Covered Call ETF",
+    "risk": "HIGH",
+    "dividendYears": 9
+  },
+  {
+    "ticker": "REM",
+    "name": "iShares Mortgage Real Estate ETF",
+    "yield": 9.0,
+    "dividendGrowth": 0.0,
+    "frequency": "QUARTERLY",
+    "sector": "Mortgage REIT ETF",
+    "risk": "HIGH",
+    "dividendYears": 16
+  },
+  {
+    "ticker": "RTX",
+    "name": "RTX Corporation",
+    "yield": 2.4,
+    "dividendGrowth": 5.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "MEDIUM",
+    "dividendYears": 29
+  },
+  {
+    "ticker": "RYLD",
+    "name": "Global X Russell 2000 Covered Call",
+    "yield": 11.8,
+    "dividendGrowth": 0.5,
+    "frequency": "MONTHLY",
+    "sector": "Covered Call ETF",
+    "risk": "HIGH",
+    "dividendYears": 6
+  },
+  {
+    "ticker": "SCHD",
+    "name": "Schwab U.S. Dividend Equity ETF",
+    "yield": 3.4,
+    "dividendGrowth": 11.0,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Equity ETF",
+    "risk": "LOW",
+    "dividendYears": 12,
+    "sectorMedianYield": 2.5,
+    "consecutiveGrowthYears": 12,
+    "payoutRatio": 100.0,
+    "dividendCutHistory": false,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 1.05
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 0.51
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 0.89
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 0.85
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 0.75
+      }
+    ]
+  },
+  {
+    "ticker": "SDY",
+    "name": "SPDR S&P Dividend ETF",
+    "yield": 2.8,
+    "dividendGrowth": 6.0,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Aristocrats ETF",
+    "risk": "LOW",
+    "dividendYears": 17
+  },
+  {
+    "ticker": "SO",
+    "name": "Southern Company",
+    "yield": 4.0,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 21
+  },
+  {
+    "ticker": "SPG",
+    "name": "Simon Property Group",
+    "yield": 6.0,
+    "dividendGrowth": 4.0,
+    "frequency": "QUARTERLY",
+    "sector": "Retail REIT",
+    "risk": "MEDIUM",
+    "dividendYears": 23
+  },
+  {
+    "ticker": "SPHD",
+    "name": "Invesco S&P 500 High Dividend Low Volatility",
+    "yield": 4.8,
+    "dividendGrowth": 2.5,
+    "frequency": "MONTHLY",
+    "sector": "Dividend Equity ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 11
+  },
+  {
+    "ticker": "SPLV",
+    "name": "Invesco S&P 500 Low Volatility ETF",
+    "yield": 2.6,
+    "dividendGrowth": 5.0,
+    "frequency": "MONTHLY",
+    "sector": "Low Volatility ETF",
+    "risk": "LOW",
+    "dividendYears": 12
+  },
+  {
+    "ticker": "STAG",
+    "name": "STAG Industrial",
+    "yield": 4.0,
+    "dividendGrowth": 1.0,
+    "frequency": "MONTHLY",
+    "sector": "Industrial REIT",
+    "risk": "MEDIUM",
+    "dividendYears": 12
+  },
+  {
+    "ticker": "SYK",
+    "name": "Stryker Corporation",
+    "yield": 0.9,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "LOW",
+    "dividendYears": 31
+  },
+  {
+    "ticker": "T",
+    "name": "AT&T Inc.",
+    "yield": 6.6,
+    "dividendGrowth": 1.0,
+    "frequency": "QUARTERLY",
+    "sector": "Telecommunications",
+    "risk": "MEDIUM",
+    "dividendYears": 39,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 1.11
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 1.11
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.11
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.35
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.08
+      }
+    ]
+  },
+  {
+    "ticker": "TROW",
+    "name": "T. Rowe Price Group",
+    "yield": 4.2,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "MEDIUM",
+    "dividendYears": 37
+  },
+  {
+    "ticker": "TXN",
+    "name": "Texas Instruments",
+    "yield": 2.7,
+    "dividendGrowth": 12.0,
+    "frequency": "QUARTERLY",
+    "sector": "Technology",
+    "risk": "LOW",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "UNH",
+    "name": "UnitedHealth Group",
+    "yield": 1.4,
+    "dividendGrowth": 15.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "LOW",
+    "dividendYears": 14,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 8.73
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 8.18
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 7.29
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 6.40
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 5.60
+      }
+    ]
+  },
+  {
+    "ticker": "UNP",
+    "name": "Union Pacific",
+    "yield": 2.3,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 17
+  },
+  {
+    "ticker": "UPS",
+    "name": "United Parcel Service",
+    "yield": 3.7,
+    "dividendGrowth": 10.0,
+    "frequency": "QUARTERLY",
+    "sector": "Industrials",
+    "risk": "LOW",
+    "dividendYears": 23
+  },
+  {
+    "ticker": "USMV",
+    "name": "iShares MSCI USA Min Vol Factor ETF",
+    "yield": 1.7,
+    "dividendGrowth": 6.0,
+    "frequency": "QUARTERLY",
+    "sector": "Low Volatility ETF",
+    "risk": "LOW",
+    "dividendYears": 11
+  },
+  {
+    "ticker": "V",
+    "name": "Visa Inc.",
+    "yield": 0.7,
+    "dividendGrowth": 15.0,
+    "frequency": "QUARTERLY",
+    "sector": "Financials",
+    "risk": "LOW",
+    "dividendYears": 15,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.44
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 2.15
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 1.87
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 1.58
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 1.34
+      }
+    ]
+  },
+  {
+    "ticker": "VIG",
+    "name": "Vanguard Dividend Appreciation ETF",
+    "yield": 1.9,
+    "dividendGrowth": 9.8,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Growth ETF",
+    "risk": "LOW",
+    "dividendYears": 17
+  },
+  {
+    "ticker": "VNQ",
+    "name": "Vanguard Real Estate ETF",
+    "yield": 4.2,
+    "dividendGrowth": 2.5,
+    "frequency": "QUARTERLY",
+    "sector": "Real Estate ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "VPU",
+    "name": "Vanguard Utilities ETF",
+    "yield": 3.2,
+    "dividendGrowth": 3.5,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities ETF",
+    "risk": "LOW",
+    "dividendYears": 19
+  },
+  {
+    "ticker": "VTI",
+    "name": "Vanguard Total Stock Market ETF",
+    "yield": 1.4,
+    "dividendGrowth": 7.0,
+    "frequency": "QUARTERLY",
+    "sector": "Broad Market ETF",
+    "risk": "LOW",
+    "dividendYears": 23
+  },
+  {
+    "ticker": "VYM",
+    "name": "Vanguard High Dividend Yield ETF",
+    "yield": 3.2,
+    "dividendGrowth": 6.5,
+    "frequency": "QUARTERLY",
+    "sector": "Dividend Equity ETF",
+    "risk": "LOW",
+    "dividendYears": 17
+  },
+  {
+    "ticker": "VZ",
+    "name": "Verizon Communications",
+    "yield": 6.5,
+    "dividendGrowth": 2.0,
+    "frequency": "QUARTERLY",
+    "sector": "Telecommunications",
+    "risk": "MEDIUM",
+    "dividendYears": 18,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 2.72
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 2.67
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 2.62
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 2.57
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 2.52
+      }
+    ]
+  },
+  {
+    "ticker": "WBA",
+    "name": "Walgreens Boots Alliance",
+    "yield": 8.5,
+    "dividendGrowth": 1.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare",
+    "risk": "HIGH",
+    "dividendYears": 47
+  },
+  {
+    "ticker": "WEC",
+    "name": "WEC Energy Group",
+    "yield": 3.4,
+    "dividendGrowth": 7.0,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities",
+    "risk": "LOW",
+    "dividendYears": 20
+  },
+  {
+    "ticker": "WELL",
+    "name": "Welltower",
+    "yield": 3.0,
+    "dividendGrowth": 3.0,
+    "frequency": "QUARTERLY",
+    "sector": "Healthcare REIT",
+    "risk": "MEDIUM",
+    "dividendYears": 28
+  },
+  {
+    "ticker": "WMT",
+    "name": "Walmart",
+    "yield": 1.5,
+    "dividendGrowth": 1.8,
+    "frequency": "QUARTERLY",
+    "sector": "Consumer Staples",
+    "risk": "LOW",
+    "dividendYears": 50
+  },
+  {
+    "ticker": "XLE",
+    "name": "Energy Select Sector SPDR Fund",
+    "yield": 3.6,
+    "dividendGrowth": 4.5,
+    "frequency": "QUARTERLY",
+    "sector": "Energy ETF",
+    "risk": "MEDIUM",
+    "dividendYears": 24
+  },
+  {
+    "ticker": "XLU",
+    "name": "Utilities Select Sector SPDR Fund",
+    "yield": 3.3,
+    "dividendGrowth": 3.2,
+    "frequency": "QUARTERLY",
+    "sector": "Utilities ETF",
+    "risk": "LOW",
+    "dividendYears": 24
+  },
+  {
+    "ticker": "XOM",
+    "name": "Exxon Mobil",
+    "yield": 3.2,
+    "dividendGrowth": 3.5,
+    "frequency": "QUARTERLY",
+    "sector": "Energy",
+    "risk": "MEDIUM",
+    "dividendYears": 41,
+    "dividendHistory": [
+      {
+        "year": 2025,
+        "dividendPerShare": 4.00
+      },
+      {
+        "year": 2024,
+        "dividendPerShare": 3.89
+      },
+      {
+        "year": 2023,
+        "dividendPerShare": 3.68
+      },
+      {
+        "year": 2022,
+        "dividendPerShare": 3.55
+      },
+      {
+        "year": 2021,
+        "dividendPerShare": 3.49
+      }
+    ]
+  },
+  {
+    "ticker": "XYLD",
+    "name": "Global X S&P 500 Covered Call",
+    "yield": 10.1,
+    "dividendGrowth": 0.5,
+    "frequency": "MONTHLY",
+    "sector": "Covered Call ETF",
+    "risk": "HIGH",
+    "dividendYears": 10
+  }
 ]
