@@ -80,4 +80,18 @@ public class StockDataService {
     public Map<String, Integer> getMissingTickerSummary() {
         return new TreeMap<>(missingTickerLog);
     }
+
+    // [SEO] Internal Linking: Get similar stocks from the same sector
+    public List<Stock> getSimilarStocks(String sector, String currentTicker, int limit) {
+        if (sector == null || sector.isBlank()) {
+            return Collections.emptyList();
+        }
+
+        return cachedStocks.stream()
+                .filter(stock -> sector.equalsIgnoreCase(stock.getSector()))
+                .filter(stock -> !currentTicker.equalsIgnoreCase(stock.getTicker())) // Exclude current stock
+                .filter(stock -> stock.getYield() > 0) // Only stocks with valid yield data
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
 }

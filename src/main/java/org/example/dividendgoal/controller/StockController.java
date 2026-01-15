@@ -5,6 +5,9 @@ import org.example.dividendgoal.model.GeneratedContent;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
 import org.example.dividendgoal.service.*;
+import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +51,9 @@ public class StockController {
     public String showDividendPlan(@PathVariable("amount") String amountSegment,
             @PathVariable("ticker") String ticker,
             HttpServletRequest request, // [SEO] Canonical용
+            HttpServletResponse response, // [SEO] Freshness용
             Model model) {
+        setCacheControl(response);
         double monthlyAmount = parseAmount(amountSegment);
         Stock stock = stockDataService.findByTicker(ticker)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticker not found"));
@@ -132,8 +137,7 @@ public class StockController {
                 DOLLAR_FORMAT.format(requiredInvestment), stock.getName(), stock.getTicker(), monthlyAmount,
                 stock.getYield());
 
-        model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("pageDescription", pageDescription);
+        addSeoFreshnessAttributes(model, pageTitle, pageDescription);
 
         // [SEO] Duplicate Content Protection
         // Only index specific "Golden" amounts. User generated amounts (e.g. 543)
@@ -142,6 +146,10 @@ public class StockController {
         boolean isGolden = goldenAmounts.contains(monthlyAmount);
         model.addAttribute("shouldIndex", isGolden);
 
+        // [SEO] Internal Linking: Similar stocks from same sector
+        List<Stock> similarStocks = stockDataService.getSimilarStocks(stock.getSector(), stock.getTicker(), 4);
+        model.addAttribute("similarStocks", similarStocks);
+
         return "result";
     }
 
@@ -149,7 +157,9 @@ public class StockController {
     public String showIncomeIllustration(@PathVariable("capital") String capitalSegment,
             @PathVariable("ticker") String ticker,
             HttpServletRequest request, // [SEO] Canonical용
+            HttpServletResponse response, // [SEO] Freshness용
             Model model) {
+        setCacheControl(response);
         double capital = parseAmount(capitalSegment);
         Stock stock = stockDataService.findByTicker(ticker)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticker not found"));
@@ -205,8 +215,7 @@ public class StockController {
                 "Illustrate estimated monthly dividends from $%,.0f in %s (%s) using a %.2f%% trailing yield.",
                 capital, stock.getName(), stock.getTicker(), stock.getYield());
 
-        model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("pageDescription", pageDescription);
+        addSeoFreshnessAttributes(model, pageTitle, pageDescription);
         return "result";
     }
 
@@ -226,6 +235,28 @@ public class StockController {
     private void addSharedAttributes(Model model, Stock stock) {
         model.addAttribute("stock", stock);
         model.addAttribute("stocks", stockDataService.getAllStocks());
+    }
+
+    // [SEO] Freshness Automation Helper
+    private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
+        LocalDate now = LocalDate.now();
+        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String refreshText = "Updated " + monthYear;
+
+        model.addAttribute("currentYear", now.getYear());
+        model.addAttribute("currentDate", now.format(DateTimeFormatter.ISO_LOCAL_DATE)); // 2026-01-15
+        model.addAttribute("refreshText", refreshText);
+
+        // Update Title and Description with Freshness info
+        model.addAttribute("pageTitle", baseTitle + " (" + refreshText + ")");
+        model.addAttribute("pageDescription", refreshText + " | " + baseDescription);
+    }
+
+    private void setCacheControl(HttpServletResponse response) {
+        // [SEO] Prevent stale dates in caches
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
     }
 
     // [신규] 미국 감성 랜덤 멘트 생성기

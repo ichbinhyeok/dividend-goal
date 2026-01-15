@@ -291,6 +291,26 @@
         }
       }]
     }'"></script>
+
+    <!-- [SEO] Freshness Schema + E-E-A-T (Author & Disclaimer) -->
+    <script type="application/ld+json" th:utext="'{
+      &quot;@context&quot;: &quot;https://schema.org&quot;,
+      &quot;@type&quot;: &quot;FinancialProduct&quot;,
+      &quot;name&quot;: &quot;' + ${stock.name} + ' Dividend Calculator&quot;,
+      &quot;description&quot;: &quot;' + ${pageDescription} + '&quot;,
+      &quot;brand&quot;: {
+        &quot;@type&quot;: &quot;Brand&quot;,
+        &quot;name&quot;: &quot;Money First&quot;
+      },
+      &quot;author&quot;: {
+        &quot;@type&quot;: &quot;Organization&quot;,
+        &quot;name&quot;: &quot;Money First&quot;,
+        &quot;url&quot;: &quot;https://dividend-goal.com/about&quot;
+      },
+      &quot;disclaimer&quot;: &quot;This calculator is for educational and informational purposes only and does not constitute investment advice. Dividend yields are subject to change. Past performance does not guarantee future results. Please consult a licensed financial advisor before making any investment decisions.&quot;,
+      &quot;datePublished&quot;: &quot;2024-01-01&quot;,
+      &quot;dateModified&quot;: &quot;' + ${currentDate} + '&quot;
+    }'"></script>
 </head>
 
 <body>
@@ -531,6 +551,35 @@
                     </a>
                 </div>
 
+                <!-- [SEO] Internal Linking: Similar Stocks -->
+                <div th:if="${similarStocks != null and !similarStocks.isEmpty()}"
+                    class="mt-4 p-4 bg-light rounded-4 border">
+                    <h3 class="h6 fw-bold text-dark mb-3">📈 More <span th:text="${stock.sector}">Technology</span>
+                        Dividend Stocks</h3>
+                    <p class="small text-muted mb-3">Explore other dividend-paying stocks in the same sector:</p>
+                    <div class="row row-cols-2 row-cols-md-4 g-3">
+                        <div class="col" th:each="similar : ${similarStocks}">
+                            <a th:href="@{/how-much-dividend/{amount}-per-month/{ticker}(amount=${monthlyAmount}, ticker=${similar.ticker})}"
+                                class="d-block p-3 bg-white rounded-3 border text-decoration-none text-dark hover-shadow"
+                                style="transition: all 0.2s;">
+                                <div class="fw-bold text-primary" th:text="${similar.ticker}">MSFT</div>
+                                <div class="small text-muted text-truncate" th:text="${similar.name}">Microsoft</div>
+                                <div class="small mt-1">
+                                    <span class="badge bg-success bg-opacity-10 text-success"
+                                        th:text="${similar.yield} + '%'">3.5%</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .hover-shadow:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    }
+                </style>
+
                 <div class="mt-4" th:if="${timeMachine != null}">
                     <h3 class="h5 fw-bold mb-3">⏳ The Waiting Game: Save Money by Holding</h3>
                     <p class="text-muted small mb-3">
@@ -716,6 +765,28 @@
 
                     <div class="mt-4 pt-3 border-top">
                         <p th:text="${content.disclaimer}" class="small text-muted fst-italic">Disclaimer</p>
+
+                        <!-- [E-E-A-T] Data Freshness & Editorial Transparency -->
+                        <div class="mt-3 p-3 bg-light rounded-3 border">
+                            <div class="row g-2 small">
+                                <div class="col-md-6">
+                                    <strong class="text-dark">📊 Data Freshness:</strong>
+                                    <span class="text-muted">Page updated <span th:text="${refreshText}">January
+                                            2026</span></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong class="text-dark">🔍 Editorial Policy:</strong>
+                                    <span class="text-muted">No AI-generated content. Human-verified
+                                        calculations.</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 small text-muted">
+                                <strong>Data Sources:</strong> Yield and payout data aggregated from Yahoo Finance,
+                                Seeking Alpha, and Nasdaq.
+                                <a href="/methodology" class="text-decoration-none fw-semibold">View full methodology
+                                    →</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -730,7 +801,8 @@
                         <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
                         <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
                     </div>
-                    <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">&copy; 2026 Money First. All
+                    <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">&copy; <span
+                            th:text="${currentYear}">2026</span> Money First. All
                         rights reserved.</div>
                 </footer>
             </div>

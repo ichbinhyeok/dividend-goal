@@ -1,0 +1,49 @@
+
+> Task :compileJava FAILED
+./gradlew : C:\Development\Own
+er\dividend-goal\src\main\java
+\org\example\dividendgoal\sche
+duler\IndexingScheduler.java:5
+6: error: cannot find symbol
+?? ?:1 ??:1
++ ./gradlew compileJava --cons
+ole=plain 2>&1 | Out-File -Fil
+ePath build ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (C:\Develo  
+  pment\...not find symbol:   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+        String baseUrl = AppCo
+nstants.BASE_URL; // ?? ????? 
+?? ??
+                         ^
+  symbol:   variable AppConsta
+nts
+  location: class IndexingSche
+duler
+1 error
+
+FAILURE: Build failed with an 
+exception.
+
+* What went wrong:
+Execution failed for task ':co
+mpileJava'.
+> Compilation failed; see the 
+compiler error output for deta
+ils.
+
+* Try:
+> Run with --info option to ge
+t more log output.
+> Run with --scan to get full 
+insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class HomeController {
@@ -21,17 +24,41 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(HttpServletResponse response, Model model) {
+        setCacheControl(response);
         model.addAttribute("stocks", stockDataService.getAllStocks());
-        model.addAttribute("pageTitle", "Dividend Income Guide and Calculator | Money First");
-        model.addAttribute("pageDescription", "Learn how monthly dividend income targets translate into estimated capital requirements.");
+        String pageTitle = "Dividend Income Guide and Calculator | Money First";
+        String pageDescription = "Learn how monthly dividend income targets translate into estimated capital requirements.";
+        addSeoFreshnessAttributes(model, pageTitle, pageDescription);
         return "home";
+    }
+
+    // [SEO] Freshness Automation Helper
+    private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
+        LocalDate now = LocalDate.now();
+        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String refreshText = "Updated " + monthYear;
+
+        model.addAttribute("currentYear", now.getYear());
+        model.addAttribute("currentDate", now.format(DateTimeFormatter.ISO_LOCAL_DATE)); // 2026-01-15
+        model.addAttribute("refreshText", refreshText);
+
+        // Update Title and Description with Freshness info
+        model.addAttribute("pageTitle", baseTitle + " (" + refreshText + ")");
+        model.addAttribute("pageDescription", refreshText + " | " + baseDescription);
+    }
+
+    private void setCacheControl(HttpServletResponse response) {
+        // [SEO] Prevent stale dates in caches
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
     }
 
     @PostMapping("/calculate")
     public String calculate(@RequestParam("amount") double amount,
-                            @RequestParam("ticker") String ticker,
-                            RedirectAttributes redirectAttributes) {
+            @RequestParam("ticker") String ticker,
+            RedirectAttributes redirectAttributes) {
 
         if (ticker == null || ticker.isBlank()) {
             redirectAttributes.addFlashAttribute("error", "Please enter a ticker symbol.");
@@ -43,7 +70,8 @@ public class HomeController {
         // [수정] 티커 존재 여부 확인 및 로그 기록
         if (stockDataService.findByTicker(cleanedTicker).isEmpty()) {
             stockDataService.logMissingTicker(cleanedTicker);
-            redirectAttributes.addFlashAttribute("error", "The ticker '" + cleanedTicker + "' is not supported yet. We have logged your request!");
+            redirectAttributes.addFlashAttribute("error",
+                    "The ticker '" + cleanedTicker + "' is not supported yet. We have logged your request!");
             return "redirect:/";
         }
 

@@ -1,0 +1,21 @@
+
+> Task :compileJava FAILED
+C:\Development\Owner\dividend-goal\src\main\java\org\example\dividendgoal\scheduler\IndexingScheduler.java:56: error: cannot find symbol
+        String baseUrl = AppConstants.BASE_URL; // 실제 도메인으로 변경 필수
+                         ^
+  symbol:   variable AppConstants
+  location: class IndexingScheduler
+1 error
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1s
+1 actionable task: 1 executed

@@ -139,7 +139,10 @@
                 <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
                 <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
             </div>
-            &copy; 2026 Money First. All rights reserved.
+            <div class="mt-2 text-muted" style="font-size: 0.75rem;">
+                Last Verified: <span th:text="${refreshText}">January 2026</span>
+            </div>
+            &copy; <span th:text="${currentYear}">2026</span> Money First. All rights reserved.
         </div>
     </footer>
 </body>

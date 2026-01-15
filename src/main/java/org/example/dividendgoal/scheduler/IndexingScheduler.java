@@ -1,5 +1,6 @@
 package org.example.dividendgoal.scheduler;
 
+import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.service.GoogleIndexingService;
 import org.example.dividendgoal.service.LifestyleService;
 import org.example.dividendgoal.service.StockDataService;

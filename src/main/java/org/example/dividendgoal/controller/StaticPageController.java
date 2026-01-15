@@ -11,38 +11,40 @@ public class StaticPageController {
 
     @GetMapping("/about")
     public String about(Model model) {
-        model.addAttribute("pageTitle", "About Money First | Dividend Income Insights");
-        model.addAttribute("pageDescription",
-                "Learn about Money First, a server-rendered dividend income calculator focused on clarity, privacy, and educational use only.");
+        addSeoFreshnessAttributes(model, "About Money First",
+                "Learn about our dividend calculator, privacy, and educational mission.");
         return "about";
     }
 
     @GetMapping("/methodology")
     public String methodology(HttpServletRequest request, Model model) {
-        model.addAttribute("pageTitle", "How We Calculate Dividend Income Requirements | Money First Methodology");
-        model.addAttribute("pageDescription",
-                "Transparent breakdown of our dividend calculation formulas, data sources, and risk assessment methodology for financial freedom planning.");
-
         // Canonical URL
         String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
         model.addAttribute("currentUrl", currentUrl);
 
+        addSeoFreshnessAttributes(model, "Dividend Calculation Methodology",
+                "Transparent breakdown of our formulas and data sources.");
         return "methodology";
     }
 
     @GetMapping("/privacy-policy")
     public String privacy(Model model) {
-        model.addAttribute("pageTitle", "Privacy Policy | Money First Dividend Calculator");
-        model.addAttribute("pageDescription",
-                "Understand how Money First operates without logins, accounts, or personal data storage.");
+        addSeoFreshnessAttributes(model, "Privacy Policy", "How Money First operates without personal data storage.");
         return "privacy";
     }
 
     @GetMapping("/disclaimer")
     public String disclaimer(Model model) {
-        model.addAttribute("pageTitle", "Disclaimer | Money First Dividend Calculator");
-        model.addAttribute("pageDescription",
-                "Important educational and informational disclaimer for the Money First dividend calculator.");
+        addSeoFreshnessAttributes(model, "Disclaimer", "Important educational and informational disclaimer.");
         return "disclaimer";
+    }
+
+    private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
+        java.time.LocalDate now = java.time.LocalDate.now();
+        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"));
+        model.addAttribute("currentYear", now.getYear());
+        model.addAttribute("refreshText", "Updated " + monthYear);
+        model.addAttribute("pageTitle", baseTitle + " | Money First");
+        model.addAttribute("pageDescription", baseDescription + " (Updated " + monthYear + ")");
     }
 }

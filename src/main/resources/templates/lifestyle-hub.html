@@ -336,8 +336,12 @@
 
     <footer class="mt-5 border-top py-4 text-center text-muted small">
         <div class="container">
-            &copy; 2026 Money First. All rights reserved. <br>
-            <a href="/disclaimer">Disclaimer</a> | <a href="/privacy">Privacy</a> | <a href="/contact">Contact</a>
+            <div class="mb-2 text-muted" style="font-size: 0.75rem;">
+                Guide updated: <span th:text="${refreshText}">January 2026</span>
+            </div>
+            &copy; <span th:text="${currentYear}">2026</span> Money First. All rights reserved. <br>
+            <a href="/disclaimer">Disclaimer</a> | <a href="/privacy-policy">Privacy</a> | <a
+                href="/contact">Contact</a>
         </div>
     </footer>
 

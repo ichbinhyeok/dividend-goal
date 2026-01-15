@@ -35,9 +35,30 @@ public class ContentGenerationService {
     }
 
     private String generateIntro(Stock stock, double monthlyAmount, double requiredInvestment) {
-        return String.format(
-                "To generate a <strong>$%,.0f monthly dividend income</strong> from %s (%s), you would need an estimated investment of <strong>$%,.0f</strong> today, based on its current dividend yield of %.2f%%.",
-                monthlyAmount, stock.getName(), stock.getTicker(), requiredInvestment, stock.getYield());
+        StringBuilder intro = new StringBuilder();
+        intro.append(String.format(
+                "To generate a <strong>$%,.0f monthly dividend income</strong> from %s (%s), you would need an estimated investment of <strong>$%,.0f</strong> today, based on its current dividend yield of %.2f%%. ",
+                monthlyAmount, stock.getName(), stock.getTicker(), requiredInvestment, stock.getYield()));
+
+        // Add context about dividend investing
+        intro.append("This calculation assumes the dividend rate remains constant over time. ");
+        intro.append(String.format(
+                "With %s's current yield, each $1,000 invested would generate approximately $%.2f in annual dividend income. ",
+                stock.getTicker(), stock.getYield() * 10));
+
+        // Add perspective on capital requirements
+        if (requiredInvestment > 500000) {
+            intro.append(
+                    "This is a substantial capital requirement, typically pursued by high-net-worth individuals or institutional investors focusing on generational wealth building.");
+        } else if (requiredInvestment > 100000) {
+            intro.append(
+                    "This level of capital is commonly targeted by mid-career professionals building towards financial independence or early retirement.");
+        } else {
+            intro.append(
+                    "This is an accessible entry point for many investors looking to supplement their income with passive cash flow.");
+        }
+
+        return intro.toString();
     }
 
     private String generateSectorAnalysis(Stock stock) {
@@ -52,18 +73,30 @@ public class ContentGenerationService {
         sb.append(String.format("%s operates in the <strong>%s</strong> sector. ", stock.getName(), stock.getSector()));
 
         double diff = myYield - sectorMedian;
+        double percentDiff = (diff / sectorMedian) * 100;
+
         if (diff > 1.0) {
             sb.append(String.format(
-                    "Its yield of %.2f%% is significantly <strong>higher</strong> than the sector median of %.2f%%. This often indicates a higher income potential but may carry increased risk.",
-                    myYield, sectorMedian));
+                    "Its yield of %.2f%% is significantly <strong>higher</strong> than the sector median of %.2f%% (approximately %.0f%% above average). ",
+                    myYield, sectorMedian, Math.abs(percentDiff)));
+            sb.append(
+                    "This elevated yield often indicates one of three scenarios: the market may be pricing in higher risk due to business headwinds, the company may have a mature cash flow profile with limited growth prospects, or it could represent a genuine value opportunity overlooked by the broader market. ");
+            sb.append(
+                    "Investors should carefully examine the payout ratio and dividend history before committing capital.");
         } else if (diff < -1.0) {
             sb.append(String.format(
-                    "Its yield of %.2f%% is <strong>lower</strong> than the sector median of %.2f%%. This typically suggests investors are pricing in higher growth expectations rather than immediate income.",
-                    myYield, sectorMedian));
+                    "Its yield of %.2f%% is <strong>lower</strong> than the sector median of %.2f%% (approximately %.0f%% below average). ",
+                    myYield, sectorMedian, Math.abs(percentDiff)));
+            sb.append(
+                    "This typically suggests investors are pricing in higher growth expectations rather than immediate income. ");
+            sb.append(
+                    "Companies with lower yields often reinvest more capital into expansion, which may result in dividend growth over time but provides less immediate cash flow.");
         } else {
             sb.append(String.format(
-                    "Its yield of %.2f%% is in line with the sector median of %.2f%%, suggesting it is fairly valued relative to its peers.",
+                    "Its yield of %.2f%% is in line with the sector median of %.2f%%, suggesting it is fairly valued relative to its peers. ",
                     myYield, sectorMedian));
+            sb.append(
+                    "This equilibrium positioning indicates the stock follows typical sector patterns, neither commanding a growth premium nor trading at a distressed valuation.");
         }
         return sb.toString();
     }

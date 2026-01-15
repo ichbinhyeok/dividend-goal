@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /error
+Disallow: /*?*
 
 Sitemap: https://dividend-goal.com/sitemap.xml

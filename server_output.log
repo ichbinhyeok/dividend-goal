@@ -1,0 +1,44 @@
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName UP-TO-DATE
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2026-01-15T20:07:53.958+09:00  INFO 25732 --- [dividend-goal] [           main] o.e.d.DividendGoalApplication            : Starting DividendGoalApplication using Java 17.0.17 with PID 25732 (C:\Development\Owner\dividend-goal\build\classes\java\main started by tlsgu in C:\Development\Owner\dividend-goal)
+2026-01-15T20:07:53.960+09:00  INFO 25732 --- [dividend-goal] [           main] o.e.d.DividendGoalApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-15T20:07:55.093+09:00  INFO 25732 --- [dividend-goal] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-15T20:07:55.107+09:00  INFO 25732 --- [dividend-goal] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-15T20:07:55.107+09:00  INFO 25732 --- [dividend-goal] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-01-15T20:07:55.186+09:00  INFO 25732 --- [dividend-goal] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-15T20:07:55.188+09:00  INFO 25732 --- [dividend-goal] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1180 ms
+2026-01-15T20:07:55.370+09:00  INFO 25732 --- [dividend-goal] [           main] o.e.d.service.StockDataService           : Loaded 111 stocks in alphabetical order.
+2026-01-15T20:07:55.752+09:00  WARN 25732 --- [dividend-goal] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-15T20:07:55.767+09:00  INFO 25732 --- [dividend-goal] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-15T20:07:55.788+09:00 ERROR 25732 --- [dividend-goal] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+
+> Task :bootRun FAILED
+4 actionable tasks: 1 executed, 3 up-to-date

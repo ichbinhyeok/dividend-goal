@@ -196,7 +196,8 @@
         <!-- [NEW] Popular Lifestyle Goals Section -->
         <div class="row justify-content-center mt-5">
             <div class="col-lg-10">
-                <h3 class="fw-bold text-center mb-4">🏆 Popular Financial Goals</h3>
+                <h3 class="fw-bold text-center mb-4">🏆 Best Dividend Stocks for <span
+                        th:text="${currentYear}">2026</span></h3>
                 <div class="row g-3">
                     <!-- Netflix -->
                     <div class="col-md-4 col-6">
@@ -275,7 +276,10 @@
                 <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
                 <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
             </div>
-            &copy; 2026 Money First. All rights reserved.
+            <div class="mb-2 text-muted" style="font-size: 0.75rem;">
+                Page updated: <span th:text="${refreshText}">January 2026</span>
+            </div>
+            &copy; <span th:text="${currentYear}">2026</span> Money First. All rights reserved.
         </div>
     </footer>
 

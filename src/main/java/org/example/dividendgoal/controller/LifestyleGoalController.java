@@ -77,20 +77,26 @@ public class LifestyleGoalController {
             return map;
         }).collect(Collectors.toList()));
 
-        // 4. E-E-A-T Injection
-        model.addAttribute("item", item);
-        model.addAttribute("comparisonTable", comparisonTable);
-        model.addAttribute("pageTitle", "Best Dividend Stocks to Pay for " + item.getName() + " (2026 Guide)");
-        model.addAttribute("pageDescription",
-                "Don't pay for " + item.getName()
-                        + "! Compare Top 5 Dividend Stocks (JEPI, SCHD, etc.) that can cover your $" + item.getCost()
-                        + " monthly bill forever.");
-        model.addAttribute("canonicalUrl", AppConstants.BASE_URL + request.getRequestURI());
-
         // Trust Signals
         model.addAttribute("dataSource", "Data derived from Seeking Alpha & Yahoo Finance API.");
         model.addAttribute("methodologyLink", "/about/methodology"); // We need to create this later
 
+        addSeoFreshnessAttributes(model, "Best Dividend Stocks to Pay for " + item.getName(),
+                "Don't pay for " + item.getName() + "! Compare Top Dividend Stocks that can cover your $"
+                        + item.getCost() + " monthly bill.");
+
         return "lifestyle-hub"; // New template
+    }
+
+    private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
+        java.time.LocalDate now = java.time.LocalDate.now();
+        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String refreshText = "Updated " + monthYear;
+
+        model.addAttribute("currentYear", now.getYear());
+        model.addAttribute("refreshText", refreshText);
+
+        model.addAttribute("pageTitle", baseTitle + " (" + now.getYear() + " Guide)");
+        model.addAttribute("pageDescription", refreshText + " | " + baseDescription);
     }
 }

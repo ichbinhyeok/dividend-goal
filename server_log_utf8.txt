@@ -1,0 +1,39 @@
+﻿./gradlew : 
+위치 줄:1 문자:1
++ ./gradlew bootRun > server_l
+og.txt 2>&1Check-In
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (:String)   
+  [], RemoteException
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+FAILURE: Build failed with an 
+exception.
+
+* What went wrong:
+Task 'Check-In' not found in r
+oot project 'dividend-goal'. S
+ome candidates are: 'check'.
+
+* Try:
+> Run gradlew tasks to get a l
+ist of available tasks.
+> For more on name expansion, 
+please refer to https://docs.g
+radle.org/8.5/userguide/comman
+d_line_interface.html#sec:name
+_abbreviation in the Gradle do
+cumentation.
+> Run with --stacktrace option
+ to get the stack trace.
+> Run with --info or --debug o
+ption to get more log output.
+> Run with --scan to get full 
+insights.
+> Get more help at https://hel
+p.gradle.org.
+
+BUILD FAILED in 1s
