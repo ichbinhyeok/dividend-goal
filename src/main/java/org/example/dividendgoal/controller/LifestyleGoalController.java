@@ -77,6 +77,10 @@ public class LifestyleGoalController {
             return map;
         }).collect(Collectors.toList()));
 
+        // 4. Add to Model
+        model.addAttribute("item", item);
+        model.addAttribute("comparisonTable", comparisonTable);
+
         // Trust Signals
         model.addAttribute("dataSource", "Data derived from Seeking Alpha & Yahoo Finance API.");
         model.addAttribute("methodologyLink", "/about/methodology"); // We need to create this later
