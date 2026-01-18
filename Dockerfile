@@ -14,8 +14,4 @@ WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 
 # 3. 포트 설정
-ENV PORT=8080
-EXPOSE 8080
-
-# 4. 실행 명령어
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-8080} -jar app.jar"]
