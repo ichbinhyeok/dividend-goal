@@ -139,6 +139,10 @@ public class StockController {
 
         addSeoFreshnessAttributes(model, pageTitle, pageDescription);
 
+        // [SEO] Advanced Schema: Breadcrumb + Dataset + FAQ
+        String schemaJson = generateSchemaJson(stock, monthlyAmount, requiredInvestment);
+        model.addAttribute("jsonLdSchema", schemaJson);
+
         // [SEO] Duplicate Content Protection
         // Only index specific "Golden" amounts. User generated amounts (e.g. 543)
         // should be noindex.
@@ -216,6 +220,12 @@ public class StockController {
                 capital, stock.getName(), stock.getTicker(), stock.getYield());
 
         addSeoFreshnessAttributes(model, pageTitle, pageDescription);
+
+        // [SEO] Advanced Schema: Breadcrumb + Dataset (Income Mode)
+        // Reusing same generator but adapting for Income mode logic if needed,
+        // for simplicity we map income to monthlyAmount param context or overload.
+        String schemaJson = generateSchemaJson(stock, monthlyIncome, capital);
+        model.addAttribute("jsonLdSchema", schemaJson);
         return "result";
     }
 
@@ -257,9 +267,14 @@ public class StockController {
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
+
+        // [SEO] 3-Month Autopilot Strategy: Last-Modified = 1st day of current month
+        // This signals "Monthly Verified Content" without spamming daily updates.
+        LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
+        long lastModTime = java.sql.Timestamp.valueOf(firstDayOfMonth.atStartOfDay()).getTime();
+        response.setDateHeader("Last-Modified", lastModTime);
     }
 
-    // [신규] 미국 감성 랜덤 멘트 생성기
     private String getLifestyleComment(double amount) {
         List<String> options;
 
@@ -302,5 +317,63 @@ public class StockController {
         }
 
         return options.get(random.nextInt(options.size()));
+    }
+
+    // [SEO] Advanced Schema Generator
+    private String generateSchemaJson(Stock stock, double monthlyTarget, double capitalRequired) {
+        String ticker = stock.getTicker();
+        String name = stock.getName();
+        String today = LocalDate.now().toString();
+
+        return String.format(
+                """
+                        {
+                          "@context": "https://schema.org",
+                          "@graph": [
+                            {
+                              "@type": "BreadcrumbList",
+                              "itemListElement": [
+                                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dividend-goal.com/" },
+                                { "@type": "ListItem", "position": 2, "name": "Calculator", "item": "https://dividend-goal.com/how-much-dividend/" },
+                                { "@type": "ListItem", "position": 3, "name": "%s Analysis", "item": "https://dividend-goal.com/how-much-dividend/1000-per-month/%s" }
+                              ]
+                            },
+                            {
+                              "@type": "Dataset",
+                              "name": "%s Dividend Calculation Data",
+                              "description": "Required capital analysis to generate $%.0f/month using %s (%s) stock dividends.",
+                              "license": "https://dividend-goal.com/terms",
+                              "creator": { "@type": "Organization", "name": "Dividend Goal" },
+                              "dateModified": "%s"
+                            },
+                            {
+                              "@type": "FAQPage",
+                              "mainEntity": [
+                                {
+                                  "@type": "Question",
+                                  "name": "How much %s do I need for $%.0f montly income?",
+                                  "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": "Based on the current dividend yield of %.2f%%, you would need approximately $%s invested in %s."
+                                  }
+                                },
+                                 {
+                                  "@type": "Question",
+                                  "name": "Is %s a good dividend stock?",
+                                  "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": "%s pays a dividend yield of %.2f%%. It has a %d-year dividend growth streak, making it a viable candidate for income investors."
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        """,
+                ticker, ticker, // Breadcrumb
+                name, monthlyTarget, name, ticker, today, // Dataset
+                ticker, monthlyTarget, stock.getYield(), DOLLAR_FORMAT.format(capitalRequired), name, // FAQ Q1
+                ticker, name, stock.getYield(), stock.getConsecutiveGrowthYears() // FAQ Q2
+        );
     }
 }

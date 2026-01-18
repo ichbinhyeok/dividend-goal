@@ -150,6 +150,101 @@
         <!-- Comparison Table -->
         <h2 class="h4 fw-bold mb-4">🏆 Top Dividend Solutions (Ranked)</h2>
         <div class="table-wrapper bg-white shadow-sm mb-5">
+            <style>
+                @media (max-width: 768px) {
+                    .table thead {
+                        display: none;
+                    }
+
+                    .table tbody tr {
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 2rem;
+                        border: 1px solid rgba(226, 232, 240, 0.6);
+                        border-radius: 20px;
+                        padding: 1.5rem;
+                        background: #ffffff;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    /* Left colored strip for visual pop */
+                    .table tbody tr::after {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        bottom: 0;
+                        width: 6px;
+                        background: linear-gradient(to bottom, #10b981, #34d399);
+                    }
+
+                    .table td {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 0.75rem 0;
+                        border: none;
+                        width: 100%;
+                    }
+
+                    .table td::before {
+                        content: attr(data-label);
+                        font-weight: 700;
+                        color: #64748b;
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        text-align: left;
+                        margin-right: 1rem;
+                    }
+
+                    /* Ticker Styling */
+                    .table td:first-child {
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 1px dashed #e2e8f0;
+                        padding-bottom: 1rem;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .table td:first-child::before {
+                        display: none;
+                    }
+
+                    .table td:first-child>div:first-child {
+                        font-size: 1.75rem !important;
+                        color: #0f172a;
+                        font-weight: 800;
+                        letter-spacing: -1px;
+                    }
+
+                    /* Action Grid */
+                    .table td:last-child {
+                        margin-top: 1.25rem;
+                        padding-top: 0;
+                        display: block;
+                    }
+
+                    .table td:last-child::before {
+                        display: none;
+                    }
+
+                    .table td:last-child .btn {
+                        width: 100%;
+                        display: block;
+                        padding: 0.8rem;
+                        border-radius: 12px;
+                        font-weight: 600;
+                        background: #0f172a;
+                        color: white;
+                        border: none;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                    }
+                }
+            </style>
             <table class="table table-hover mb-0">
                 <thead>
                     <tr>
@@ -162,22 +257,22 @@
                 </thead>
                 <tbody>
                     <tr th:each="row : ${comparisonTable}">
-                        <td>
+                        <td data-label="Ticker">
                             <div class="fw-bold fs-5" th:text="${row.ticker}">JEPI</div>
                             <div class="small text-muted" th:text="${row.name}">JPMorgan...</div>
                         </td>
-                        <td>
+                        <td data-label="Strategy">
                             <span
                                 th:class="'badge badge-strategy ' + (${row.strategy == 'High Income'} ? 'bg-primary' : 'bg-success')"
                                 th:text="${row.strategy}">Strategy</span>
                         </td>
-                        <td class="text-dark fw-bold">
+                        <td class="text-dark fw-bold" data-label="Required Capital">
                             $<span th:text="${row.formattedCapital}">5,000</span>
                         </td>
-                        <td class="text-muted">
+                        <td class="text-muted" data-label="Annual Yield">
                             <span th:text="${row.yield}">10</span>%
                         </td>
-                        <td>
+                        <td data-label="Action">
                             <a th:href="@{'/how-much-dividend/' + ${item.cost} + '-per-month/' + ${row.ticker}}"
                                 class="btn btn-sm btn-outline-dark rounded-pill px-3">Analyze &rarr;</a>
                         </td>

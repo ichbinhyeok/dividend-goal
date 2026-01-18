@@ -46,74 +46,88 @@
 
     <style>
         :root {
-            --primary-color: #0f172a;
-            --accent-color: #10b981;
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --error-color: #ef4444;
+            --primary-surface: #ffffff;
+            --secondary-surface: #f8fafc;
+            --primary-text: #0f172a;
+            --secondary-text: #64748b;
+            --accent-brand: #059669;
+            --accent-gradient: linear-gradient(135deg, #059669 0%, #34d399 100%);
+            --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --radius-lg: 24px;
+            --radius-md: 16px;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: #334155;
+            background-color: #f1f5f9;
+            color: var(--primary-text);
             line-height: 1.6;
         }
 
         .card-glow {
-            background: var(--card-bg);
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            background: var(--primary-surface);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 2.5rem !important;
         }
 
         h1,
         h2,
         h3 {
-            color: var(--primary-color);
-            letter-spacing: -0.02em;
+            color: var(--primary-text);
+            letter-spacing: -0.03em;
         }
 
         .result-box {
-            background: linear-gradient(145deg, #f0fff9 0%, #ffffff 100%);
-            border: 2px solid var(--accent-color);
-            border-radius: 24px;
+            background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-lg);
             padding: 3rem 2rem;
             text-align: center;
-            box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.1);
         }
 
         .result-number {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            color: #047857;
+            color: transparent;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
             margin: 0.5rem 0;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            line-height: 1.1;
         }
 
+        /* Wait Card Cards */
         .wait-card {
             border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
             background: #ffffff;
+            border-radius: var(--radius-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .wait-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: #cbd5e1;
         }
 
+        /* Bars */
         .progress-container {
-            height: 8px;
+            height: 6px;
             background-color: #f1f5f9;
-            border-radius: 4px;
+            border-radius: 9999px;
             margin-top: 12px;
-            position: relative;
+            overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #10b981, #34d399);
-            border-radius: 4px;
+            background: var(--accent-gradient);
+            border-radius: 9999px;
             transition: width 1s ease-out;
         }
 
@@ -121,16 +135,35 @@
             background-color: #ecfdf5;
             color: #059669;
             font-weight: 700;
-            border: 1px solid #d1fae5;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
         }
 
+        /* Inputs */
         .form-control {
             border-radius: 12px;
-            padding: 0.8rem 1rem;
+            padding: 0.875rem 1rem;
             border: 1px solid #e2e8f0;
-            font-size: 1.1rem;
+            background-color: #f8fafc;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
 
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: var(--accent-brand);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        .input-group-text {
+            background-color: #f8fafc;
+            border-color: #e2e8f0;
+            color: var(--secondary-text);
+            font-weight: 600;
+        }
+
+        /* Custom Select Arrow */
         .input-group-custom {
             position: relative;
         }
@@ -138,7 +171,7 @@
         .input-group-custom::after {
             content: '▼';
             position: absolute;
-            right: 1rem;
+            right: 1.25rem;
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.7rem;
@@ -146,171 +179,176 @@
             pointer-events: none;
         }
 
-        .is-invalid-ticker {
-            border-color: var(--error-color) !important;
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-        }
-
+        /* Buttons */
         .btn-primary {
-            background-color: var(--primary-color);
+            background-color: var(--primary-text);
             border: none;
-            border-radius: 12px;
+            border-radius: 9999px;
             font-weight: 600;
-            padding: 1rem;
-            transition: all 0.2s;
+            padding: 1rem 2rem;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
         .btn-primary:hover {
             background-color: #1e293b;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .btn-outline-primary {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: 12px;
-            padding: 1rem;
+            color: var(--primary-text);
+            border: 2px solid #e2e8f0;
+            border-radius: 9999px;
+            padding: 0.875rem 2rem;
             font-weight: 600;
             transition: all 0.2s;
         }
 
         .btn-outline-primary:hover {
-            background-color: var(--primary-color);
+            border-color: var(--primary-text);
+            background-color: var(--primary-text);
             color: white;
+            transform: translateY(-2px);
         }
 
+        .badge-risk {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        /* Internal Link Card */
+        .internal-link-card {
+            background: linear-gradient(135deg, #fffbeb 0%, #fff 100%);
+            border: 1px solid #fcd34d;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+            box-shadow: 0 4px 6px -1px rgba(251, 191, 36, 0.1);
+        }
+
+        .internal-link-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.2);
+            border-color: #f59e0b;
+        }
+
+        /* Similar Stocks Card */
+        .stock-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stock-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.08);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        /* Premium Compare Button */
+        .btn-compare {
+            background: #f8fafc;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            border-radius: 9999px;
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-compare:hover {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Ad Slot Placeholder */
         .ad-slot {
-            background: transparent;
+            background: #f8fafc;
             border: 2px dashed #cbd5e1;
-            border-radius: 12px;
+            border-radius: var(--radius-md);
             color: #94a3b8;
-            padding: 20px;
+            padding: 2.5rem;
             text-align: center;
-            margin: 2rem 0;
+            margin: 3rem 0;
+            font-weight: 500;
+            letter-spacing: 0.02em;
         }
 
+        /* Custom Table */
         .table-custom th {
             background-color: #f8fafc;
             color: #64748b;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
             border-top: none;
+            padding: 1rem;
         }
 
-        .badge-risk {
-            font-size: 0.75rem;
-            padding: 0.35rem 0.6rem;
-            border-radius: 8px;
+        .table-custom td {
+            padding: 1rem;
+            vertical-align: middle;
         }
 
-        /* [SEO 3] 내부 링크 카드 스타일 */
-        .internal-link-card {
-            background: #fffbeb;
-            border: 2px solid #fcd34d;
-            transition: transform 0.2s;
-            text-decoration: none;
-            display: block;
-            color: inherit;
+        .text-accent {
+            color: var(--accent-brand) !important;
+            font-weight: 700;
         }
 
-        .internal-link-card:hover {
-            transform: translateY(-3px);
-            background: #fff9db;
-        }
-
-        /* --- 모바일 레이아웃 밀림 방지 최종 보완 --- */
+        /* Mobile Tweaks */
         @media (max-width: 768px) {
-
-            /* 1. 전체 컨테이너와 카드의 여백 줄임 */
             .container {
-                padding-left: 12px !important;
-                padding-right: 12px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
             }
 
             .card-glow {
-                padding: 1.2rem !important;
-                /* 내부 패딩 대폭 축소 */
+                padding: 1.5rem !important;
+                border-radius: 20px;
             }
 
-            /* 2. 가로로 나열된 헤더 정보를 세로로 정렬 */
             .d-flex.align-items-center.justify-content-between {
                 flex-direction: column !important;
                 align-items: flex-start !important;
-                gap: 1rem !important;
+                gap: 1.25rem !important;
             }
 
-            /* 3. 텍스트 및 숫자 크기 최적화 (안 밀리게) */
             .result-number {
-                font-size: 2.3rem !important;
-                /* 너무 크면 잘리므로 축소 */
-                word-break: break-all;
-                /* 아주 큰 숫자는 강제 줄바꿈 */
-            }
-
-            h1.h3 {
-                font-size: 1.4rem !important;
-            }
-
-            /* 4. 버튼들을 세로로 쌓기 */
-            .d-flex.justify-content-center.gap-2 {
-                flex-direction: column !important;
-                width: 100%;
+                font-size: 2.75rem !important;
+                margin: 0.25rem 0;
             }
 
             .btn-sm {
                 width: 100% !important;
-                /* 버튼이 화면 꽉 차게 */
-                padding: 12px !important;
+                padding: 0.875rem !important;
             }
 
-            /* 5. 타임머신(Wait Card) 그리드 조정 */
-            .row-cols-2 {
-                row-gap: 10px !important;
+            /* Better mobile button stacking */
+            .d-flex.justify-content-center.gap-2 {
+                flex-direction: column;
+                gap: 0.75rem !important;
             }
         }
     </style>
     </style>
-    <!-- [SEO] FAQPage Schema for Rich Snippets -->
-    <script type="application/ld+json" th:utext="'{
-      &quot;@context&quot;: &quot;https://schema.org&quot;,
-      &quot;@type&quot;: &quot;FAQPage&quot;,
-      &quot;mainEntity&quot;: [{
-        &quot;@type&quot;: &quot;Question&quot;,
-        &quot;name&quot;: &quot;How much capital do I need to earn $' + ${monthlyAmount} + ' per month in dividends from ' + ${stock.ticker} + '?&quot;,
-        &quot;acceptedAnswer&quot;: {
-          &quot;@type&quot;: &quot;Answer&quot;,
-          &quot;text&quot;: &quot;To generate a monthly dividend income of $' + ${monthlyAmount} + ' from ' + ${stock.name} + ' (' + ${stock.ticker} + '), you would need an estimated investment of $' + ${formattedRequiredInvestment} + ', based on its current dividend yield of ' + ${stock.yield} + '%.&quot;
-        }
-      }, {
-        &quot;@type&quot;: &quot;Question&quot;,
-        &quot;name&quot;: &quot;Is ' + ${stock.name} + ' (' + ${stock.ticker} + ') a safe dividend stock?&quot;,
-        &quot;acceptedAnswer&quot;: {
-          &quot;@type&quot;: &quot;Answer&quot;,
-          &quot;text&quot;: &quot;Analysis based on historical data: ' + ${content.investingAngle.replaceAll('&lt;.*?&gt;', '')} + ' Check the full payout ratio and growth history on our page.&quot;
-        }
-      }]
-    }'"></script>
-
-    <!-- [SEO] Freshness Schema + E-E-A-T (Author & Disclaimer) -->
-    <script type="application/ld+json" th:utext="'{
-      &quot;@context&quot;: &quot;https://schema.org&quot;,
-      &quot;@type&quot;: &quot;FinancialProduct&quot;,
-      &quot;name&quot;: &quot;' + ${stock.name} + ' Dividend Calculator&quot;,
-      &quot;description&quot;: &quot;' + ${pageDescription} + '&quot;,
-      &quot;brand&quot;: {
-        &quot;@type&quot;: &quot;Brand&quot;,
-        &quot;name&quot;: &quot;Money First&quot;
-      },
-      &quot;author&quot;: {
-        &quot;@type&quot;: &quot;Organization&quot;,
-        &quot;name&quot;: &quot;Money First&quot;,
-        &quot;url&quot;: &quot;https://dividend-goal.com/about&quot;
-      },
-      &quot;disclaimer&quot;: &quot;This calculator is for educational and informational purposes only and does not constitute investment advice. Dividend yields are subject to change. Past performance does not guarantee future results. Please consult a licensed financial advisor before making any investment decisions.&quot;,
-      &quot;datePublished&quot;: &quot;2024-01-01&quot;,
-      &quot;dateModified&quot;: &quot;' + ${currentDate} + '&quot;
-    }'"></script>
+    <!-- [SEO] Dynamic Rich Schema (Dataset, Breadcrumb, FAQ) -->
+    <script type="application/ld+json" th:if="${jsonLdSchema}" th:utext="${jsonLdSchema}"></script>
 </head>
 
 <body>
@@ -551,24 +589,35 @@
                     </a>
                 </div>
 
-                <!-- [SEO] Internal Linking: Similar Stocks -->
-                <div th:if="${similarStocks != null and !similarStocks.isEmpty()}"
-                    class="mt-4 p-4 bg-light rounded-4 border">
-                    <h3 class="h6 fw-bold text-dark mb-3">📈 More <span th:text="${stock.sector}">Technology</span>
-                        Dividend Stocks</h3>
-                    <p class="small text-muted mb-3">Explore other dividend-paying stocks in the same sector:</p>
+                <!-- [SEO] Internal Linking: Similar Stocks (Modernized) -->
+                <div th:if="${similarStocks != null and !similarStocks.isEmpty()}" class="mt-5">
+                    <div class="d-flex align-items-center justify-content-between mb-4 px-1">
+                        <h3 class="h5 fw-bold text-dark mb-0">✨ More <span th:text="${stock.sector}">Technology</span>
+                            Stocks</h3>
+                    </div>
+
                     <div class="row row-cols-2 row-cols-md-4 g-3">
                         <div class="col" th:each="similar : ${similarStocks}">
-                            <a th:href="@{/how-much-dividend/{amount}-per-month/{ticker}(amount=${monthlyAmount}, ticker=${similar.ticker})}"
-                                class="d-block p-3 bg-white rounded-3 border text-decoration-none text-dark hover-shadow"
-                                style="transition: all 0.2s;">
-                                <div class="fw-bold text-primary" th:text="${similar.ticker}">MSFT</div>
-                                <div class="small text-muted text-truncate" th:text="${similar.name}">Microsoft</div>
-                                <div class="small mt-1">
-                                    <span class="badge bg-success bg-opacity-10 text-success"
-                                        th:text="${similar.yield} + '%'">3.5%</span>
+                            <div class="stock-card h-100 p-4 d-flex flex-column">
+                                <a th:href="@{/how-much-dividend/{amount}-per-month/{ticker}(amount=${monthlyAmount}, ticker=${similar.ticker})}"
+                                    class="text-decoration-none text-dark flex-grow-1 mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="fw-bold fs-5" th:text="${similar.ticker}">MSFT</div>
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1"
+                                            style="font-size: 0.7rem;" th:text="${similar.yield} + '%'">3.5%</span>
+                                    </div>
+                                    <div class="small text-secondary text-truncate" th:text="${similar.name}">Microsoft
+                                    </div>
+                                </a>
+
+                                <div class="mt-auto">
+                                    <a th:href="@{/compare/{t1}-vs-{t2}(t1=${stock.ticker}, t2=${similar.ticker})}"
+                                        class="btn-compare text-decoration-none">
+                                        <span>Compare</span>
+                                        <span style="font-size: 1.1em;">&rarr;</span>
+                                    </a>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>

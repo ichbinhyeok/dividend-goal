@@ -116,49 +116,18 @@
                         Mid-page AdSense Placeholder (300x250)
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-9 hero p-4 p-md-5">
-                <div th:if="${error}" class="alert alert-warning" role="alert" th:text="${error}">Please enter a monthly
-                    amount and choose a ticker.</div>
-                <form class="row gy-3" method="post" action="/calculate">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Target monthly income (USD)</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text">$</span>
-                            <input class="form-control" type="number" name="amount" min="1" step="50" placeholder="1000"
-                                required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Dividend ticker</label>
-                        <select class="form-select form-select-lg" name="ticker" required>
-                            <option value="" disabled selected>Select a ticker</option>
-                            <option th:each="stock : ${stocks}" th:value="${stock.ticker}"
-                                th:text="${stock.ticker + ' - ' + stock.name}">SCHD - Example</option>
-                        </select>
-                    </div>
-                    <div class="col-12 d-grid">
-                        <button class="btn btn-primary btn-lg py-3" type="submit">Calculate required capital</button>
-                    </div>
-                </form>
-                <div class="row mt-4 g-3">
-                    <div class="col-md-12 ad-slot">
-                        Bottom AdSense Placeholder (728x90)
-                    </div>
-                </div>
                 <footer class="mt-5 pt-4 border-top">
-                    <div class="mb-2 text-muted" style="font-size: 0.75rem;">
-                        Last Verified: <span th:text="${refreshText}">January 2026</span>
+                    <div class="d-flex flex-wrap justify-content-center gap-4 text-muted small">
+                        <a href="/" class="text-decoration-none text-muted fw-bold">Calculator</a>
+                        <a href="/articles" class="text-decoration-none text-muted fw-bold">Articles</a>
+                        <a href="/about" class="text-decoration-none text-muted">About</a>
+                        <a href="/contact" class="text-decoration-none text-muted">Contact</a>
+                        <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
+                        <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
                     </div>
-                    <div class="d-flex flex-wrap gap-3 text-muted small">
-                        <a href="/about" class="link-secondary">About</a>
-                        <a href="/contact" class="link-secondary">Contact</a>
-                        <a href="/privacy-policy" class="link-secondary">Privacy Policy</a>
-                        <a href="/disclaimer" class="link-secondary">Disclaimer</a>
-                        <a href="/sitemap.xml" class="link-secondary">Sitemap</a>
-                    </div>
+                    <div class="text-center mt-3 text-muted" style="font-size: 0.75rem;">&copy; <span
+                            th:text="${currentYear}">2026</span> Money First. All
+                        rights reserved.</div>
                 </footer>
             </div>
         </div>

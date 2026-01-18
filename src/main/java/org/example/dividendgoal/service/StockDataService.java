@@ -82,16 +82,38 @@ public class StockDataService {
     }
 
     // [SEO] Internal Linking: Get similar stocks from the same sector
+    // [SEO] Internal Linking: Get similar stocks from same sector (with Backfill)
     public List<Stock> getSimilarStocks(String sector, String currentTicker, int limit) {
-        if (sector == null || sector.isBlank()) {
-            return Collections.emptyList();
+        // 1. Sector-based filtering
+        List<Stock> sectorMatch;
+        if (sector != null && !sector.isBlank()) {
+            sectorMatch = cachedStocks.stream()
+                    .filter(stock -> sector.equalsIgnoreCase(stock.getSector()))
+                    .filter(stock -> !currentTicker.equalsIgnoreCase(stock.getTicker()))
+                    .filter(stock -> stock.getYield() > 0)
+                    .limit(limit)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        } else {
+            sectorMatch = new ArrayList<>();
         }
 
-        return cachedStocks.stream()
-                .filter(stock -> sector.equalsIgnoreCase(stock.getSector()))
-                .filter(stock -> !currentTicker.equalsIgnoreCase(stock.getTicker())) // Exclude current stock
-                .filter(stock -> stock.getYield() > 0) // Only stocks with valid yield data
-                .limit(limit)
-                .collect(Collectors.toList());
+        // 2. Backfill if not enough results (e.g. niche sectors like Mortgage REIT)
+        if (sectorMatch.size() < limit) {
+            final List<Stock> existingMatches = sectorMatch; // Capture for lambda
+            List<Stock> popularBackfill = cachedStocks.stream()
+                    .filter(stock -> !stock.getTicker().equalsIgnoreCase(currentTicker))
+                    .filter(stock -> !existingMatches.contains(stock)) // Don't add duplicates
+                    .filter(stock -> stock.getYield() > 3.0) // Only juicy dividends
+                    .collect(Collectors.toList());
+
+            Collections.shuffle(popularBackfill);
+
+            int needed = limit - sectorMatch.size();
+            for (int i = 0; i < needed && i < popularBackfill.size(); i++) {
+                sectorMatch.add(popularBackfill.get(i));
+            }
+        }
+
+        return sectorMatch;
     }
 }
