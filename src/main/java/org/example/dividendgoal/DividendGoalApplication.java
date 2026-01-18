@@ -12,4 +12,12 @@ public class DividendGoalApplication {
         SpringApplication.run(DividendGoalApplication.class, args);
     }
 
+    @org.springframework.context.annotation.Bean
+    public org.springframework.boot.CommandLineRunner logPort() {
+        return args -> {
+            String port = System.getenv("PORT");
+            System.out.println("DEBUG: PORT environment variable is: " + (port != null ? port : "NULL"));
+        };
+    }
+
 }
