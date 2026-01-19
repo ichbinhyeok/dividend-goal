@@ -66,10 +66,15 @@ public class StockController {
         GeneratedContent generatedContent;
 
         if (isDataAvailable) {
-            requiredInvestment = dividendCalculationService.calculateRequiredInvestment(monthlyAmount,
+            // [LOGIC CHANGE] User target is NET (After-Tax).
+            // "I want $1,000 in my pocket" means we need to target ~$1,182 Gross.
+            requiredInvestment = dividendCalculationService.calculateRequiredInvestmentForNetIncome(monthlyAmount,
                     stock.getYield());
+
+            // Re-calculate Gross Monthly Income from the new Capital
             monthlyIncomeForTable = dividendCalculationService.calculateMonthlyIncome(requiredInvestment,
                     stock.getYield());
+
             generatedContent = contentGenerationService.buildContent(stock, monthlyAmount, requiredInvestment);
         } else {
             // [YMYL] Missing Data Fallback

@@ -20,7 +20,7 @@
     </script>
 
     <meta charset="UTF-8">
-    <link rel="icon" href="https://fav.farm/💰" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="canonical" th:if="${currentUrl}" th:href="${currentUrl}" />
@@ -443,13 +443,18 @@
                             </div>
 
                             <div
-                                class="d-inline-flex align-items-center gap-2 px-3 py-2 bg-white bg-opacity-70 rounded-pill border shadow-sm">
-                                <p class="mb-0 small text-muted">
-                                    💰 <span class="fw-bold text-dark">Net:</span> approx.
-                                    <span class="text-success fw-bold">$<span
-                                            th:text="${#numbers.formatDecimal(monthlyAmount * 0.846, 0, 'COMMA', 0, 'POINT')}">0</span></span>
-                                    /mo after tax.
+                                class="d-inline-flex flex-column align-items-center gap-1 px-4 py-2 bg-white bg-opacity-70 rounded-4 border shadow-sm mt-3">
+                                <p class="mb-0 text-dark fw-bold" style="font-size: 1.1rem;">
+                                    🎉 Net Income: $<span
+                                        th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">1,000</span>
+                                    / mo
                                 </p>
+                                <div class="d-flex gap-3 text-muted" style="font-size: 0.8rem;">
+                                    <span>Gross: $<span
+                                            th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">1,182</span></span>
+                                    <span class="text-danger">Tax (15.4%): -$<span
+                                            th:text="${#numbers.formatDecimal(monthlyIncome - monthlyAmount, 0, 'COMMA', 0, 'POINT')}">182</span></span>
+                                </div>
                             </div>
                         </div>
 

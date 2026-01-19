@@ -48,4 +48,34 @@ public class DividendCalculationServiceTest {
         long years = ChronoUnit.YEARS.between(today, result);
         assertTrue(years >= 99, "Should hit the 100 year safety limit");
     }
+
+    @Test
+    public void testNetIncomeCalculation() {
+        // Goal: $1,000 Net Income
+        // Tax: 15.4%
+        // Target Gross should be: 1000 / (1 - 0.154) = 1182.03...
+
+        // Yield: 5%
+        // Required Capital = Annual Gross / 0.05
+        // Annual Gross = 1182.03 * 12 = 14,184.39...
+        // Capital = 14,184.39 / 0.05 = 283,687.94...
+
+        double netTarget = 1000;
+        double yield = 5.0;
+
+        double requiredCapital = service.calculateRequiredInvestmentForNetIncome(netTarget, yield);
+
+        // Manual calc for verification
+        double expectedGrossMonthly = 1000 / (1.0 - 0.154);
+        double expectedAnnual = expectedGrossMonthly * 12;
+        double expectedCapital = expectedAnnual / 0.05;
+
+        assertEquals(expectedCapital, requiredCapital, 0.01, "Capital calculation mismatch");
+
+        // Additional Check: If we have this capital, does it yield the NET amount?
+        double grossIncome = service.calculateMonthlyIncome(requiredCapital, yield);
+        double netIncome = grossIncome * (1 - 0.154);
+
+        assertEquals(1000.0, netIncome, 0.01, "Reverse check failed: Net income should be exactly 1000");
+    }
 }

@@ -14,4 +14,4 @@ WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 
 # 3. 포트 설정
-ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-8080} -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT:-8080} -jar app.jar"]

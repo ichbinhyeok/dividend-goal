@@ -5,12 +5,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class DividendCalculationService {
 
+    // 1. Gross Target (세전 목표)
     public double calculateRequiredInvestment(double monthlyAmount, double dividendYieldPercentage) {
         if (dividendYieldPercentage <= 0) {
             return 0;
         }
         double annualAmount = monthlyAmount * 12;
         return annualAmount / (dividendYieldPercentage / 100);
+    }
+
+    // 2. Net Target (세후 목표) - [NEW]
+    // 세후 100만원을 받으려면, 세전으로는 100 / (1 - 0.154) 만큼 필요함.
+    public double calculateRequiredInvestmentForNetIncome(double netMonthlyAmount, double dividendYieldPercentage) {
+        if (dividendYieldPercentage <= 0)
+            return 0;
+
+        // Step 1: 세전 목표액 역산 (Gross-up)
+        double taxRate = 0.154; // 배당소득세 15.4%
+        double grossMonthlyAmount = netMonthlyAmount / (1.0 - taxRate);
+
+        return calculateRequiredInvestment(grossMonthlyAmount, dividendYieldPercentage);
     }
 
     public double calculateMonthlyIncome(double capital, double dividendYieldPercentage) {
