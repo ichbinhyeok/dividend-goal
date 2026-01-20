@@ -1,5 +1,5 @@
 # 1. Build Stage
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /app
 
 # Optimize Layer Caching: Copy Gradle Wrapper/Config first
@@ -21,7 +21,7 @@ COPY src src
 RUN ./gradlew clean build -x test --no-daemon
 
 # 2. Runtime Stage
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # Copy JAR from build stage
