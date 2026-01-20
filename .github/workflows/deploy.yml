@@ -41,10 +41,14 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: 129.146.130.254
-        username: ${{ secrets.OCI_USERNAME }}
+        username: ${{ secrets.OCI_HOST }}
         key: ${{ secrets.OCI_KEY }}
         port: 22
+        envs: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN
         script: |
+          # Login to Docker Hub to ensure we can pull the image
+          echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
           # Stop and remove existing container
           docker stop dividend-goal || true
           docker rm dividend-goal || true
