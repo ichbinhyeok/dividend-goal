@@ -449,7 +449,8 @@
                                         th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">1,000</span>
                                     / mo
                                 </p>
-                                <div class="d-flex gap-3 text-muted" style="font-size: 0.8rem;">
+                                <div class="d-flex gap-3 text-muted" style="font-size: 0.8rem;"
+                                    th:if="${monthlyIncome != null}">
                                     <span>Gross: $<span
                                             th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">1,182</span></span>
                                     <span class="text-danger">Tax (15.4%): -$<span
