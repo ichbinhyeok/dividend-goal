@@ -1,17 +1,37 @@
-# 1. 빌드 단계 (Gradle로 자바 소스를 실행 파일로 만듦)
-FROM eclipse-temurin:17-jdk-jammy AS build
+# 1. Build Stage
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
-COPY . .
-# gradlew 실행 권한 부여 (중요!)
-RUN chmod +x ./gradlew
-# 빌드 실행 (테스트 건너뛰고 빠르게)
-RUN ./gradlew clean bootJar -x test
 
-# 2. 실행 단계 (가벼운 환경에서 실행)
+# Optimize Layer Caching: Copy Gradle Wrapper/Config first
+COPY gradle gradle
+COPY gradlew .
+COPY build.gradle .
+COPY settings.gradle .
+
+# Grant execution rights and download dependencies (offline cached if possible)
+RUN chmod +x ./gradlew
+# 'build' or 'goOffline' can be used here. 
+# Using a dummy build or just copying files next is common. 
+# For simplicity and robustness, we skip a dedicated 'goOffline' step as it can be flaky with some plugins.
+
+# Copy Source
+COPY src src
+
+# Build (Skip tests for speed/CI, assume CI runs tests if configured)
+RUN ./gradlew clean build -x test --no-daemon
+
+# 2. Runtime Stage
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-# 빌드된 JAR 파일을 가져옴
+
+# Copy JAR from build stage
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# 3. 포트 설정
-ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT:-8080} -jar app.jar"]
+# JVM Options Explanation:
+# -XX:+UseContainerSupport: Make JVM aware of container limits (cgroup v1/v2)
+# -UseSerialGC: Best for small heaps (low overhead, low footprint) vs G1GC/Parallel
+# -Xmx256m: Strict Max Heap (256MB). Leaves 256MB for Native Mem, Stack, Metaspace, OS overhead
+# -Xss512k: Reduce thread stack size (default 1MB) to save native memory
+# -XX:ReservedCodeCacheSize=64M: Limit JIT compilation cache
+# -XX:MaxMetaspaceSize=128m: Limit class metadata memory
+ENTRYPOINT ["sh", "-c", "java -XX:+UseContainerSupport -XX:+UseSerialGC -Xmx256m -Xss512k -XX:ReservedCodeCacheSize=64M -XX:MaxMetaspaceSize=128m -Dserver.port=8080 -Dspring.profiles.active=prod -jar app.jar"]
