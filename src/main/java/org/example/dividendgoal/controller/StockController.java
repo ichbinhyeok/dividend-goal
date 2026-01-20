@@ -268,10 +268,10 @@ public class StockController {
     }
 
     private void setCacheControl(HttpServletResponse response) {
-        // [SEO] Prevent stale dates in caches
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "0");
+        // [Performance] Dynamic calculation pages: 5-minute browser caching (balances
+        // freshness & performance)
+        // Changed from no-cache to allow browser caching for repeat visitors
+        response.setHeader("Cache-Control", "public, max-age=300"); // 5 minutes
 
         // [SEO] 3-Month Autopilot Strategy: Last-Modified = 1st day of current month
         // This signals "Monthly Verified Content" without spamming daily updates.

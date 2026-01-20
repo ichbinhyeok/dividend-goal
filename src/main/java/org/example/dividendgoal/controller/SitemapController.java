@@ -72,14 +72,20 @@ public class SitemapController {
                 "best-monthly-dividend-stocks");
         articles.forEach(slug -> xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8")));
 
-        // [SEO] Only index 'Golden Amounts' to prevent thin/duplicate content
-        // [SEO] Only index 'Golden Amounts' to prevent thin/duplicate content
-        // Expanded aggressive list: $100, $300, $500, $1000, $1500, $2000, $3000, $5000
-        // (Drop $10k per plan)
+        // [SEO] Differentiated Priority: Popular tickers + realistic amounts get 0.9,
+        // others get 0.7
         List<Integer> amounts = List.of(100, 300, 500, 1000, 1500, 2000, 3000, 5000);
+        List<String> topTickers = List.of("SCHD", "VYM", "O", "JEPI", "QYLD"); // Popular dividend stocks
 
-        stockDataService.getAvailableTickers().forEach(ticker -> amounts.forEach(amount -> xml.append(
-                buildUrl(String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker), "0.8"))));
+        stockDataService.getAvailableTickers().forEach(ticker -> {
+            amounts.forEach(amount -> {
+                String url = String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker);
+                // High priority: Popular tickers with common goals ($1000, $2000)
+                boolean isHighPriority = topTickers.contains(ticker) && (amount == 1000 || amount == 2000);
+                String priority = isHighPriority ? "0.9" : "0.7";
+                xml.append(buildUrl(url, priority));
+            });
+        });
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
@@ -93,16 +99,15 @@ public class SitemapController {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        // [SEO] 인기 티커 정의 (12개)
-        // [SEO] Use ALL tickers for Lifestyle combinations to maximize long-tail
-        // coverage
+        // [SEO] Differentiated Priority: Popular tickers get 0.9, others get 0.6
+        List<String> topTickers = List.of("SCHD", "VYM", "O", "JEPI", "QYLD");
         List<String> allTickers = stockDataService.getAvailableTickers();
 
-        // [SEO] 인기 아이템 x 인기 티커 조합만 sitemap에 포함
         lifestyleService.getPopularItems().forEach(item -> {
             allTickers.forEach(ticker -> {
                 String url = String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, item.getSlug(), ticker);
-                xml.append(buildUrl(url, "0.9")); // 모두 높은 우선순위
+                String priority = topTickers.contains(ticker) ? "0.9" : "0.6";
+                xml.append(buildUrl(url, priority));
             });
         });
 

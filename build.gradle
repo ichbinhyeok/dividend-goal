@@ -14,6 +14,10 @@ java {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
+
 repositories {
     mavenCentral()
 }
@@ -34,6 +38,10 @@ dependencies {
 
     /* ===== Logging (기본 포함이지만 명시) ===== */
     implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    /* ===== [Performance] Caffeine Cache ===== */
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
 
     /* ===== [수정됨] Google Indexing API (정확한 버전 사용) ===== */
     // 기존에 에러나던 v3-rev20240101 대신 실제 존재하는 버전 사용

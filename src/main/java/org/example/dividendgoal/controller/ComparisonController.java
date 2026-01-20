@@ -75,9 +75,8 @@ public class ComparisonController {
         }
 
         private void setCacheControl(HttpServletResponse response) {
-                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-                response.setHeader("Pragma", "no-cache");
-                response.setHeader("Expires", "0");
+                // [Performance] Comparison pages: 5-minute browser caching
+                response.setHeader("Cache-Control", "public, max-age=300"); // 5 minutes
 
                 LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
                 long lastModTime = java.sql.Timestamp.valueOf(firstDayOfMonth.atStartOfDay()).getTime();

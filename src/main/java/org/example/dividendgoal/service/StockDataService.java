@@ -6,6 +6,8 @@ import jakarta.annotation.PostConstruct;
 import org.example.dividendgoal.model.Stock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ public class StockDataService {
     }
 
     @PostConstruct
+    @CacheEvict(value = { "stocks", "allStocks", "availableTickers" }, allEntries = true)
     public void loadStocks() {
         ClassPathResource resource = new ClassPathResource("data/stocks.json");
         try (InputStream is = resource.getInputStream()) {
@@ -48,10 +51,12 @@ public class StockDataService {
 
     // [YMYL-Compliant] No Mock Enrichment. Missing data stays missing.
 
+    @Cacheable("allStocks")
     public List<Stock> getAllStocks() {
         return cachedStocks;
     }
 
+    @Cacheable(value = "stocks", key = "#ticker")
     public Optional<Stock> findByTicker(String ticker) {
         if (ticker == null)
             return Optional.empty();
@@ -61,6 +66,7 @@ public class StockDataService {
                 .findFirst();
     }
 
+    @Cacheable("availableTickers")
     public List<String> getAvailableTickers() {
         return cachedStocks.stream()
                 .map(Stock::getTicker)
@@ -75,6 +81,23 @@ public class StockDataService {
         missingTickerLog.merge(upperTicker, 1, Integer::sum);
         logger.warn("MISSING_TICKER_LOGGED: {}", upperTicker);
     }
+
+    /**
+     * [Performance] Manual cache eviction method
+     * 
+     * Call this method after updating stocks.json to refresh the cache.
+     * The @PostConstruct method already uses @CacheEvict to clear cache on
+     * application startup.
+     * 
+     * Future enhancement: Add a REST endpoint for manual cache refresh if needed.
+     * Example usage: POST /api/admin/refresh-stock-cache
+     */
+    // @CacheEvict(value = {"stocks", "allStocks", "availableTickers"}, allEntries =
+    // true)
+    // public void refreshStockCache() {
+    // loadStocks();
+    // logger.info("Stock cache manually refreshed");
+    // }
 
     // [추가] 수집된 로그 확인용 (필요 시 컨트롤러에서 호출)
     public Map<String, Integer> getMissingTickerSummary() {
