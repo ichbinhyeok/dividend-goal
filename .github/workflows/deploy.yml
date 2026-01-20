@@ -40,8 +40,8 @@ jobs:
     - name: Deploy to OCI via SSH
       uses: appleboy/ssh-action@master
       with:
-        host: 129.146.130.254
-        username: ${{ secrets.OCI_HOST }}
+        host: ${{ secrets.OCI_HOST }}
+        username: ${{ secrets.OCI_USERNAME }}
         key: ${{ secrets.OCI_KEY }}
         port: 22
         envs: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN
