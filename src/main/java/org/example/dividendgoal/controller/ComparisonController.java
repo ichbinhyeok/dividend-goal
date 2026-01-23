@@ -59,18 +59,20 @@ public class ComparisonController {
                 String schemaJson = generateComparisonSchema(s1, s2);
                 model.addAttribute("jsonLdSchema", schemaJson);
 
-                // 5. SEO Meta
-                String monthYear = LocalDate.now()
-                                .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
-                String title = String.format("%s vs %s Dividend: Which is Better? (Updated %s)",
-                                s1.getTicker(), s2.getTicker(), monthYear);
-                String desc = String.format(
-                                "Compare %s (%.2f%% Yield) vs %s (%.2f%% Yield). See which dividend stock wins on Yield, Growth, and Safety. Updated %s.",
-                                s1.getTicker(), s1.getYield(), s2.getTicker(), s2.getYield(), monthYear);
+                // 5. SEO Meta (Condition-based Choice Strategy - Expert Feedback Implemented)
+                String pageTitle = generateConditionBasedTitle(s1, s2);
+                String pageDescription = generateConditionBasedDesc(s1, s2);
+                String h1Text = String.format("%s vs %s: High Income or Long-Term Stability?", s1.getTicker(),
+                                s2.getTicker());
 
-                model.addAttribute("pageTitle", title);
-                model.addAttribute("pageDescription", desc);
+                model.addAttribute("pageHeading", h1Text);
+                model.addAttribute("pageTitle", pageTitle);
+                model.addAttribute("pageDescription", pageDescription);
                 model.addAttribute("currentDate", LocalDate.now().toString());
+
+                // 6. FAQ Schema (Spoiler-free)
+                String faqJson = generateFaqSchema(s1, s2);
+                model.addAttribute("faqJson", faqJson);
 
                 return "compare"; // New Template needed
         }
@@ -94,5 +96,42 @@ public class ComparisonController {
                                   "dateModified": "%s"
                                 }
                                 """, s1.getTicker(), s2.getTicker(), LocalDate.now().toString());
+        }
+
+        // [SEO Strategy] Condition-based Title
+        private String generateConditionBasedTitle(Stock s1, Stock s2) {
+                String monthYear = LocalDate.now()
+                                .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
+                return String.format("%s vs %s: High Income or Long-Term Stability? (%s Analysis)",
+                                s1.getTicker(), s2.getTicker(), monthYear);
+        }
+
+        // [SEO Strategy] Condition-based Description (Trade-off focus)
+        private String generateConditionBasedDesc(Stock s1, Stock s2) {
+                String monthYear = LocalDate.now()
+                                .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
+                return String.format(
+                                "Updated %s | We compared the dividend yield, growth streak, and risk profiles of %s and %s. One pays higher immediate income, while the other offers better long-term growth. See the full scorecard.",
+                                monthYear, s1.getTicker(), s2.getTicker());
+        }
+
+        // [SEO Strategy] FAQ (No Winner Declared)
+        private String generateFaqSchema(Stock s1, Stock s2) {
+                return String.format(
+                                """
+                                                {
+                                                  "@context": "https://schema.org",
+                                                  "@type": "FAQPage",
+                                                  "mainEntity": [{
+                                                    "@type": "Question",
+                                                    "name": "Which is better for dividends, %s or %s?",
+                                                    "acceptedAnswer": {
+                                                      "@type": "Answer",
+                                                      "text": "It strictly depends on your financial goal (Income vs Growth). Our comparison tool analyzes real-time data to help you decide which fits your portfolio better based on current yield and safety scores."
+                                                    }
+                                                  }]
+                                                }
+                                                """,
+                                s1.getTicker(), s2.getTicker());
         }
 }

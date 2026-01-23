@@ -27,6 +27,7 @@
 
     <!-- [SEO] Table Schema for Rich Snippets -->
     <script type="application/ld+json" th:if="${jsonLdSchema}" th:utext="${jsonLdSchema}"></script>
+    <script type="application/ld+json" th:utext="${faqJson}" th:if="${faqJson != null}"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,8 +152,7 @@
     <div class="container py-5">
 
         <div class="text-center mb-5">
-            <h1 class="display-5 fw-bold mb-3"><span th:text="${s1.ticker}">T1</span> vs <span
-                    th:text="${s2.ticker}">T2</span></h1>
+            <h1 class="display-5 fw-bold mb-3" th:text="${pageHeading}">T1 vs T2</h1>
             <p class="lead text-muted">Which dividend stock is better for your portfolio?</p>
             <div class="text-muted small">Updated <span th:text="${currentDate}">Date</span></div>
         </div>
