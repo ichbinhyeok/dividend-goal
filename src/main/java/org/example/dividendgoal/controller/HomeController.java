@@ -36,7 +36,7 @@ public class HomeController {
     // [SEO] Freshness Automation Helper
     private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
         LocalDate now = LocalDate.now();
-        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
         String refreshText = "Updated " + monthYear;
 
         model.addAttribute("currentYear", now.getYear());

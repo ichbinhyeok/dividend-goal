@@ -41,7 +41,7 @@ public class StaticPageController {
 
     private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
         java.time.LocalDate now = java.time.LocalDate.now();
-        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
         model.addAttribute("currentYear", now.getYear());
         model.addAttribute("refreshText", "Updated " + monthYear);
         model.addAttribute("pageTitle", baseTitle + " | Money First");

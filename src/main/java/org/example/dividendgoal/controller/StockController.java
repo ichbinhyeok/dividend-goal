@@ -135,18 +135,24 @@ public class StockController {
             model.addAttribute("lifestyleMeaning", "Calculation unavailable due to missing data.");
         }
 
-        String pageTitle = String.format("How much %s to get $%.0f/month? | Money First", stock.getTicker(),
-                monthlyAmount);
-        String pageDescription = String.format(
-                "Calculation: You need $%s in %s (%s) to target $%.0f monthly dividends with a %.2f%% yield.",
-                DOLLAR_FORMAT.format(requiredInvestment), stock.getName(), stock.getTicker(), monthlyAmount,
-                stock.getYield());
+        // [SEO Update] Curiosity Gap Strategy (No Spoilers)
+        String pageTitle = generateTargetModeTitle(stock.getTicker(), monthlyAmount);
+        String pageDescription = generateTargetModeDesc(stock.getTicker(), monthlyAmount);
+        String h1Text = String.format("Can %s Really Pay You $%s/Month?", stock.getTicker(),
+                DOLLAR_FORMAT.format(monthlyAmount));
+
+        model.addAttribute("pageHeading", h1Text);
 
         addSeoFreshnessAttributes(model, pageTitle, pageDescription);
 
-        // [SEO] Advanced Schema: Breadcrumb + Dataset + FAQ
+        // [SEO] Advanced Schema: Breadcrumb + Dataset (FAQ removed from here, handled
+        // separately)
         String schemaJson = generateSchemaJson(stock, monthlyAmount, requiredInvestment);
         model.addAttribute("jsonLdSchema", schemaJson);
+
+        // [SEO] FAQ Schema (Standalone, Spoiler-Free)
+        String faqJson = generateFaqSchema(stock.getTicker(), "monthly income", monthlyAmount);
+        model.addAttribute("faqJson", faqJson);
 
         // [SEO] Duplicate Content Protection
         // Only index specific "Golden" amounts. User generated amounts (e.g. 543)
@@ -218,11 +224,13 @@ public class StockController {
         }
         model.addAttribute("formattedRequiredInvestment", DOLLAR_FORMAT.format(capital));
 
-        String pageTitle = String.format("How much monthly income from $%,.0f in %s? | Money First", capital,
+        // [SEO Update] Curiosity Gap Strategy (No Spoilers)
+        String pageTitle = generateIncomeModeTitle(stock.getTicker(), capital);
+        String pageDescription = generateIncomeModeDesc(stock.getTicker(), capital);
+        String h1Text = String.format("Is $%s in %s Enough for Monthly Income?", DOLLAR_FORMAT.format(capital),
                 stock.getTicker());
-        String pageDescription = String.format(
-                "Illustrate estimated monthly dividends from $%,.0f in %s (%s) using a %.2f%% trailing yield.",
-                capital, stock.getName(), stock.getTicker(), stock.getYield());
+
+        model.addAttribute("pageHeading", h1Text);
 
         addSeoFreshnessAttributes(model, pageTitle, pageDescription);
 
@@ -231,6 +239,10 @@ public class StockController {
         // for simplicity we map income to monthlyAmount param context or overload.
         String schemaJson = generateSchemaJson(stock, monthlyIncome, capital);
         model.addAttribute("jsonLdSchema", schemaJson);
+
+        // [SEO] FAQ Schema (Standalone, Spoiler-Free)
+        String faqJson = generateFaqSchema(stock.getTicker(), "investment", capital);
+        model.addAttribute("faqJson", faqJson);
         return "result";
     }
 
@@ -255,7 +267,7 @@ public class StockController {
     // [SEO] Freshness Automation Helper
     private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
         LocalDate now = LocalDate.now();
-        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
         String refreshText = "Updated " + monthYear;
 
         model.addAttribute("currentYear", now.getYear());
@@ -350,35 +362,62 @@ public class StockController {
                               "license": "https://dividend-goal.com/terms",
                               "creator": { "@type": "Organization", "name": "Dividend Goal" },
                               "dateModified": "%s"
-                            },
-                            {
-                              "@type": "FAQPage",
-                              "mainEntity": [
-                                {
-                                  "@type": "Question",
-                                  "name": "How much %s do I need for $%.0f montly income?",
-                                  "acceptedAnswer": {
-                                    "@type": "Answer",
-                                    "text": "Based on the current dividend yield of %.2f%%, you would need approximately $%s invested in %s."
-                                  }
-                                },
-                                 {
-                                  "@type": "Question",
-                                  "name": "Is %s a good dividend stock?",
-                                  "acceptedAnswer": {
-                                    "@type": "Answer",
-                                    "text": "%s pays a dividend yield of %.2f%%. It has a %d-year dividend growth streak, making it a viable candidate for income investors."
-                                  }
-                                }
-                              ]
                             }
                           ]
                         }
                         """,
                 ticker, ticker, // Breadcrumb
-                name, monthlyTarget, name, ticker, today, // Dataset
-                ticker, monthlyTarget, stock.getYield(), DOLLAR_FORMAT.format(capitalRequired), name, // FAQ Q1
-                ticker, name, stock.getYield(), stock.getConsecutiveGrowthYears() // FAQ Q2
+                name, monthlyTarget, name, ticker, today // Dataset
         );
+    }
+
+    // [SEO Strategy] 1. Target Mode Title (Verification Style)
+    private String generateTargetModeTitle(String ticker, double amount) {
+        return String.format("Is $%s/mo Dividend from %s Realistic? (2026 Analysis)",
+                DOLLAR_FORMAT.format(amount), ticker);
+    }
+
+    // [SEO Strategy] 2. Target Mode Description (No Spoilers)
+    private String generateTargetModeDesc(String ticker, double amount) {
+        return String.format(
+                "We calculated exactly how much capital you need to generate $%s/month from %s. The amount depends on the current yield. See the realistic breakdown here.",
+                DOLLAR_FORMAT.format(amount), ticker);
+    }
+
+    // [SEO Strategy] 3. Income Mode Title (Verification Style)
+    private String generateIncomeModeTitle(String ticker, double capital) {
+        return String.format("Can $%s in %s Really Generate Meaningful Income?",
+                DOLLAR_FORMAT.format(capital), ticker);
+    }
+
+    // [SEO Strategy] 4. Income Mode Description (No Spoilers)
+    private String generateIncomeModeDesc(String ticker, double capital) {
+        return String.format(
+                "We analyzed the real monthly income potential of investing $%s in %s. The results depend on yield fluctuations. Check the exact income report.",
+                DOLLAR_FORMAT.format(capital), ticker);
+    }
+
+    // [SEO Strategy] 5. FAQ Gen (Calculator CTA)
+    private String generateFaqSchema(String ticker, String contextType, double amount) {
+        String question = contextType.equals("monthly income")
+                ? String.format("How much %s stock do I need for $%s/mo?", ticker, DOLLAR_FORMAT.format(amount))
+                : String.format("How much does $%s in %s pay per month?", DOLLAR_FORMAT.format(amount), ticker);
+
+        return String.format(
+                """
+                        {
+                          "@context": "https://schema.org",
+                          "@type": "FAQPage",
+                          "mainEntity": [{
+                            "@type": "Question",
+                            "name": "%s",
+                            "acceptedAnswer": {
+                              "@type": "Answer",
+                              "text": "The exact result depends on the real-time dividend yield and tax assumptions. Our interactive calculator provides a detailed breakdown of the investment performance based on today's market data."
+                            }
+                          }]
+                        }
+                        """,
+                question);
     }
 }

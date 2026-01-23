@@ -112,12 +112,14 @@ public class LifestyleController {
                 String currentUrl = AppConstants.BASE_URL + request.getRequestURI();
                 model.addAttribute("currentUrl", currentUrl);
 
-                // 6. [SEO] 동적 메타데이터 (고유성 강화)
-                String pageTitle = String.format("Is %s Dividend Enough for %s? | Money First Analysis",
-                                stock.getTicker(), item.getName());
-                String pageDescription = String.format(
-                                "Analysis: Can %s (%s) dividends cover your %s bill? Calculated required capital: $%.0f. See the full income report.",
-                                stock.getName(), stock.getTicker(), item.getName(), requiredInvestment);
+                // 6. [SEO] 동적 메타데이터 (고유성 강화 + CTR 최적화: 정답 숨기기)
+                // [FIX] Zero-Click 방지: 결과 금액($)과 확정적 표현을 제거하고, 질문형/검증형 톤으로 변경
+                String pageTitle = generateVerificationTitle(stock.getTicker(), item.getName());
+                String pageDescription = generateCuriosityDescription(stock.getTicker(), item.getName());
+
+                // [SEO] FAQ Schema (SERP 점유율 확대)
+                String faqJson = generateFaqSchema(stock.getTicker(), item.getName());
+                model.addAttribute("faqJson", faqJson);
 
                 // 7. [FIX] 누락된 content 객체 주입 (500 Error 방지)
                 java.util.Map<String, String> content = new java.util.HashMap<>();
@@ -144,7 +146,7 @@ public class LifestyleController {
 
         private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
                 LocalDate now = LocalDate.now();
-                String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+                String monthYear = now.format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
                 String refreshText = "Updated " + monthYear;
 
                 model.addAttribute("currentYear", now.getYear());
@@ -195,5 +197,37 @@ public class LifestyleController {
                                         "👑 Top 1% earner. Your money is working harder than you ever did.");
                 }
                 return options.get(random.nextInt(options.size()));
+        }
+
+        // [SEO Strategy] Verification Title (No Clickbait, No "Analysis" bore)
+        private String generateVerificationTitle(String ticker, String itemName) {
+                return String.format("Can %s Dividends Really Pay for Your %s Subscription?", ticker, itemName);
+        }
+
+        // [SEO Strategy] Curiosity Gap Description (Hides the number, sells the tool)
+        private String generateCuriosityDescription(String ticker, String itemName) {
+                return String.format(
+                                "We analyzed whether %s dividends can realistically cover your %s bill. The required investment depends on current yield assumptions. Check the exact income breakdown with our calculator.",
+                                ticker, itemName);
+        }
+
+        // [SEO Strategy] FAQ Schema for SERP Domination (Directs to calculator)
+        private String generateFaqSchema(String ticker, String itemName) {
+                return String.format(
+                                """
+                                                {
+                                                  "@context": "https://schema.org",
+                                                  "@type": "FAQPage",
+                                                  "mainEntity": [{
+                                                    "@type": "Question",
+                                                    "name": "How much %s stock do I need to cover %s?",
+                                                    "acceptedAnswer": {
+                                                      "@type": "Answer",
+                                                      "text": "The exact investment required depends on the current dividend yield and tax assumptions. Our interactive calculator provides a detailed breakdown of the capital needed to offset this cost completely based on today's market data."
+                                                    }
+                                                  }]
+                                                }
+                                                """,
+                                ticker, itemName);
         }
 }

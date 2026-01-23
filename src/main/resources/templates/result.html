@@ -353,6 +353,7 @@
     </style>
     <!-- [SEO] Dynamic Rich Schema (Dataset, Breadcrumb, FAQ) -->
     <script type="application/ld+json" th:if="${jsonLdSchema}" th:utext="${jsonLdSchema}"></script>
+    <script type="application/ld+json" th:utext="${faqJson}" th:if="${faqJson != null}"></script>
 </head>
 
 <body>
@@ -406,10 +407,7 @@
                                 Risk</span>
                         </div>
 
-                        <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'TARGET'}">Target: $<span
-                                th:text="${#numbers.formatDecimal(monthlyAmount, 0, 'COMMA', 0, 'POINT')}">0</span> /
-                            Month</h1>
-                        <h1 class="h3 fw-bold mb-1" th:if="${calculationMode == 'INCOME'}">Projected Monthly Income</h1>
+                        <h1 class="h3 fw-bold mb-1" th:text="${pageHeading}">Target Goal</h1>
 
                         <p class="text-muted mb-0">
                             Ticker: <strong th:text="${stock.ticker}">TICKER</strong> <span class="mx-2">•</span>

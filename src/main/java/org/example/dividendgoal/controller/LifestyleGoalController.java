@@ -94,7 +94,7 @@ public class LifestyleGoalController {
 
     private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
         java.time.LocalDate now = java.time.LocalDate.now();
-        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy"));
+        String monthYear = now.format(java.time.format.DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
         String refreshText = "Updated " + monthYear;
 
         model.addAttribute("currentYear", now.getYear());

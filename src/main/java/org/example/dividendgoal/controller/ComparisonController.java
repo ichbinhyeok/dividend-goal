@@ -60,7 +60,8 @@ public class ComparisonController {
                 model.addAttribute("jsonLdSchema", schemaJson);
 
                 // 5. SEO Meta
-                String monthYear = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM yyyy"));
+                String monthYear = LocalDate.now()
+                                .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
                 String title = String.format("%s vs %s Dividend: Which is Better? (Updated %s)",
                                 s1.getTicker(), s2.getTicker(), monthYear);
                 String desc = String.format(
