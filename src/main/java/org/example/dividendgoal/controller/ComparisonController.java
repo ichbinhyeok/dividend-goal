@@ -1,7 +1,9 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -28,19 +30,24 @@ public class ComparisonController {
         public String compareStocks(@PathVariable("ticker1") String ticker1, @PathVariable("ticker2") String ticker2,
                         HttpServletResponse response, Model model) {
 
-                // 1. Validate Tickers
-                Stock s1 = stockDataService.findByTicker(ticker1)
-                                .orElseThrow(
-                                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                                "Ticker " + ticker1 + " not found"));
-                Stock s2 = stockDataService.findByTicker(ticker2)
-                                .orElseThrow(
-                                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                                "Ticker " + ticker2 + " not found"));
-
-                if (s1.getTicker().equalsIgnoreCase(s2.getTicker())) {
-                        return "redirect:/how-much-dividend/1000-per-month/" + s1.getTicker();
+                if (ticker1.equalsIgnoreCase(ticker2)) {
+                        return "redirect:/how-much-dividend/1000-per-month/" + ticker1.toUpperCase();
                 }
+
+                SeoPolicy.ComparisonPair canonicalPair = SeoPolicy.canonicalComparisonPair(ticker1, ticker2);
+                if (!ticker1.equalsIgnoreCase(canonicalPair.left()) || !ticker2.equalsIgnoreCase(canonicalPair.right())) {
+                        return "redirect:/compare/" + canonicalPair.left() + "-vs-" + canonicalPair.right();
+                }
+
+                // 1. Validate Tickers
+                Stock s1 = stockDataService.findByTicker(canonicalPair.left())
+                                .orElseThrow(
+                                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                                "Ticker " + canonicalPair.left() + " not found"));
+                Stock s2 = stockDataService.findByTicker(canonicalPair.right())
+                                .orElseThrow(
+                                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                                "Ticker " + canonicalPair.right() + " not found"));
 
                 // 2. Set Headers (Monthly Freshness)
                 setCacheControl(response);
@@ -69,6 +76,9 @@ public class ComparisonController {
                 model.addAttribute("pageTitle", pageTitle);
                 model.addAttribute("pageDescription", pageDescription);
                 model.addAttribute("currentDate", LocalDate.now().toString());
+                model.addAttribute("canonicalUrl",
+                                AppConstants.BASE_URL + "/compare/" + s1.getTicker() + "-vs-" + s2.getTicker());
+                model.addAttribute("shouldIndex", SeoPolicy.isIndexableComparisonPage(s1.getTicker(), s2.getTicker()));
 
                 // 6. FAQ Schema (Spoiler-free)
                 String faqJson = generateFaqSchema(s1, s2);

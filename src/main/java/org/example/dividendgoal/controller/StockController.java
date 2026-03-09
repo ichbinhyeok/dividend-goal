@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.dividendgoal.model.GeneratedContent;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
@@ -157,9 +158,7 @@ public class StockController {
         // [SEO] Duplicate Content Protection
         // Only index specific "Golden" amounts. User generated amounts (e.g. 543)
         // should be noindex.
-        List<Double> goldenAmounts = List.of(500.0, 1000.0, 2000.0, 5000.0);
-        boolean isGolden = goldenAmounts.contains(monthlyAmount);
-        model.addAttribute("shouldIndex", isGolden);
+        model.addAttribute("shouldIndex", SeoPolicy.isIndexableTargetPage(stock.getTicker(), monthlyAmount));
 
         // [SEO] Internal Linking: Similar stocks from same sector
         List<Stock> similarStocks = stockDataService.getSimilarStocks(stock.getSector(), stock.getTicker(), 4);
@@ -206,6 +205,7 @@ public class StockController {
         // --- [SEO] Canonical URL ---
         String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
         model.addAttribute("currentUrl", currentUrl);
+        model.addAttribute("shouldIndex", SeoPolicy.isIndexableIncomePage(stock.getTicker(), capital));
 
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
         model.addAttribute("calculationMode", "INCOME");

@@ -52,11 +52,13 @@ class ContentUniqueTest {
     void testSafetyAnalysisLogic() {
         Stock risky = new Stock();
         risky.setTicker("RISK");
+        risky.setYield(4.0);
         risky.setPayoutRatio(120.0); // Dangerous
         risky.setConsecutiveGrowthYears(1);
 
         Stock safe = new Stock();
         safe.setTicker("SAFE");
+        safe.setYield(4.0);
         safe.setPayoutRatio(40.0); // Safe
         safe.setConsecutiveGrowthYears(25);
 

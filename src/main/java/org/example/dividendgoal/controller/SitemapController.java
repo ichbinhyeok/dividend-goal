@@ -1,14 +1,13 @@
 package org.example.dividendgoal.controller;
 
 import org.example.dividendgoal.AppConstants;
-import org.example.dividendgoal.service.LifestyleService;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,11 +17,9 @@ import java.util.List;
 public class SitemapController {
 
     private final StockDataService stockDataService;
-    private final LifestyleService lifestyleService;
 
-    public SitemapController(StockDataService stockDataService, LifestyleService lifestyleService) {
+    public SitemapController(StockDataService stockDataService) {
         this.stockDataService = stockDataService;
-        this.lifestyleService = lifestyleService;
     }
 
     // 1. 사이트맵 인덱스 (Sitemap Index)
@@ -57,35 +54,20 @@ public class SitemapController {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        xml.append(buildUrl(baseUrl + "/", "1.0"));
-        xml.append(buildUrl(baseUrl + "/articles", "0.9"));
-        xml.append(buildUrl(baseUrl + "/about", "0.5"));
+        SeoPolicy.getCoreStaticPaths()
+                .forEach(path -> xml.append(buildUrl(joinUrl(baseUrl, path), "/".equals(path) ? "1.0" : "0.7")));
 
-        // [SEO] Static Articles (Ensure these are indexed)
-        List<String> articles = List.of(
-                "what-is-dividend-yield",
-                "why-dividend-growth-matters",
-                "schd-vs-jepi-comparison",
-                "how-to-use-dividend-calculator",
-                "dividend-income-vs-interest",
-                "why-small-expenses-matter",
-                "best-monthly-dividend-stocks");
-        articles.forEach(slug -> xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8")));
+        SeoPolicy.getArticleSlugs()
+                .forEach(slug -> xml.append(buildUrl(baseUrl + "/articles/" + slug, "0.8")));
 
-        // [SEO] Differentiated Priority: Popular tickers + realistic amounts get 0.9,
-        // others get 0.7
-        List<Integer> amounts = List.of(100, 300, 500, 1000, 1500, 2000, 3000, 5000);
-        List<String> topTickers = List.of("SCHD", "VYM", "O", "JEPI", "QYLD"); // Popular dividend stocks
-
-        stockDataService.getAvailableTickers().forEach(ticker -> {
-            amounts.forEach(amount -> {
+        List<String> indexableTickers = SeoPolicy.getIndexableTickersForTargets(stockDataService.getAvailableTickers());
+        for (String ticker : indexableTickers) {
+            for (Integer amount : SeoPolicy.getIndexableTargetAmounts()) {
                 String url = String.format("%s/how-much-dividend/%d-per-month/%s", baseUrl, amount, ticker);
-                // High priority: Popular tickers with common goals ($1000, $2000)
-                boolean isHighPriority = topTickers.contains(ticker) && (amount == 1000 || amount == 2000);
-                String priority = isHighPriority ? "0.9" : "0.7";
+                String priority = amount == 1000 || amount == 2000 ? "0.9" : "0.7";
                 xml.append(buildUrl(url, priority));
-            });
-        });
+            }
+        }
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
@@ -99,17 +81,13 @@ public class SitemapController {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        // [SEO] Differentiated Priority: Popular tickers get 0.9, others get 0.6
-        List<String> topTickers = List.of("SCHD", "VYM", "O", "JEPI", "QYLD");
-        List<String> allTickers = stockDataService.getAvailableTickers();
-
-        lifestyleService.getPopularItems().forEach(item -> {
-            allTickers.forEach(ticker -> {
-                String url = String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, item.getSlug(), ticker);
-                String priority = topTickers.contains(ticker) ? "0.9" : "0.6";
-                xml.append(buildUrl(url, priority));
-            });
-        });
+        List<String> lifestyleTickers = SeoPolicy.getIndexableTickersForLifestyle(stockDataService.getAvailableTickers());
+        for (String itemSlug : SeoPolicy.getIndexableLifestyleItemSlugs()) {
+            for (String ticker : lifestyleTickers) {
+                String url = String.format("%s/lifestyle/cost-of-%s-vs-%s-dividend", baseUrl, itemSlug, ticker);
+                xml.append(buildUrl(url, "0.6"));
+            }
+        }
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
@@ -123,19 +101,10 @@ public class SitemapController {
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 
-        List<String> tickers = stockDataService.getAvailableTickers();
-
-        // Generate Pair Combinations (A vs B)
-        // Order independent: SCHD-vs-JEPI only (don't do JEPI-vs-SCHD to avoid
-        // duplicate content)
-        for (int i = 0; i < tickers.size(); i++) {
-            for (int j = i + 1; j < tickers.size(); j++) {
-                String t1 = tickers.get(i);
-                String t2 = tickers.get(j);
-                String url = String.format("%s/compare/%s-vs-%s", baseUrl, t1, t2);
-                xml.append(buildUrl(url, "0.8"));
-            }
-        }
+        SeoPolicy.getIndexableComparisonPairs(stockDataService.getAvailableTickers())
+                .forEach(pair -> xml.append(buildUrl(
+                        String.format("%s/compare/%s-vs-%s", baseUrl, pair.left(), pair.right()),
+                        "0.6")));
 
         xml.append("</urlset>");
         return ResponseEntity.ok(xml.toString());
@@ -148,5 +117,12 @@ public class SitemapController {
     private String buildUrl(String location, String priority) {
         return String.format("<url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>", location,
                 getMonthlyLastMod(), priority);
+    }
+
+    private String joinUrl(String baseUrl, String path) {
+        if ("/".equals(path)) {
+            return baseUrl + "/";
+        }
+        return baseUrl + path;
     }
 }

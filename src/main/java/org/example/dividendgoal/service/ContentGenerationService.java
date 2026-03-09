@@ -83,7 +83,7 @@ public class ContentGenerationService {
                     "This elevated yield often indicates one of three scenarios: the market may be pricing in higher risk due to business headwinds, the company may have a mature cash flow profile with limited growth prospects, or it could represent a genuine value opportunity overlooked by the broader market. ");
             sb.append(
                     "Investors should carefully examine the payout ratio and dividend history before committing capital.");
-        } else if (diff < -1.0) {
+        } else if (diff <= -1.0) {
             sb.append(String.format(
                     "Its yield of %.2f%% is <strong>lower</strong> than the sector median of %.2f%% (approximately %.0f%% below average). ",
                     myYield, sectorMedian, Math.abs(percentDiff)));

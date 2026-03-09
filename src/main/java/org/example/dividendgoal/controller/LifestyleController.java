@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.DividendCalculationService;
 import org.example.dividendgoal.service.DripSimulationService;
 import org.example.dividendgoal.service.LifestyleService;
@@ -68,7 +69,7 @@ public class LifestyleController {
                 model.addAttribute("isDataAvailable", isDataAvailable);
 
                 // 3. [SEO] 인기 조합 여부 판단 (인기 아이템 + 인기 티커만 index 허용)
-                boolean shouldIndex = item.isPopular() && POPULAR_TICKERS.contains(ticker.toUpperCase());
+                boolean shouldIndex = item.isPopular() && SeoPolicy.isIndexableLifestylePage(item.getSlug(), ticker);
                 model.addAttribute("shouldIndex", shouldIndex);
 
                 // 4. 모델 바인딩 (StockController와 최대한 호환되게)
