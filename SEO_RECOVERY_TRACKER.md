@@ -39,11 +39,13 @@ Source of truth: `sc-domain:dividend-goal.com` Search Console audit performed on
 - New sitemap comparison: `15 URLs`
 - `how-much-income/*`: `noindex`
 - Only curated target/lifestyle/comparison pages should remain indexable
+- Current hardening commit pushed to `origin/main`: `60ff65f` (`Harden canonical SEO surface`)
 
 ## Deployment Checklist
 
-- [ ] Deploy commit `3b1418d` (`Fix SEO indexing policy and trim sitemap surface`)
+- [ ] Deploy commit `60ff65f` (`Harden canonical SEO surface`)
 - [ ] Deploy tracker document commit
+- [ ] Run [SEO_POST_DEPLOY_CHECKLIST.md](./SEO_POST_DEPLOY_CHECKLIST.md) after deploy
 - [x] Confirm `https://dividend-goal.com/sitemap.xml` returns reduced sitemap sets
 - [x] Confirm `https://dividend-goal.com/how-much-income/100000/LEG` returns `<meta name="robots" content="noindex, follow">`
 - [x] Confirm non-canonical comparison URL redirects to canonical order
@@ -117,6 +119,7 @@ Kill the project if all of the following are still true by 2026-05-04:
 
 - Do not expand sitemap size during this observation window.
 - Do not add new programmatic page families during this observation window.
+- Use [SEO_POST_DEPLOY_CHECKLIST.md](./SEO_POST_DEPLOY_CHECKLIST.md) as the deploy-day validation runbook.
 - If any change is made to SEO logic, record the date and exact change below.
 
 ## Change Log
@@ -125,3 +128,4 @@ Kill the project if all of the following are still true by 2026-05-04:
 | --- | --- | --- |
 | 2026-03-09 | Reduced indexable surface and aligned sitemap with robots policy | Remove low-value crawl/index noise |
 | 2026-03-24 | Corrected tracker to domain-property baseline, fixed canonical compare target to `/compare/JEPI-vs-SCHD`, and queued redirect/canonical hardening | Align monitoring with the actual canonical SEO surface |
+| 2026-03-24 | Updated deploy target to commit `60ff65f` and linked the post-deploy verification runbook | Keep the tracker aligned with the current rollout plan |
