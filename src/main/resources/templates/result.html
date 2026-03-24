@@ -584,52 +584,45 @@
                     </script>
                 </div>
 
-                <div th:if="${recommendedItem} and ${item == null}" class="mt-4">
-                    <a th:href="@{/lifestyle/cost-of-{slug}-vs-{ticker}-dividend(slug=${recommendedItem.slug}, ticker=${stock.ticker})}"
-                        class="internal-link-card p-4 rounded-4 text-center shadow-sm">
-                        <h3 class="h6 fw-bold text-uppercase text-warning text-opacity-75 mb-2">Did you know?</h3>
-                        <p class="fs-5 mb-0 text-dark">
-                            This <span th:text="${stock.ticker}" class="fw-bold">AAPL</span> dividend could also pay for
-                            your
-                            <strong><span th:text="${recommendedItem.name}">Netflix</span></strong> bill! <span
-                                class="fw-bold text-decoration-underline">See Plan &rarr;</span>
-                        </p>
-                    </a>
-                </div>
-
-                <!-- [SEO] Internal Linking: Similar Stocks (Modernized) -->
-                <div th:if="${similarStocks != null and !similarStocks.isEmpty()}" class="mt-5">
+                <div class="mt-5">
                     <div class="d-flex align-items-center justify-content-between mb-4 px-1">
-                        <h3 class="h5 fw-bold text-dark mb-0">✨ More <span th:text="${stock.sector}">Technology</span>
-                            Stocks</h3>
+                        <h3 class="h5 fw-bold text-dark mb-0">Core Next Steps</h3>
                     </div>
 
-                    <div class="row row-cols-2 row-cols-md-4 g-3">
-                        <div class="col" th:each="similar : ${similarStocks}">
-                            <div class="stock-card h-100 p-4 d-flex flex-column">
-                                <a th:href="@{/how-much-dividend/{amount}-per-month/{ticker}(amount=${monthlyAmount}, ticker=${similar.ticker})}"
-                                    class="text-decoration-none text-dark flex-grow-1 mb-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="fw-bold fs-5" th:text="${similar.ticker}">MSFT</div>
-                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1"
-                                            style="font-size: 0.7rem;" th:text="${similar.yield} + '%'">3.5%</span>
-                                    </div>
-                                    <div class="small text-secondary text-truncate" th:text="${similar.name}">Microsoft
-                                    </div>
-                                </a>
-
-                                <div class="mt-auto">
-                                    <a th:href="@{/compare/{t1}-vs-{t2}(t1=${stock.ticker}, t2=${similar.ticker})}"
-                                        class="btn-compare text-decoration-none">
-                                        <span>Compare</span>
-                                        <span style="font-size: 1.1em;">&rarr;</span>
-                                    </a>
-                                </div>
-                            </div>
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                        <div class="col">
+                            <a href="/how-much-dividend/1000-per-month/SCHD"
+                                class="internal-link-card p-4 rounded-4 h-100">
+                                <h4 class="h6 fw-bold text-dark mb-2">SCHD Income Plan</h4>
+                                <p class="mb-0 text-secondary small">See the core SCHD scenario for a $1,000 monthly dividend target.</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="/how-much-dividend/1000-per-month/VTI"
+                                class="internal-link-card p-4 rounded-4 h-100">
+                                <h4 class="h6 fw-bold text-dark mb-2">VTI Income Plan</h4>
+                                <p class="mb-0 text-secondary small">Compare the same target against a broader-market ETF.</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="/compare/JEPI-vs-SCHD" class="internal-link-card p-4 rounded-4 h-100">
+                                <h4 class="h6 fw-bold text-dark mb-2">JEPI vs SCHD</h4>
+                                <p class="mb-0 text-secondary small">Review the canonical comparison page for income versus quality.</p>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="/articles/what-is-dividend-yield"
+                                class="internal-link-card p-4 rounded-4 h-100">
+                                <h4 class="h6 fw-bold text-dark mb-2">Dividend Yield Guide</h4>
+                                <p class="mb-0 text-secondary small">Read the core explainer that supports the calculator pages.</p>
+                            </a>
                         </div>
                     </div>
                 </div>
+                <!-- removed legacy internal links
 
+                        <h3 class="h5 fw-bold text-dark mb-0">✨ More <span th:text="${stock.sector}">Technology</span>
+                -->
                 <style>
                     .hover-shadow:hover {
                         transform: translateY(-2px);

@@ -14,10 +14,12 @@ class SeoPolicyTest {
     void targetPagesAreLimitedToCuratedTickerAndAmountCombinations() {
         assertTrue(SeoPolicy.isIndexableTargetPage("SCHD", 1000));
         assertTrue(SeoPolicy.isIndexableTargetPage("vti", 5000));
+        assertTrue(SeoPolicy.isIndexableTargetTicker("SCHD"));
 
         assertFalse(SeoPolicy.isIndexableTargetPage("ABBV", 1000));
         assertFalse(SeoPolicy.isIndexableTargetPage("SCHD", 300));
         assertFalse(SeoPolicy.isIndexableTargetPage("SCHD", 1000.5));
+        assertFalse(SeoPolicy.isIndexableTargetTicker("ABBV"));
     }
 
     @Test
@@ -27,8 +29,10 @@ class SeoPolicyTest {
 
     @Test
     void lifestylePagesMustMatchCuratedIntent() {
+        assertTrue(SeoPolicy.isIndexableLifestyleHubPage("netflix-premium"));
         assertTrue(SeoPolicy.isIndexableLifestylePage("netflix-premium", "SCHD"));
 
+        assertFalse(SeoPolicy.isIndexableLifestyleHubPage("gym-membership-luxury"));
         assertFalse(SeoPolicy.isIndexableLifestylePage("spotify-family", "SCHD"));
         assertFalse(SeoPolicy.isIndexableLifestylePage("netflix-premium", "ABBV"));
     }

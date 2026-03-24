@@ -1,6 +1,6 @@
 # SEO Recovery Tracker
 
-Last updated: 2026-03-09
+Last updated: 2026-03-24
 
 ## Goal
 
@@ -15,15 +15,14 @@ Track whether the SEO cleanup improves indexing quality and search traffic enoug
 
 ## Baseline Before Deploy
 
-Source: Google Search Console checks performed on 2026-03-09.
+Source of truth: `sc-domain:dividend-goal.com` Search Console audit performed on `2026-03-24`.
 
-- Property currently accessible: `https://www.dividend-goal.com/`
 - Live canonical host: `https://dividend-goal.com`
-- Last 28 days (`2026-02-09` to `2026-03-08`): `0 clicks / 46 impressions`
-- Previous 28 days (`2026-01-12` to `2026-02-08`): `2 clicks / 304 impressions`
-- Last non-zero click date: `2026-02-08`
-- Last non-zero impression date: `2026-02-24`
-- Last 180 days: `3 clicks / 854 impressions`
+- Old `https://www.dividend-goal.com/` prefix-property baseline should not be compared directly to current domain-property data
+- Last 28 days (`2026-02-09` to `2026-03-08`): `6 clicks / 402 impressions`
+- Previous 28 days (`2026-01-12` to `2026-02-08`): `9 clicks / 651 impressions`
+- Last non-zero click date inside the current baseline window: `2026-03-08`
+- Last 180 days: legacy clicks came mostly from wide comparison-page surface, not the current curated core
 
 ## Structural Baseline Before Deploy
 
@@ -45,15 +44,15 @@ Source: Google Search Console checks performed on 2026-03-09.
 
 - [ ] Deploy commit `3b1418d` (`Fix SEO indexing policy and trim sitemap surface`)
 - [ ] Deploy tracker document commit
-- [ ] Confirm `https://dividend-goal.com/sitemap.xml` returns reduced sitemap sets
-- [ ] Confirm `https://dividend-goal.com/how-much-income/100000/LEG` returns `<meta name="robots" content="noindex, follow">`
-- [ ] Confirm non-canonical comparison URL redirects to canonical order
-- [ ] Confirm `https://dividend-goal.com/compare/SCHD-vs-JEPI` includes canonical tag
+- [x] Confirm `https://dividend-goal.com/sitemap.xml` returns reduced sitemap sets
+- [x] Confirm `https://dividend-goal.com/how-much-income/100000/LEG` returns `<meta name="robots" content="noindex, follow">`
+- [x] Confirm non-canonical comparison URL redirects to canonical order
+- [ ] Confirm `https://dividend-goal.com/compare/JEPI-vs-SCHD` includes canonical tag and the wrong-order URL returns a single permanent redirect
 
 ## Search Console Actions
 
-- [ ] Add or verify apex property: `https://dividend-goal.com/`
-- [ ] Submit sitemap: `https://dividend-goal.com/sitemap.xml`
+- [x] Verify domain property: `sc-domain:dividend-goal.com`
+- [x] Submit sitemap: `https://dividend-goal.com/sitemap.xml`
 - [ ] Request reindex for homepage
 - [ ] Request reindex for these core URLs:
 - [ ] `https://dividend-goal.com/`
@@ -61,7 +60,7 @@ Source: Google Search Console checks performed on 2026-03-09.
 - [ ] `https://dividend-goal.com/articles/dividend-income-vs-interest`
 - [ ] `https://dividend-goal.com/how-much-dividend/1000-per-month/SCHD`
 - [ ] `https://dividend-goal.com/how-much-dividend/1000-per-month/VTI`
-- [ ] `https://dividend-goal.com/compare/SCHD-vs-JEPI`
+- [ ] `https://dividend-goal.com/compare/JEPI-vs-SCHD`
 
 ## Weekly Tracking
 
@@ -69,9 +68,9 @@ Fill this once per week after deploy.
 
 | Check Date | Last 7d Clicks | Last 7d Impressions | Last 28d Clicks | Last 28d Impressions | Indexed Core URLs | Notes |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| 2026-03-09 | - | - | 0 | 46 | TBD | Baseline before deploy |
+| 2026-03-09 | - | - | 6 | 402 | TBD | Domain-property comparable baseline |
 | 2026-03-16 |  |  |  |  |  |  |
-| 2026-03-23 |  |  |  |  |  |  |
+| 2026-03-23 | 0 | 7 | 0 | 123 | 6/6 | Final data available through 2026-03-22. Canonical compare URL is `/compare/JEPI-vs-SCHD`. `LEG` noindex page has not been recrawled yet. |
 | 2026-03-30 |  |  |  |  |  |  |
 | 2026-04-06 |  |  |  |  |  | Main review |
 | 2026-04-13 |  |  |  |  |  |  |
@@ -85,11 +84,12 @@ Use this table for the same small set of URLs every time.
 
 | URL | Status Before | Status After Deploy | Last Crawl | Notes |
 | --- | --- | --- | --- | --- |
-| `/` | Page with redirect on `www` property |  |  |  |
-| `/articles/what-is-dividend-yield` | Page with redirect on `www` property |  |  |  |
-| `/how-much-dividend/1000-per-month/VTI` | Submitted and indexed |  |  |  |
-| `/compare/SCHD-vs-JEPI` | URL unknown to Google |  |  |  |
-| `/how-much-income/100000/LEG` | Page with redirect on `www` property |  |  | Should become noindex on apex |
+| `/` | Page with redirect on `www` property | Submitted and indexed | 2026-03-16 | Apex property is now the source of truth |
+| `/articles/what-is-dividend-yield` | Page with redirect on `www` property | Submitted and indexed | 2026-03-17 | Core article is still being crawled |
+| `/how-much-dividend/1000-per-month/VTI` | Submitted and indexed | Submitted and indexed | 2026-03-21 | Core ETF calculator page |
+| `/compare/JEPI-vs-SCHD` | Not tracked correctly in old prefix-property workflow | Submitted and indexed | 2026-02-02 | FAQ rich result detected |
+| `/compare/SCHD-vs-JEPI` | URL unknown to Google | Wrong-order URL only; should 308 to canonical | n/a | Non-canonical compare URL |
+| `/how-much-income/100000/LEG` | Page with redirect on `www` property | Crawled - currently not indexed | 2026-02-27 | Live page is now noindex on apex, but Google has not recrawled it yet |
 
 ## Success Criteria
 
@@ -124,3 +124,4 @@ Kill the project if all of the following are still true by 2026-05-04:
 | Date | Change | Reason |
 | --- | --- | --- |
 | 2026-03-09 | Reduced indexable surface and aligned sitemap with robots policy | Remove low-value crawl/index noise |
+| 2026-03-24 | Corrected tracker to domain-property baseline, fixed canonical compare target to `/compare/JEPI-vs-SCHD`, and queued redirect/canonical hardening | Align monitoring with the actual canonical SEO surface |

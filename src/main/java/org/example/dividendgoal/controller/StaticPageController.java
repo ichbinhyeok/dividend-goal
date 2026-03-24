@@ -1,10 +1,10 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.dividendgoal.seo.CanonicalUrls;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 public class StaticPageController {
@@ -18,9 +18,7 @@ public class StaticPageController {
 
     @GetMapping("/methodology")
     public String methodology(HttpServletRequest request, Model model) {
-        // Canonical URL
-        String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
-        model.addAttribute("currentUrl", currentUrl);
+        model.addAttribute("currentUrl", CanonicalUrls.fromRequest(request));
 
         addSeoFreshnessAttributes(model, "Dividend Calculation Methodology",
                 "Transparent breakdown of our formulas and data sources.");

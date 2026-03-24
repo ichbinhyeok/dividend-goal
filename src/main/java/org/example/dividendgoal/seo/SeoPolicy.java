@@ -94,8 +94,16 @@ public final class SeoPolicy {
                 && INDEXABLE_TARGET_TICKER_SET.contains(normalizeTicker(ticker));
     }
 
+    public static boolean isIndexableTargetTicker(String ticker) {
+        return INDEXABLE_TARGET_TICKER_SET.contains(normalizeTicker(ticker));
+    }
+
     public static boolean isIndexableIncomePage(String ticker, double capital) {
         return false;
+    }
+
+    public static boolean isIndexableLifestyleHubPage(String itemSlug) {
+        return INDEXABLE_LIFESTYLE_ITEM_SET.contains(normalizeSlug(itemSlug));
     }
 
     public static boolean isIndexableLifestylePage(String itemSlug, String ticker) {

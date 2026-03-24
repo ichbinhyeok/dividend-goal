@@ -1,8 +1,8 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.CanonicalUrls;
 import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.http.HttpStatus;
@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -27,16 +28,20 @@ public class ComparisonController {
         }
 
         @GetMapping("/compare/{ticker1}-vs-{ticker2}")
-        public String compareStocks(@PathVariable("ticker1") String ticker1, @PathVariable("ticker2") String ticker2,
+        public Object compareStocks(@PathVariable("ticker1") String ticker1, @PathVariable("ticker2") String ticker2,
                         HttpServletResponse response, Model model) {
 
                 if (ticker1.equalsIgnoreCase(ticker2)) {
-                        return "redirect:/how-much-dividend/1000-per-month/" + ticker1.toUpperCase();
+                        return permanentRedirect(
+                                        CanonicalUrls.absolutePath("/how-much-dividend/1000-per-month/"
+                                                        + ticker1.toUpperCase()));
                 }
 
                 SeoPolicy.ComparisonPair canonicalPair = SeoPolicy.canonicalComparisonPair(ticker1, ticker2);
                 if (!ticker1.equalsIgnoreCase(canonicalPair.left()) || !ticker2.equalsIgnoreCase(canonicalPair.right())) {
-                        return "redirect:/compare/" + canonicalPair.left() + "-vs-" + canonicalPair.right();
+                        return permanentRedirect(
+                                        CanonicalUrls.absolutePath("/compare/" + canonicalPair.left() + "-vs-"
+                                                        + canonicalPair.right()));
                 }
 
                 // 1. Validate Tickers
@@ -48,6 +53,11 @@ public class ComparisonController {
                                 .orElseThrow(
                                                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                                                                 "Ticker " + canonicalPair.right() + " not found"));
+
+                if (!SeoPolicy.isIndexableComparisonPage(s1.getTicker(), s2.getTicker())) {
+                        throw new ResponseStatusException(HttpStatus.GONE,
+                                        "Comparison removed from the canonical SEO surface");
+                }
 
                 // 2. Set Headers (Monthly Freshness)
                 setCacheControl(response);
@@ -77,7 +87,7 @@ public class ComparisonController {
                 model.addAttribute("pageDescription", pageDescription);
                 model.addAttribute("currentDate", LocalDate.now().toString());
                 model.addAttribute("canonicalUrl",
-                                AppConstants.BASE_URL + "/compare/" + s1.getTicker() + "-vs-" + s2.getTicker());
+                                CanonicalUrls.absolutePath("/compare/" + s1.getTicker() + "-vs-" + s2.getTicker()));
                 model.addAttribute("shouldIndex", SeoPolicy.isIndexableComparisonPage(s1.getTicker(), s2.getTicker()));
 
                 // 6. FAQ Schema (Spoiler-free)
@@ -85,6 +95,14 @@ public class ComparisonController {
                 model.addAttribute("faqJson", faqJson);
 
                 return "compare"; // New Template needed
+        }
+
+        private RedirectView permanentRedirect(String targetUrl) {
+                RedirectView redirectView = new RedirectView(targetUrl);
+                redirectView.setStatusCode(HttpStatus.PERMANENT_REDIRECT);
+                redirectView.setExposeModelAttributes(false);
+                redirectView.setPropagateQueryParams(false);
+                return redirectView;
         }
 
         private void setCacheControl(HttpServletResponse response) {

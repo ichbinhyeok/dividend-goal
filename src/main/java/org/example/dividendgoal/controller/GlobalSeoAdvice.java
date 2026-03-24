@@ -1,10 +1,10 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.dividendgoal.seo.CanonicalUrls;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,8 +26,6 @@ public class GlobalSeoAdvice {
         model.addAttribute("refreshText", refreshText);
 
         // [SEO] Canonical URL for all pages (prevents duplicate content issues)
-        String canonicalUrl = ServletUriComponentsBuilder.fromRequestUri(request)
-                .build().toUriString();
-        model.addAttribute("canonicalUrl", canonicalUrl);
+        model.addAttribute("canonicalUrl", CanonicalUrls.fromRequest(request));
     }
 }

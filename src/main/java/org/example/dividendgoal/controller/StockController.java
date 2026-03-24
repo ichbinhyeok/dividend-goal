@@ -2,20 +2,23 @@ package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.dividendgoal.model.GeneratedContent;
-import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.CanonicalUrls;
 import org.example.dividendgoal.seo.SeoPolicy;
-import org.example.dividendgoal.service.*;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.example.dividendgoal.service.ContentGenerationService;
+import org.example.dividendgoal.service.DividendCalculationService;
+import org.example.dividendgoal.service.DripSimulationService;
+import org.example.dividendgoal.service.StockDataService;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -31,7 +34,6 @@ public class StockController {
     private final DividendCalculationService dividendCalculationService;
     private final ContentGenerationService contentGenerationService;
     private final DripSimulationService dripSimulationService;
-    private final LifestyleService lifestyleService; // [NEW] 주입
 
     private final Random random = new Random();
     private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("#,###.##");
@@ -39,13 +41,11 @@ public class StockController {
     public StockController(StockDataService stockDataService,
             DividendCalculationService dividendCalculationService,
             ContentGenerationService contentGenerationService,
-            DripSimulationService dripSimulationService,
-            LifestyleService lifestyleService) {
+            DripSimulationService dripSimulationService) {
         this.stockDataService = stockDataService;
         this.dividendCalculationService = dividendCalculationService;
         this.contentGenerationService = contentGenerationService;
         this.dripSimulationService = dripSimulationService;
-        this.lifestyleService = lifestyleService;
     }
 
     @GetMapping("/how-much-dividend/{amount}-per-month/{ticker}")
@@ -110,14 +110,7 @@ public class StockController {
 
         // --- [NEW] 내부 링크 (Internal Linking) ---
         // 하단 박스에 "이 주식으로 넷플릭스도 공짜?" 제안용 랜덤 아이템
-        if (isDataAvailable) {
-            LifestyleItem recommendedItem = lifestyleService.getRandomItem();
-            model.addAttribute("recommendedItem", recommendedItem);
-        }
-
-        // --- [SEO] Canonical URL ---
-        String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
-        model.addAttribute("currentUrl", currentUrl);
+        model.addAttribute("currentUrl", CanonicalUrls.fromRequest(request));
 
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
         model.addAttribute("calculationMode", "TARGET");
@@ -158,11 +151,9 @@ public class StockController {
         // [SEO] Duplicate Content Protection
         // Only index specific "Golden" amounts. User generated amounts (e.g. 543)
         // should be noindex.
-        model.addAttribute("shouldIndex", SeoPolicy.isIndexableTargetPage(stock.getTicker(), monthlyAmount));
-
-        // [SEO] Internal Linking: Similar stocks from same sector
-        List<Stock> similarStocks = stockDataService.getSimilarStocks(stock.getSector(), stock.getTicker(), 4);
-        model.addAttribute("similarStocks", similarStocks);
+        boolean shouldIndex = SeoPolicy.isIndexableTargetPage(stock.getTicker(), monthlyAmount);
+        model.addAttribute("shouldIndex", shouldIndex);
+        applyRobotsHeader(response, shouldIndex);
 
         return "result";
     }
@@ -197,15 +188,10 @@ public class StockController {
         addSharedAttributes(model, stock);
 
         // --- [NEW] 내부 링크 (Internal Linking) ---
-        if (isDataAvailable) {
-            LifestyleItem recommendedItem = lifestyleService.getRandomItem();
-            model.addAttribute("recommendedItem", recommendedItem);
-        }
-
-        // --- [SEO] Canonical URL ---
-        String currentUrl = ServletUriComponentsBuilder.fromRequestUri(request).build().toUriString();
-        model.addAttribute("currentUrl", currentUrl);
-        model.addAttribute("shouldIndex", SeoPolicy.isIndexableIncomePage(stock.getTicker(), capital));
+        model.addAttribute("currentUrl", CanonicalUrls.fromRequest(request));
+        boolean shouldIndex = SeoPolicy.isIndexableIncomePage(stock.getTicker(), capital);
+        model.addAttribute("shouldIndex", shouldIndex);
+        applyRobotsHeader(response, shouldIndex);
 
         model.addAttribute("dividendGrowth", stock.getDividendGrowth());
         model.addAttribute("calculationMode", "INCOME");
@@ -290,6 +276,12 @@ public class StockController {
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
         long lastModTime = java.sql.Timestamp.valueOf(firstDayOfMonth.atStartOfDay()).getTime();
         response.setDateHeader("Last-Modified", lastModTime);
+    }
+
+    private void applyRobotsHeader(HttpServletResponse response, boolean shouldIndex) {
+        if (!shouldIndex) {
+            response.setHeader("X-Robots-Tag", "noindex, follow");
+        }
     }
 
     private String getLifestyleComment(double amount) {

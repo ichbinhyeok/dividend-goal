@@ -1,17 +1,19 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.dividendgoal.AppConstants;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.CanonicalUrls;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.BestStockService;
 import org.example.dividendgoal.service.DividendCalculationService;
 import org.example.dividendgoal.service.LifestyleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,12 @@ public class LifestyleGoalController {
 
         // 1. Get Goal Item
         LifestyleItem item = lifestyleService.findBySlug(itemSlug)
-                .orElseThrow(() -> new IllegalArgumentException("Goal not found: " + itemSlug));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Goal not found: " + itemSlug));
+
+        if (!SeoPolicy.isIndexableLifestyleHubPage(item.getSlug())) {
+            throw new ResponseStatusException(HttpStatus.GONE,
+                    "Lifestyle hub removed from the canonical SEO surface");
+        }
 
         // 2. Get Recommendations (The "Expert" Choice)
         List<Stock> safeStocks = bestStockService.getTopSafetyStocks(3);
@@ -80,6 +87,7 @@ public class LifestyleGoalController {
         // 4. Add to Model
         model.addAttribute("item", item);
         model.addAttribute("comparisonTable", comparisonTable);
+        model.addAttribute("canonicalUrl", CanonicalUrls.fromRequest(request));
 
         // Trust Signals
         model.addAttribute("dataSource", "Data derived from Seeking Alpha & Yahoo Finance API.");

@@ -1,19 +1,21 @@
 package org.example.dividendgoal.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.dividendgoal.AppConstants;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.dividendgoal.model.LifestyleItem;
 import org.example.dividendgoal.model.Stock;
+import org.example.dividendgoal.seo.CanonicalUrls;
 import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.DividendCalculationService;
 import org.example.dividendgoal.service.DripSimulationService;
 import org.example.dividendgoal.service.LifestyleService;
 import org.example.dividendgoal.service.StockDataService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,10 +36,6 @@ public class LifestyleController {
         private final Random random = new Random();
         private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("#,###.##");
 
-        // [SEO] 인기 티커 (sitemap 포함 + index 허용)
-        private static final List<String> POPULAR_TICKERS = List.of(
-                        "AAPL", "SCHD", "O", "JEPI", "TSLA", "NVDA", "MSFT", "KO", "PEP", "JNJ", "PG", "VZ");
-
         public LifestyleController(StockDataService stockDataService, LifestyleService lifestyleService,
                         DividendCalculationService calculationService, DripSimulationService dripSimulationService) {
                 this.stockDataService = stockDataService;
@@ -51,14 +49,22 @@ public class LifestyleController {
                         @PathVariable("itemSlug") String itemSlug,
                         @PathVariable("ticker") String ticker,
                         HttpServletRequest request,
+                        HttpServletResponse response,
                         Model model) {
 
                 // 1. 데이터 조회
                 LifestyleItem item = lifestyleService.findBySlug(itemSlug)
-                                .orElseThrow(() -> new IllegalArgumentException("Item not found: " + itemSlug));
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Item not found: " + itemSlug));
 
                 Stock stock = stockDataService.findByTicker(ticker)
-                                .orElseThrow(() -> new IllegalArgumentException("Ticker not found: " + ticker));
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "Ticker not found: " + ticker));
+
+                if (!SeoPolicy.isIndexableLifestylePage(item.getSlug(), stock.getTicker())) {
+                        throw new ResponseStatusException(HttpStatus.GONE,
+                                        "Lifestyle page removed from the canonical SEO surface");
+                }
 
                 // 2. 계산 로직
                 double monthlyCost = item.getCost();
@@ -71,6 +77,7 @@ public class LifestyleController {
                 // 3. [SEO] 인기 조합 여부 판단 (인기 아이템 + 인기 티커만 index 허용)
                 boolean shouldIndex = item.isPopular() && SeoPolicy.isIndexableLifestylePage(item.getSlug(), ticker);
                 model.addAttribute("shouldIndex", shouldIndex);
+                applyRobotsHeader(response, shouldIndex);
 
                 // 4. 모델 바인딩 (StockController와 최대한 호환되게)
                 model.addAttribute("stock", stock);
@@ -103,15 +110,10 @@ public class LifestyleController {
                                 }
                                 model.addAttribute("timeMachine", timeMachine);
                         }
-
-                        // Internal Linking
-                        LifestyleItem recommendedItem = lifestyleService.getRandomItem();
-                        model.addAttribute("recommendedItem", recommendedItem);
                 }
 
                 // 5. [SEO] Canonical URL (중복 콘텐츠 방지용 절대 경로)
-                String currentUrl = AppConstants.BASE_URL + request.getRequestURI();
-                model.addAttribute("currentUrl", currentUrl);
+                model.addAttribute("currentUrl", CanonicalUrls.fromRequest(request));
 
                 // 6. [SEO] 동적 메타데이터 (고유성 강화 + CTR 최적화: 정답 숨기기)
                 // [FIX] Zero-Click 방지: 결과 금액($)과 확정적 표현을 제거하고, 질문형/검증형 톤으로 변경
@@ -138,11 +140,15 @@ public class LifestyleController {
                 addSeoFreshnessAttributes(model, pageTitle, pageDescription);
 
                 // [SEO] Internal Linking: Similar stocks
-                List<Stock> similarStocks = stockDataService.getSimilarStocks(stock.getSector(), stock.getTicker(), 4);
-                model.addAttribute("similarStocks", similarStocks);
 
                 // 8. 뷰 이름 반환 (기존 result.html 재사용)
                 return "result";
+        }
+
+        private void applyRobotsHeader(HttpServletResponse response, boolean shouldIndex) {
+                if (!shouldIndex) {
+                        response.setHeader("X-Robots-Tag", "noindex, follow");
+                }
         }
 
         private void addSeoFreshnessAttributes(Model model, String baseTitle, String baseDescription) {
