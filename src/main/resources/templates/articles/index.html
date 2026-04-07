@@ -2,162 +2,178 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3533137832089555"
-        crossorigin="anonymous"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3151LZWH6"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-V3151LZWH6');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="https://fav.farm/💰" />
-    <title th:text="${pageTitle}">Articles</title>
+    <link rel="canonical" th:href="${canonicalUrl}">
+    <title th:text="${pageTitle}">Dividend Comparison Guides | Money First</title>
     <meta name="description" th:attr="content=${pageDescription}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0f172a;
-            --accent-color: #10b981;
-            --bg-color: #f1f5f9;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #dbe4ee;
+            --surface: #ffffff;
+            --highlight: #f8fafc;
+            --accent: #92400e;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: #334155;
-            line-height: 1.6;
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(249, 115, 22, 0.08), transparent 22%),
+                #eef3f8;
+            color: var(--ink);
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-            color: var(--primary-color);
-            letter-spacing: -0.02em;
+        h1, h2, h3, h4 {
+            font-family: "Space Grotesk", sans-serif;
+            letter-spacing: -0.03em;
         }
 
-        .card-glow {
-            background: #ffffff;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+        .shell,
+        .guide-card,
+        .compare-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(219, 228, 238, 0.95);
+            box-shadow: 0 18px 40px -30px rgba(15, 23, 42, 0.3);
         }
 
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid #f1f5f9;
-            transition: background 0.2s;
+        .shell,
+        .guide-card,
+        .compare-card {
+            border-radius: 26px;
         }
 
-        .list-group-item:hover {
-            background-color: #f8fafc;
+        .guide-card,
+        .compare-card {
+            padding: 1.3rem;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .list-group-item:last-child {
-            border-bottom: none;
+        .guide-card:hover,
+        .compare-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 34px -28px rgba(146, 64, 14, 0.45);
+            color: inherit;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .plain-link {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .plain-link:hover {
+            color: var(--accent);
+        }
+
+        .small-note {
+            color: var(--muted);
         }
     </style>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg py-3 bg-white border-bottom mb-4">
+    <nav class="navbar navbar-expand-lg py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="/" style="color: var(--primary-color);">💸 Money First</a>
-            <div><a href="/" class="btn btn-sm btn-outline-primary fw-bold">Calculator</a></div>
+            <a class="navbar-brand fw-bold fs-4" href="/">Money First</a>
+            <div class="d-flex gap-3 small">
+                <a href="/" class="plain-link">Comparisons</a>
+                <a href="/articles" class="plain-link">Guides</a>
+                <a href="/about" class="plain-link">About</a>
+            </div>
         </div>
     </nav>
 
-    <div class="container pb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h1 class="fw-bold mb-4">Investing Guides</h1>
-                <div class="card-glow overflow-visible">
-                    <div class="list-group">
-                        <a href="/articles/best-monthly-dividend-stocks"
-                            class="list-group-item list-group-item-action p-4 border-start border-5 border-success bg-light rounded-top-4">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="fw-bold text-dark mb-0">🔥 Best Monthly Dividend Stocks 2026</h5>
-                                <span class="badge bg-success">POPULAR</span>
-                            </div>
-                            <p class="mb-0 text-muted small">Stop waiting 3 months. Get paid every single month with
-                                these picks.</p>
-                        </a>
-                        <a href="/articles/what-is-dividend-yield" class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">1. What is Dividend Yield?</h5>
-                            <p class="mb-0 text-muted small">Understanding the core metric of income investing.</p>
-                        </a>
-                        <a href="/articles/why-dividend-growth-matters"
-                            class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">2. Why Dividend Growth Matters</h5>
-                            <p class="mb-0 text-muted small">Beat inflation with companies that raise their payouts.</p>
-                        </a>
-                        <a href="/articles/schd-vs-jepi-comparison" class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">3. SCHD vs JEPI: A Simple Comparison</h5>
-                            <p class="mb-0 text-muted small">Growth vs. High Income: Which ETF suits you?</p>
-                        </a>
-                        <a href="/articles/how-to-use-dividend-calculator"
-                            class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">4. How to Use the Calculator</h5>
-                            <p class="mb-0 text-muted small">Plan your $1,000/month goal effectively.</p>
-                        </a>
-                        <a href="/articles/dividend-income-vs-interest"
-                            class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">5. Dividend Income vs. Interest Income</h5>
-                            <p class="mb-0 text-muted small">Stocks vs. Savings accounts: Risk and Reward.</p>
-                        </a>
-                        <a href="/articles/why-small-expenses-matter"
-                            class="list-group-item list-group-item-action p-4">
-                            <h5 class="mb-2 fw-bold text-dark">6. Why Small Expenses Add Up</h5>
-                            <p class="mb-0 text-muted small">The detailed cost of "Just $10" and how to reclaim it.</p>
-                        </a>
-                    </div>
+    <main class="container pb-5">
+        <section class="shell p-4 p-md-5 mb-4">
+            <div class="eyebrow mb-2">Support library</div>
+            <h1 class="display-6 fw-bold mb-3">A smaller guide set for a compare-first site.</h1>
+            <p class="small-note fs-5 mb-0">
+                These pages now exist to support dividend ETF and dividend stock decision pages, not to sprawl into a
+                generic personal-finance blog.
+            </p>
+        </section>
+
+        <section class="mb-4">
+            <div class="row g-3">
+                <div class="col-lg-6">
+                    <a href="/articles/schd-vs-jepi-comparison" class="guide-card d-block">
+                        <div class="eyebrow">Comparison brief</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">SCHD vs JEPI: the short-form framing</h2>
+                        <p class="small-note mb-0">A lightweight version of the ETF comparison before users jump into the full scorecard.</p>
+                    </a>
                 </div>
-                <div class="mt-5">
-                    <div class="card-glow p-4 p-md-5">
-                        <h2 class="h5 fw-bold mb-3">Core Pages</h2>
-                        <p class="text-muted small mb-4">These are the pages we want Google to keep revisiting during the recovery window.</p>
-                        <div class="row g-3 small">
-                            <div class="col-md-4">
-                                <a href="/how-much-dividend/1000-per-month/SCHD" class="text-decoration-none text-dark fw-semibold">
-                                    SCHD for $1,000/mo
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="/how-much-dividend/1000-per-month/VTI" class="text-decoration-none text-dark fw-semibold">
-                                    VTI for $1,000/mo
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <a href="/compare/JEPI-vs-SCHD" class="text-decoration-none text-dark fw-semibold">
-                                    JEPI vs SCHD
-                                </a>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <a href="/" class="btn btn-primary px-4 py-2 rounded-3 fw-bold">Go to Calculator</a>
-                        </div>
-                    </div>
+                <div class="col-lg-6">
+                    <a href="/articles/dividend-income-vs-interest" class="guide-card d-block">
+                        <div class="eyebrow">Decision context</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">Dividend income vs interest income</h2>
+                        <p class="small-note mb-0">Useful when readers are deciding between equity cash flow and fixed-income certainty.</p>
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <a href="/articles/what-is-dividend-yield" class="guide-card d-block">
+                        <div class="eyebrow">Metric primer</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">What dividend yield really means</h2>
+                        <p class="small-note mb-0">The baseline explainer for every compare page that mentions yield without context.</p>
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <a href="/articles/best-monthly-dividend-stocks" class="guide-card d-block">
+                        <div class="eyebrow">Idea set</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">Best monthly dividend stocks</h2>
+                        <p class="small-note mb-0">A narrow idea page for readers who still want monthly cash-flow names after reading comparisons.</p>
+                    </a>
                 </div>
             </div>
-        </div>
-    </div>
-    <footer class="mt-5 border-top py-4 text-center text-muted small">
-        <div class="container">
-            <div class="d-flex flex-wrap justify-content-center gap-4 mb-3">
-                <a href="/" class="text-decoration-none text-muted fw-bold">Calculator</a>
-                <a href="/articles" class="text-decoration-none text-muted fw-bold">Articles</a>
-                <a href="/about" class="text-decoration-none text-muted">About</a>
-                <a href="/contact" class="text-decoration-none text-muted">Contact</a>
-                <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
-                <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
+        </section>
+
+        <section class="mb-4">
+            <div class="d-flex justify-content-between align-items-end gap-3 mb-3">
+                <div>
+                    <div class="eyebrow mb-2">Curated compare list</div>
+                    <h2 class="h3 fw-bold mb-1">Comparison pages we are actively supporting</h2>
+                    <p class="small-note mb-0">This is the manual list we want Google to keep revisiting.</p>
+                </div>
             </div>
-            &copy; <span th:text="${currentYear}">2026</span> Money First. All rights reserved.
+            <div class="row g-3">
+                <div class="col-md-6 col-xl-4" th:each="comparison : ${featuredComparisons}">
+                    <a th:href="${comparison.path}" class="compare-card d-block">
+                        <div class="eyebrow" th:text="${comparison.category}">Dividend ETF</div>
+                        <h3 class="h5 fw-bold mt-2 mb-2" th:text="${comparison.label}">JEPI vs SCHD</h3>
+                        <p class="small-note mb-1 fw-semibold" th:text="${comparison.title}">Income now vs dividend quality</p>
+                        <p class="small-note mb-0" th:text="${comparison.summary}">Summary</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-top py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-3">
+            <div class="small-note">&copy; <span th:text="${currentYear}">2026</span> Money First</div>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="/" class="plain-link">Comparisons</a>
+                <a href="/articles" class="plain-link">Guides</a>
+                <a href="/contact" class="plain-link">Contact</a>
+                <a href="/privacy-policy" class="plain-link">Privacy</a>
+            </div>
         </div>
     </footer>
 </body>

@@ -367,7 +367,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-2 text-center mt-3 mt-lg-0">
-                    <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="/">Calculator</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="/">Comparisons</a></li>
                     <li class="nav-item"><a class="nav-link fw-semibold text-dark" href="/articles">Articles</a></li>
                     <li class="nav-item"><a class="nav-link fw-semibold text-muted" href="/about">About</a></li>
                 </ul>
@@ -586,35 +586,16 @@
 
                 <div class="mt-5">
                     <div class="d-flex align-items-center justify-content-between mb-4 px-1">
-                        <h3 class="h5 fw-bold text-dark mb-0">Core Next Steps</h3>
+                        <h3 class="h5 fw-bold text-dark mb-0">Comparison-Led Next Steps</h3>
                     </div>
 
                     <div class="row row-cols-1 row-cols-md-2 g-3">
-                        <div class="col">
-                            <a href="/how-much-dividend/1000-per-month/SCHD"
-                                class="internal-link-card p-4 rounded-4 h-100">
-                                <h4 class="h6 fw-bold text-dark mb-2">SCHD Income Plan</h4>
-                                <p class="mb-0 text-secondary small">See the core SCHD scenario for a $1,000 monthly dividend target.</p>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="/how-much-dividend/1000-per-month/VTI"
-                                class="internal-link-card p-4 rounded-4 h-100">
-                                <h4 class="h6 fw-bold text-dark mb-2">VTI Income Plan</h4>
-                                <p class="mb-0 text-secondary small">Compare the same target against a broader-market ETF.</p>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="/compare/JEPI-vs-SCHD" class="internal-link-card p-4 rounded-4 h-100">
-                                <h4 class="h6 fw-bold text-dark mb-2">JEPI vs SCHD</h4>
-                                <p class="mb-0 text-secondary small">Review the canonical comparison page for income versus quality.</p>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="/articles/what-is-dividend-yield"
-                                class="internal-link-card p-4 rounded-4 h-100">
-                                <h4 class="h6 fw-bold text-dark mb-2">Dividend Yield Guide</h4>
-                                <p class="mb-0 text-secondary small">Read the core explainer that supports the calculator pages.</p>
+                        <div class="col" th:if="${relatedComparisons != null}" th:each="comparison : ${relatedComparisons}">
+                            <a th:href="${comparison.path}" class="internal-link-card p-4 rounded-4 h-100">
+                                <div class="text-uppercase text-muted fw-bold mb-2" style="font-size: 0.72rem;"
+                                    th:text="${comparison.category}">Dividend ETF</div>
+                                <h4 class="h6 fw-bold text-dark mb-2" th:text="${comparison.label}">JEPI vs SCHD</h4>
+                                <p class="mb-0 text-secondary small" th:text="${comparison.summary}">Comparison summary.</p>
                             </a>
                         </div>
                     </div>
@@ -844,7 +825,7 @@
 
                 <footer class="mt-5 pt-4 border-top">
                     <div class="d-flex flex-wrap justify-content-center gap-4 text-muted small">
-                        <a href="/" class="text-decoration-none text-muted fw-bold">Calculator</a>
+                        <a href="/" class="text-decoration-none text-muted fw-bold">Comparisons</a>
                         <a href="/articles" class="text-decoration-none text-muted fw-bold">Articles</a>
                         <a href="/about" class="text-decoration-none text-muted">About</a>
                         <a href="/contact" class="text-decoration-none text-muted">Contact</a>

@@ -88,6 +88,10 @@ public class StockController {
         }
 
         addSharedAttributes(model, stock);
+        model.addAttribute("relatedComparisons", SeoPolicy.getRelatedComparisonSpotlights(
+                stock.getTicker(),
+                stockDataService.getAvailableTickers(),
+                4));
 
         // --- 타임머신 로직 ---
         if (isDataAvailable && stock.getDividendGrowth() > 0) {
@@ -186,6 +190,10 @@ public class StockController {
         }
 
         addSharedAttributes(model, stock);
+        model.addAttribute("relatedComparisons", SeoPolicy.getRelatedComparisonSpotlights(
+                stock.getTicker(),
+                stockDataService.getAvailableTickers(),
+                4));
 
         // --- [NEW] 내부 링크 (Internal Linking) ---
         model.addAttribute("currentUrl", CanonicalUrls.fromRequest(request));

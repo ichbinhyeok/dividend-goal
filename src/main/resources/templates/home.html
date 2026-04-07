@@ -2,8 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3533137832089555"
-        crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3151LZWH6"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -11,376 +9,447 @@
         gtag('js', new Date());
         gtag('config', 'G-V3151LZWH6');
     </script>
-
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.png" type="image/png" />
-
-    <!-- [SEO] Canonical URL -->
-    <link rel="canonical" th:href="${canonicalUrl}" />
-
-    <title th:text="${pageTitle}">How Much Do You Need to Earn $1,000 a Month? | Money First</title>
-    <meta name="description" th:attr="content=${pageDescription}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- [Performance] Critical Resource Preload -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style">
-
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="canonical" th:href="${canonicalUrl}">
+    <title th:text="${pageTitle}">Best Dividend Comparisons and Income Calculator | Money First</title>
+    <meta name="description" th:attr="content=${pageDescription}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary-color: #0f172a;
-            --accent-color: #10b981;
-            --bg-color: #f1f5f9;
-            --error-color: #ef4444;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #dbe4ee;
+            --surface: #f8fafc;
+            --surface-strong: #ffffff;
+            --accent: #d97706;
+            --accent-dark: #92400e;
+            --accent-soft: #fff7ed;
+            --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: #334155;
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(249, 115, 22, 0.10), transparent 28%),
+                radial-gradient(circle at top right, rgba(217, 119, 6, 0.08), transparent 26%),
+                #eef3f8;
+            color: var(--ink);
         }
 
-        .hero-section {
-            background-color: #f8fafc;
-            padding: 5rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: center;
+        h1, h2, h3, h4, .brand-font {
+            font-family: "Space Grotesk", sans-serif;
+            letter-spacing: -0.03em;
         }
 
-        .card-glow {
-            background: #ffffff;
+        .hero-shell,
+        .surface-card,
+        .compare-card,
+        .mini-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(219, 228, 238, 0.9);
+            box-shadow: 0 18px 40px -28px rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-shell {
+            border-radius: 32px;
+            overflow: hidden;
+        }
+
+        .hero-band {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 52%, rgba(146, 64, 14, 0.95) 100%);
+            color: #fff;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .surface-card {
+            border-radius: 26px;
+            padding: 1.5rem;
+        }
+
+        .compare-form-grid,
+        .calc-form-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .compare-form-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .calc-form-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .form-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .input-group-text {
+            border-radius: 16px;
+            border-color: var(--line);
+            padding: 0.95rem 1rem;
+            background: #fff;
+        }
+
+        .input-group-text {
+            font-weight: 700;
+            color: var(--muted);
+            background: #f8fafc;
+        }
+
+        .btn-primary-strong,
+        .btn-secondary-soft {
             border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s;
+            border-radius: 18px;
+            font-weight: 700;
+            padding: 0.95rem 1.25rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .form-control {
-            border-radius: 12px;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-            font-size: 1.1rem;
+        .btn-primary-strong {
+            background: var(--accent-gradient);
+            color: #fff;
+            box-shadow: 0 12px 24px -14px rgba(217, 119, 6, 0.7);
         }
 
-        .form-control:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        .btn-secondary-soft {
+            background: var(--ink);
+            color: #fff;
+            box-shadow: 0 12px 24px -18px rgba(15, 23, 42, 0.7);
         }
 
-        .input-group-custom {
-            position: relative;
-        }
-
-        .input-group-custom::after {
-            content: '▼';
-            position: absolute;
-            right: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8rem;
-            color: #94a3b8;
-            pointer-events: none;
-        }
-
-        .is-invalid-ticker {
-            border-color: var(--error-color) !important;
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background-color: #1e293b;
+        .btn-primary-strong:hover,
+        .btn-secondary-soft:hover {
             transform: translateY(-2px);
         }
 
-        .ad-slot {
-            background: transparent;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            color: #94a3b8;
-            padding: 20px;
-            text-align: center;
-            margin: 2rem 0;
-            font-size: 0.9rem;
+        .compare-card {
+            border-radius: 24px;
+            height: 100%;
+            padding: 1.35rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        /* 프리셋 버튼 스타일링 */
-        .preset-btn {
-            font-size: 0.7rem !important;
-            padding: 0.2rem 0.5rem !important;
-            border-radius: 6px !important;
-            color: #64748b !important;
-            border-color: #e2e8f0 !important;
+        .compare-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(217, 119, 6, 0.55);
+            box-shadow: 0 22px 36px -24px rgba(217, 119, 6, 0.45);
+            color: inherit;
         }
 
-        .preset-btn:hover {
-            background-color: #f8fafc !important;
-            color: var(--primary-color) !important;
+        .compare-kicker {
+            color: var(--accent-dark);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .compare-summary {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .mini-card {
+            border-radius: 22px;
+            padding: 1.25rem;
+            height: 100%;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .plain-link {
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .plain-link:hover {
+            color: var(--accent-dark);
+        }
+
+        .small-note {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .footer-link {
+            color: var(--muted);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: var(--ink);
+        }
+
+        @media (max-width: 768px) {
+            .hero-band,
+            .surface-card,
+            .mini-card {
+                padding: 1.25rem !important;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg py-3 bg-white border-bottom sticky-top">
+    <nav class="navbar navbar-expand-lg py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="/" style="color: var(--primary-color);">💸 Money First</a>
+            <a class="navbar-brand brand-font fw-bold fs-4 text-dark" href="/">Money First</a>
+            <div class="d-flex gap-3 small">
+                <a href="/" class="plain-link">Comparisons</a>
+                <a href="/articles" class="plain-link">Guides</a>
+                <a href="/about" class="plain-link">Method</a>
+            </div>
         </div>
     </nav>
 
-    <div class="hero-section">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3" style="color: var(--primary-color); letter-spacing: -0.03em;">"I want
-                <span style="color: var(--accent-color);">$1,000</span> per month."
-            </h1>
-            <p class="lead text-muted mb-4">Calculate exactly how much capital you need for financial freedom.</p>
-        </div>
-    </div>
+    <main class="container pb-5">
+        <section class="hero-shell mb-4">
+            <div class="row g-0">
+                <div class="col-lg-7 hero-band p-4 p-md-5">
+                    <span class="eyebrow">Compare-first pivot</span>
+                    <h1 class="display-5 fw-bold mt-3 mb-3">Pick the right dividend matchup before you touch the calculator.</h1>
+                    <p class="mb-4 text-white-50 fs-5">
+                        We are narrowing the site to the comparison intents that still show residual search demand:
+                        dividend ETFs, defensive dividend stocks, and a few high-signal stock duels.
+                    </p>
 
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 card-glow p-4 p-md-5">
-                <div th:if="${error}" class="alert alert-danger border-0 rounded-4 mb-4" role="alert"
-                    th:text="${error}"></div>
-
-                <form id="calcForm" action="/calculate" method="post" class="row g-4">
-                    <div class="col-md-6">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <label class="form-label fw-semibold mb-0">Monthly Goal</label>
-                            <div class="d-flex gap-1">
-                                <button type="button" class="btn btn-outline-secondary btn-sm preset-btn"
-                                    data-amount="50">🍿 $50</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm preset-btn"
-                                    data-amount="150">☕ $150</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm preset-btn"
-                                    data-amount="500">🚗 $500</button>
+                    <div class="surface-card" style="background: rgba(255,255,255,0.96);">
+                        <h2 class="h5 fw-bold mb-3">Build a comparison</h2>
+                        <form id="compareForm" class="compare-form-grid">
+                            <div>
+                                <label class="form-label" for="leftTicker">First ticker</label>
+                                <input id="leftTicker" class="form-control ticker-input" list="tickerOptions"
+                                    placeholder="e.g. SCHD" autocomplete="off" required>
                             </div>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0 fw-bold text-muted">$</span>
-                            <input class="form-control border-start-0 ps-0" type="number" id="amountInput" name="amount"
-                                value="1000" required>
+                            <div>
+                                <label class="form-label" for="rightTicker">Second ticker</label>
+                                <input id="rightTicker" class="form-control ticker-input" list="tickerOptions"
+                                    placeholder="e.g. JEPI" autocomplete="off" required>
+                            </div>
+                            <div class="d-grid align-self-end">
+                                <button type="submit" class="btn-primary-strong">Open comparison</button>
+                            </div>
+                        </form>
+                        <div id="compareError" class="small-note mt-3" style="display:none; color:#b91c1c;">
+                            Use two supported tickers. The compare page will canonicalize the order automatically.
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold mb-2">Dividend Ticker</label>
-                        <div class="input-group-custom">
-                            <input class="form-control pe-5" list="tickerOptions" id="tickerInput" name="ticker"
-                                placeholder="e.g. SCHD" required autocomplete="off">
-                            <datalist id="tickerOptions">
-                                <option th:each="stock : ${stocks}" th:value="${stock.ticker}" th:text="${stock.name}">
-                                </option>
-                            </datalist>
+                <div class="col-lg-5 p-4 p-md-5 bg-white">
+                    <div class="mini-card mb-3" style="background: var(--accent-soft); border: 1px solid rgba(249, 115, 22, 0.18);">
+                        <div class="compare-kicker">What stays indexable</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">Manual comparison set only</h2>
+                        <p class="small-note mb-0">
+                            We are no longer pretending every programmatic page deserves crawl budget. This surface is
+                            now a curated shortlist.
+                        </p>
+                    </div>
+                    <div class="mini-card">
+                        <div class="compare-kicker">Support tool</div>
+                        <h2 class="h4 fw-bold mt-2 mb-2">Calculator is secondary now</h2>
+                        <p class="small-note mb-3">
+                            Use the calculator after you decide which ETF or stock actually fits your income thesis.
+                        </p>
+                        <form id="calcForm" action="/calculate" method="post" class="calc-form-grid">
+                            <div>
+                                <label class="form-label" for="amountInput">Monthly target</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input id="amountInput" class="form-control" type="number" name="amount" value="1000"
+                                        min="1" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label" for="tickerInput">Ticker</label>
+                                <input id="tickerInput" class="form-control ticker-input" list="tickerOptions" name="ticker"
+                                    placeholder="e.g. SCHD" autocomplete="off" required>
+                            </div>
+                            <div class="d-grid align-self-end">
+                                <button type="submit" class="btn-secondary-soft" id="submitBtn">Run calculator</button>
+                            </div>
+                        </form>
+                        <div id="tickerError" class="small-note mt-3" style="display:none; color:#b91c1c;">
+                            Select a ticker from the supported list.
                         </div>
-                        <div id="tickerError" class="text-danger small mt-2 fw-medium" style="display: none;">⚠️ Ticker
-                            not found.</div>
-                    </div>
-
-                    <div class="col-12 d-grid">
-                        <button class="btn btn-primary btn-lg" type="submit" id="submitBtn">Calculate Capital
-                            Required</button>
-                    </div>
-                </form>
-
-                <div class="ad-slot">AdSense Placeholder</div>
-
-            </div>
-        </div>
-
-        <!-- [NEW] Popular Lifestyle Goals Section -->
-        <div class="row justify-content-center mt-5">
-            <div class="col-lg-10">
-                <h3 class="fw-bold text-center mb-4">🏆 Best Dividend Stocks for <span
-                        th:text="${currentYear}">2026</span></h3>
-                <div class="row g-3">
-                    <!-- Netflix -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-netflix-premium" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">🍿</div>
-                                <h5 class="fw-bold text-dark mb-1">Netflix</h5>
-                                <small class="text-muted">Cover $22.99/mo</small>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Starbucks -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-starbucks-daily" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">☕</div>
-                                <h5 class="fw-bold text-dark mb-1">Starbucks</h5>
-                                <small class="text-muted">Cover $150/mo</small>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Tesla -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-tesla-model-3-lease" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">🚗</div>
-                                <h5 class="fw-bold text-dark mb-1">Tesla Model 3</h5>
-                                <small class="text-muted">Cover $329/mo</small>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- iPhone -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-iphone-16-pro-installment" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">📱</div>
-                                <h5 class="fw-bold text-dark mb-1">iPhone 16</h5>
-                                <small class="text-muted">Cover $41.62/mo</small>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Gym -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-amazon-prime" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">💪</div>
-                                <h5 class="fw-bold text-dark mb-1">Amazon Prime</h5>
-                                <small class="text-muted">Cover $14.99/mo</small>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Rent NYC -->
-                    <div class="col-md-4 col-6">
-                        <a href="/lifestyle/pay-for-avg-rent-texas" class="text-decoration-none">
-                            <div class="card card-glow h-100 text-center p-3 border hover-shadow">
-                                <div class="fs-1 mb-2">🗽</div>
-                                <h5 class="fw-bold text-dark mb-1">Texas Rent</h5>
-                                <small class="text-muted">Cover $1,200/mo</small>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    </div>
+        <datalist id="tickerOptions">
+            <option th:each="stock : ${stocks}" th:value="${stock.ticker}" th:text="${stock.name}"></option>
+        </datalist>
 
-    <footer class="mt-5 border-top py-4 text-center text-muted small">
-        <div class="container">
-            <div class="d-flex flex-wrap justify-content-center gap-4 mb-3">
-                <a href="/" class="text-decoration-none text-muted fw-bold">Calculator</a>
-                <a href="/articles" class="text-decoration-none text-muted fw-bold">Articles</a>
-                <a href="/about" class="text-decoration-none text-muted">About</a>
-                <a href="/contact" class="text-decoration-none text-muted">Contact</a>
-                <a href="/privacy-policy" class="text-decoration-none text-muted">Privacy</a>
-                <a href="/disclaimer" class="text-decoration-none text-muted">Disclaimer</a>
-            </div>
-            <div class="mb-2 text-muted" style="font-size: 0.75rem;">
-                Page updated: <span th:text="${refreshText}">January 2026</span>
-            </div>
-
-            <!-- [SEO] Internal Linking: Popular Calculations -->
-            <div class="mt-4 pt-3 border-top">
-                <h6 class="text-muted fw-bold mb-3 small">💡 Popular Calculations</h6>
-                <div class="row g-2 small">
-                    <div class="col-6 col-md-3">
-                        <a href="/how-much-dividend/1000-per-month/SCHD"
-                            class="text-decoration-none text-muted hover-underline">
-                            SCHD for $1,000/mo
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a href="/how-much-dividend/1000-per-month/VTI"
-                            class="text-decoration-none text-muted hover-underline">
-                            VTI for $1,000/mo
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a href="/articles/what-is-dividend-yield"
-                            class="text-decoration-none text-muted hover-underline">
-                            What Is Dividend Yield?
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <a href="/compare/JEPI-vs-SCHD" class="text-decoration-none text-muted hover-underline">
-                            JEPI vs SCHD
-                        </a>
-                    </div>
+        <section class="mb-4">
+            <div class="section-title">
+                <div>
+                    <h2 class="h3 fw-bold mb-1">Dividend ETF comparisons</h2>
+                    <p>These are the ETF matchups with the cleanest remaining demand signal.</p>
                 </div>
             </div>
+            <div class="row g-3">
+                <div class="col-md-6 col-xl-4" th:each="comparison : ${etfComparisons}">
+                    <a th:href="${comparison.path}" class="compare-card d-block">
+                        <div class="compare-kicker" th:text="${comparison.category}">Dividend ETF</div>
+                        <h3 class="h4 fw-bold mt-2 mb-2" th:text="${comparison.label}">JEPI vs SCHD</h3>
+                        <h4 class="h6 fw-semibold mb-2" th:text="${comparison.title}">Income now vs dividend quality</h4>
+                        <p class="compare-summary" th:text="${comparison.summary}">Summary</p>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-            &copy; <span th:text="${currentYear}">2026</span> Money First. All rights reserved.
+        <section class="mb-4">
+            <div class="section-title">
+                <div>
+                    <h2 class="h3 fw-bold mb-1">Dividend stock comparisons</h2>
+                    <p>Keep only the stock pairs that still deserve editorial attention.</p>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6 col-xl-4" th:each="comparison : ${stockComparisons}">
+                    <a th:href="${comparison.path}" class="compare-card d-block">
+                        <div class="compare-kicker" th:text="${comparison.category}">Dividend Stock</div>
+                        <h3 class="h4 fw-bold mt-2 mb-2" th:text="${comparison.label}">CVX vs XOM</h3>
+                        <h4 class="h6 fw-semibold mb-2" th:text="${comparison.title}">Oil major dividend resilience</h4>
+                        <p class="compare-summary" th:text="${comparison.summary}">Summary</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="row g-3 mb-5">
+            <div class="col-lg-4">
+                <div class="mini-card">
+                    <div class="compare-kicker">Core guide</div>
+                    <h3 class="h5 fw-bold mt-2 mb-2">What dividend yield actually tells you</h3>
+                    <p class="small-note mb-3">Use this before judging any headline yield difference in a comparison page.</p>
+                    <a href="/articles/what-is-dividend-yield" class="plain-link">Read the yield guide</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mini-card">
+                    <div class="compare-kicker">Core guide</div>
+                    <h3 class="h5 fw-bold mt-2 mb-2">Dividends vs interest income</h3>
+                    <p class="small-note mb-3">Useful when a comparison starts drifting into cash-flow certainty versus equity risk.</p>
+                    <a href="/articles/dividend-income-vs-interest" class="plain-link">Read the income tradeoff guide</a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="mini-card">
+                    <div class="compare-kicker">Article hub</div>
+                    <h3 class="h5 fw-bold mt-2 mb-2">See the full compare-first guide set</h3>
+                    <p class="small-note mb-3">A smaller article hub that supports the new thesis instead of distracting from it.</p>
+                    <a href="/articles" class="plain-link">Open all guides</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-top py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between gap-3">
+            <div class="small-note">
+                <div class="fw-semibold text-dark">Money First</div>
+                <div th:text="${refreshText}">Updated April 2026</div>
+            </div>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="/" class="footer-link">Comparisons</a>
+                <a href="/articles" class="footer-link">Guides</a>
+                <a href="/about" class="footer-link">About</a>
+                <a href="/contact" class="footer-link">Contact</a>
+                <a href="/privacy-policy" class="footer-link">Privacy</a>
+                <a href="/disclaimer" class="footer-link">Disclaimer</a>
+            </div>
         </div>
     </footer>
 
     <script th:inline="javascript">
-        const allStocks = /*[[${stocks}]]*/[];
-        const tickerInput = document.getElementById('tickerInput');
-        const tickerOptions = document.getElementById('tickerOptions');
+        const allStocks = /*[[${stocks}]]*/ [];
+        const validTickers = allStocks.map(stock => stock.ticker.toUpperCase());
+        const compareError = document.getElementById('compareError');
+        const tickerError = document.getElementById('tickerError');
         const submitBtn = document.getElementById('submitBtn');
-        const amountInput = document.getElementById('amountInput');
 
-        /* 1. 뒤로가기 시 초기화 */
+        function normalizeTicker(value) {
+            return value ? value.trim().toUpperCase() : "";
+        }
+
+        document.getElementById('compareForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const left = normalizeTicker(document.getElementById('leftTicker').value);
+            const right = normalizeTicker(document.getElementById('rightTicker').value);
+
+            if (!validTickers.includes(left) || !validTickers.includes(right) || left === right) {
+                compareError.style.display = 'block';
+                return;
+            }
+
+            compareError.style.display = 'none';
+            window.location.href = `/compare/${left}-vs-${right}`;
+        });
+
+        document.getElementById('calcForm').addEventListener('submit', function (event) {
+            const ticker = normalizeTicker(document.getElementById('tickerInput').value);
+            if (!validTickers.includes(ticker)) {
+                event.preventDefault();
+                tickerError.style.display = 'block';
+                return;
+            }
+
+            tickerError.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Running...';
+        });
+
         window.onpageshow = function () {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Calculate Capital Required';
+            submitBtn.textContent = 'Run calculator';
         };
-
-        /* 2. 프리셋 기능 */
-        document.querySelectorAll('.preset-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                amountInput.value = btn.dataset.amount;
-                amountInput.focus();
-            });
-        });
-
-        /* 3. 시작 단어 우선 검색 로직 */
-        tickerInput.addEventListener('input', function () {
-            const q = this.value.trim().toUpperCase();
-            this.classList.remove('is-invalid-ticker');
-            document.getElementById('tickerError').style.display = 'none';
-
-            if (q.length < 1) return;
-
-            const startsWith = [], contains = [];
-            allStocks.forEach(s => {
-                const t = s.ticker.toUpperCase();
-                if (t.startsWith(q)) startsWith.push(s);
-                else if (t.includes(q) || s.name.toUpperCase().includes(q)) contains.push(s);
-            });
-
-            const filtered = [...startsWith, ...contains].slice(0, 15);
-            tickerOptions.innerHTML = '';
-            filtered.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.ticker;
-                opt.textContent = s.name;
-                tickerOptions.appendChild(opt);
-            });
-        });
-
-        /* 4. 최종 유효성 검사 */
-        document.getElementById('calcForm').addEventListener('submit', function (e) {
-            const val = tickerInput.value.trim().toUpperCase();
-            const valid = allStocks.map(s => s.ticker.toUpperCase());
-            if (!valid.includes(val)) {
-                e.preventDefault();
-                document.getElementById('tickerError').style.display = 'block';
-                tickerInput.classList.add('is-invalid-ticker');
-            } else {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Calculating...';
-            }
-        });
     </script>
 </body>
 

@@ -65,6 +65,16 @@ public class ComparisonController {
                 // 3. Compare Logic
                 model.addAttribute("s1", s1);
                 model.addAttribute("s2", s2);
+                SeoPolicy.ComparisonSpotlight spotlight = SeoPolicy.findComparisonSpotlight(s1.getTicker(), s2.getTicker())
+                                .orElse(null);
+                String excludedPairKey = canonicalPair.left() + "::" + canonicalPair.right();
+                model.addAttribute("comparisonSpotlight", spotlight);
+                model.addAttribute("relatedComparisons", SeoPolicy.getRelatedComparisonSpotlights(
+                                s1.getTicker(),
+                                s2.getTicker(),
+                                excludedPairKey,
+                                stockDataService.getAvailableTickers(),
+                                4));
 
                 // Winner Logic
                 model.addAttribute("yieldWinner",
@@ -77,10 +87,12 @@ public class ComparisonController {
                 model.addAttribute("jsonLdSchema", schemaJson);
 
                 // 5. SEO Meta (Condition-based Choice Strategy - Expert Feedback Implemented)
-                String pageTitle = generateConditionBasedTitle(s1, s2);
-                String pageDescription = generateConditionBasedDesc(s1, s2);
-                String h1Text = String.format("%s vs %s: High Income or Long-Term Stability?", s1.getTicker(),
-                                s2.getTicker());
+                String pageTitle = generateConditionBasedTitle(s1, s2, spotlight);
+                String pageDescription = generateConditionBasedDesc(s1, s2, spotlight);
+                String h1Text = spotlight != null
+                                ? spotlight.label() + ": " + spotlight.title()
+                                : String.format("%s vs %s: High Income or Long-Term Stability?", s1.getTicker(),
+                                                s2.getTicker());
 
                 model.addAttribute("pageHeading", h1Text);
                 model.addAttribute("pageTitle", pageTitle);
@@ -127,17 +139,28 @@ public class ComparisonController {
         }
 
         // [SEO Strategy] Condition-based Title
-        private String generateConditionBasedTitle(Stock s1, Stock s2) {
+        private String generateConditionBasedTitle(Stock s1, Stock s2, SeoPolicy.ComparisonSpotlight spotlight) {
                 String monthYear = LocalDate.now()
                                 .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
+                if (spotlight != null) {
+                        return String.format("%s: %s (%s)", spotlight.label(), spotlight.title(), monthYear);
+                }
                 return String.format("%s vs %s: High Income or Long-Term Stability? (%s Analysis)",
                                 s1.getTicker(), s2.getTicker(), monthYear);
         }
 
         // [SEO Strategy] Condition-based Description (Trade-off focus)
-        private String generateConditionBasedDesc(Stock s1, Stock s2) {
+        private String generateConditionBasedDesc(Stock s1, Stock s2, SeoPolicy.ComparisonSpotlight spotlight) {
                 String monthYear = LocalDate.now()
                                 .format(DateTimeFormatter.ofPattern("MMMM yyyy", java.util.Locale.US));
+                if (spotlight != null) {
+                        return String.format(
+                                        "Updated %s | %s. Compare %s and %s on dividend yield, growth, risk, and fit for your portfolio.",
+                                        monthYear,
+                                        spotlight.summary(),
+                                        s1.getTicker(),
+                                        s2.getTicker());
+                }
                 return String.format(
                                 "Updated %s | We compared the dividend yield, growth streak, and risk profiles of %s and %s. One pays higher immediate income, while the other offers better long-term growth. See the full scorecard.",
                                 monthYear, s1.getTicker(), s2.getTicker());

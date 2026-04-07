@@ -1,6 +1,8 @@
 package org.example.dividendgoal.controller;
 
 import org.example.dividendgoal.AppConstants;
+import org.example.dividendgoal.seo.CanonicalUrls;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.example.dividendgoal.service.StockDataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +21,13 @@ public class ArticleController {
 
     @GetMapping("")
     public String index(Model model) {
-        model.addAttribute("pageTitle", "Dividend Investing Guides | Money First");
+        var comparisonSpotlights = SeoPolicy.getComparisonSpotlights(stockDataService.getAvailableTickers());
+        model.addAttribute("currentYear", java.time.LocalDate.now().getYear());
+        model.addAttribute("canonicalUrl", CanonicalUrls.absolutePath("/articles"));
+        model.addAttribute("featuredComparisons", comparisonSpotlights);
+        model.addAttribute("pageTitle", "Dividend Comparison Guides | Money First");
         model.addAttribute("pageDescription",
-                "Learn the basics of dividend investing, yield calculation, and growth strategies.");
+                "Read the core briefs that support our compare-first dividend ETF and dividend stock pages.");
         return "articles/index";
     }
 

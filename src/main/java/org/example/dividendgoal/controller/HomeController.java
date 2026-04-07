@@ -1,6 +1,8 @@
 package org.example.dividendgoal.controller;
 
 import org.example.dividendgoal.service.StockDataService;
+import org.example.dividendgoal.seo.CanonicalUrls;
+import org.example.dividendgoal.seo.SeoPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,8 +29,16 @@ public class HomeController {
     public String home(HttpServletResponse response, Model model) {
         setCacheControl(response);
         model.addAttribute("stocks", stockDataService.getAllStocks());
-        String pageTitle = "Dividend Income Guide and Calculator | Money First";
-        String pageDescription = "Learn how monthly dividend income targets translate into estimated capital requirements.";
+        var comparisonSpotlights = SeoPolicy.getComparisonSpotlights(stockDataService.getAvailableTickers());
+        model.addAttribute("etfComparisons", comparisonSpotlights.stream()
+                .filter(spotlight -> "Dividend ETF".equals(spotlight.category()))
+                .toList());
+        model.addAttribute("stockComparisons", comparisonSpotlights.stream()
+                .filter(spotlight -> "Dividend Stock".equals(spotlight.category()))
+                .toList());
+        model.addAttribute("canonicalUrl", CanonicalUrls.absolutePath("/"));
+        String pageTitle = "Best Dividend Comparisons and Income Calculator | Money First";
+        String pageDescription = "Compare dividend ETFs and dividend stocks first, then use the calculator to model income targets.";
         addSeoFreshnessAttributes(model, pageTitle, pageDescription);
         return "home";
     }
